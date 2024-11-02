@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="{{ theme_preference }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company.name|default:'Company' }} | {% block title %}Management{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dash_output.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{{ company.logo.url }}">
+  </head>
+  <body class="container__main styles">
+
+    <!-- Sidebar -->
+    {% include 'components/sidebar.html' %}
+
+    <!-- Main Content -->
+    <main class="container__sidebar">
+      <section class="sm:ml-64 space-y-4">
+        {% include 'components/finder.html' %}
+        {% block content %}{% endblock content %}
+        {% include "components/image_modal.html" %}
+      </section>
+      <div class="sm:ml-64 mt-auto">
+        {% include "components/pagination.html" %}
+      </div>
+    </main>
+
+    <!-- JQuery Files -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+    <!-- JavaScript Files -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+  </body>
+</html>

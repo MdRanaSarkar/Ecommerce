@@ -1,0 +1,653 @@
+{% load static %}
+
+<header class="navbar">
+
+ <!-- Contact Bar -->
+
+<div class="contact-bar">
+  <span class="contact-item">
+    📞 WhatsApp: <a href="{{ company.whatsapp_url}}" class="contact-link">{{company.whatsapp}}</a>
+  </span>
+  <span>  |  </span>
+
+  <span class="contact-item">
+    📱Facebook: <a href="{{company.facebook_url}}" class="contact-link">{{company.facebook}}</a>
+  </span>
+</div>
+
+  <nav class="navbar__wrapper">
+
+    <!-- Logo and Categories -->
+    <div class="w-1/2 sm:w-1/3 order-1 flex items-center justify-between space-x-4 mb-4 sm:mb-0">
+      <div class="w-1/2">
+        <h1>
+          <a href="{% url 'home:index' %}" class="flex items-center space-x-4 sm:pb-0 cursor-default md:cursor-pointer">
+            <img src="{{ company.logo.url }}" alt="{{ company.name }}" class="icon--md"/>
+            <span class="sub-headline hidden xl:block" style="color: #257180">
+              {{ company.name|default:'Company' }}
+            </span>
+          </a>
+        </h1>
+      </div>
+      <div class="w-1/2 justify-center mt-4">
+        <div class="hidden xl:block relative" id="dropdownContainer">
+          <button data-dropdown-toggle="dropdown" class="btn btn--secondary w-32" type="button">
+            Categories
+          </button>
+          <div id="dropdown" class="list__wrapper left-0">
+            <div class="flex flex-row">
+              <div>
+                <span class="list__itm-title">Ecommerce</span>
+                <ul aria-labelledby="dropdownDefaultButton">
+                  <li>
+                    <a href="{% url 'products:categories' %}" class="list__itm type-base--url">Filters</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'products:deal_list' %}" class="list__itm type-base--url">Deals</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'products:recent' %}" class="list__itm type-base--url">Recent prods</a>
+                  </li>
+                  {% if user.is_superuser %}
+                  <li>
+                    <a href="{% url 'admin:index' %}" class="list__itm type-base--url">Admin</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'management:management' %}" class="list__itm type-base--url">Management</a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+              <div>
+                <span class="list__itm-title">Categories</span>
+                <ul>
+                  {% for category in categories_tree|slice:":10" %}
+                  <li>
+                    <a href="{% url 'products:category_filter' category.slug %}" class="list__itm type-base--url">{{ category.title }}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="order-3 sm:order-2 w-full lg:max-w-lg sm:w-full sm:mx-0 mt-4">
+      <div class="relative">
+        <form method="GET" action="{% url 'products:search' %}">
+          <input type="text" id="search-navbar"
+            class="form__input-text text-center focus:text-left focus:pl-12"
+            placeholder="What are you looking for?" name="search" value="{{ request.GET.search }}">
+          <div class="absolute rounded-full inset-y-0 left-0 p-4 flex items-center pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon--sm">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- Buttons (Cart, User, Sign Up Sign In) -->
+    <div class="w-1/2 sm:w-1/3 order-2 sm:order-3 flex items-center justify-end space-x-4 sm:mb-0">
+      {% if user.is_authenticated %}
+      <!-- Cart -->
+      <div class="lg:block relative">
+        <a href="{% url 'cart:cart' %}" title="Cart">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md">
+            <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+          </svg>
+          <span class="tag tag__cart">{{ cart_items_count }}</span>
+          <!-- {% if cart_items_count %}
+          <span class="tag tag__cart">{{ cart_items_count }}</span>
+          {% endif %} -->
+        </a>
+      </div>
+      <!-- User -->
+      <div class="lg:block relative" id="userWrapper">
+        <button data-dropdown-toggle="userList" type="button" class="relative" title="User">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md">
+            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+        <div id="userList" class="list__wrapper lg:right-32 md:right-32 sm:right-2 text-center">
+          <ul aria-labelledby="dropdownDefaultButton">
+            <li>
+              <span class="list__itm-title">
+
+                {% if user.is_staff %}
+
+                 {% if user.first_name %}
+                   <a href="{% url 'management:management' %}">  {{ user.first_name|title }} {{ user.last_name }}</a>
+                   {% else %}
+                   <a href="{% url 'management:management' %}">  {{ user.username|title }}</a>
+                   {% endif %}
+                 {% else %}
+                   {% if user.first_name %}
+                   <a href="{% url 'users:user_dashboard' %}">  {{ user.first_name }} {{ user.last_name }}</a>
+                   {% else %}
+                    <a href="{% url 'users:user_dashboard' %}">  {{ user.username|title }}</a>
+                    {% endif %}
+                {% endif %}
+              </span>
+            </li>
+            <li>
+              <a href="{% url 'users:password_change' %}" class="list__itm">Change password</a>
+            </li>
+            <li>
+              <a href="{% url 'users:logout' %}" class="list__itm">Log out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      {% else %}
+      <div class="sm:block">
+        <div class="flex space-x-4">
+
+          <a href="{% url 'users:login' %}" class="btn btn--secondary"> <span><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg></span>  Sign In</a>
+          <!-- <a href="{% url 'users:registration' %}" class="btn btn--primary">Sign Up</a> -->
+        </div>
+      </div>
+      {% endif %}
+      <div class="block xl:hidden">
+        <button data-collapse-toggle="navbar-search" type="button" aria-controls="navbar-search" aria-expanded="false" class="cursor-default md:cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md">
+            <path fill-rule="evenodd" d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Main Menu (Mobile) -->
+
+
+
+    <aside>
+      <nav class="absolute left-0 w-2/3 sm:w-1/2 top-0 hidden" id="navbar-search">
+        <ul class="p-4 h-screen bg-neutral-100 dark:bg-neutral-800 overflow-y-auto">
+
+          <div class="flex items-center justify-between">
+            <!-- Company name on the left -->
+            <a href="{% url 'home:index' %}" class="px-4">
+              <div>
+                <h5 class="sub-headline" style="color: #257180">
+                  {{ company.name|default:'Company' }}
+                </h5>
+                <span class="type-small text-sm px-2" style="color:#698474">Ecommerce Website </span>
+              </div>
+            </a>
+
+            <!-- Cancel icon on the right -->
+            <button id="cancelBtn" class="btn__icon:hover" data-collapse-toggle="navbar-search" aria-controls="navbar-search">
+              <img src="{% static 'icons/cancel-button.svg' %}" alt="cancel" class="icon--sm">
+            </button>
+          </div>
+
+          <!-- Toggleable Categories Section -->
+
+          <li class="categorytreeitree relative group">
+              <div class="flex items-center justify-between">
+                <!-- Categories Text -->
+                <span id="categoryToggle" class="list__itm-title cursor-pointer">Categories</span>
+                <!-- Toggle Button Icons (Initially Down) -->
+                <span id="toggleIcon" class="cursor-pointer">
+                  <!-- Down SVG Icon -->
+                <img src="{%static 'icons/up-arrow.svg'%}" alt="up-circle" class="icon--sm">
+                </span>
+              </div>
+
+            <!-- Categories List (Initially Hidden) -->
+              <ul id="categoryList" class="hidden">
+                {% for category in products_categories %}
+                <li class="categoryMainLst">
+                  <a href="{% url 'products:category_filter' category.slug %}" class="categoryMainData">{{ category.title }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+          </li>
+
+            {% load mptt_tags %}
+              <!-- Category Tree List (Main Menu) -->
+              <ul class="categorytreelist mt-6" id="categorytreelist">
+                {% recursetree categories_tree %}
+                {% if node.is_leaf_node %}
+                <!-- Regular Menu Item -->
+                <li class="categorytreeleaf  list__itm type-base--url">
+                  <a href="{% url 'products:category_filter' node.slug %}" class="block py-2 text-gray-600 dark:text-gray-400 hover:text-blue-600">{{ node.title }}</a>
+                </li>
+                {% else %}
+                 <!-- Main Menu with Submenu -->
+                  <li class="categorytreeitree relative group">
+                    <div class="flex items-center justify-between">
+                      <!-- Main Menu Item -->
+                      <a href="{% url 'products:category_filter' node.slug %}" class="block py-2 list__itm-title text-gray-700 dark:text-gray-300 font-semibold">{{ node.title }}</a>
+                      <span class="toggleIconTree cursor-pointer ml-2 text-xl text-gray-500">
+                        <img src="{%static 'icons/plus-circle.svg'%}" alt="plus" class="icon--sm">
+                      </span>
+                    </div>
+                    <!-- Submenu (Initially Hidden) -->
+                    <ul class="submenuMobile hidden">
+                      {% for child in node.get_children %}
+                      <li class="submenu-item-mobile">
+                        <a href="{% url 'products:category_filter' child.slug %}" class="list__itm">{{ child.title }}</a>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </li>
+                {% endif %}
+                {% endrecursetree %}
+              </ul>
+
+              <li>
+                <a href="{% url 'products:recent' %}" class="list__itm type-base--url">Recent prods</a>
+              </li>
+              <li>
+                <a href="{% url 'products:categories' %}" class="list__itm type-base--url">Filters</a>
+              </li>
+              <li>
+                <a href="{% url 'products:deal_list' %}" class="list__itm type-base--url">Deals</a>
+              </li>
+
+            {% if user.is_superuser %}
+              <li>
+                <a href="{% url 'admin:index' %}" class="list__itm type-base--url">Admin</a>
+              </li>
+              <li>
+                <a href="{% url 'management:management' %}" class="list__itm type-base--url">Management</a>
+              </li>
+              {% endif %}
+          <!-- Theme Form -->
+          <div class="mt-4">
+            <form method="post" action="{% url 'home:index' %}">{% csrf_token %}
+              {{ theme_form }}
+            </form>
+          </div>
+        </ul>
+      </nav>
+    </aside>
+  </nav>
+
+    <!-- Suggestions Container -->
+    <div id="suggestions" class="items-center ">
+      <!-- Product cards will be dynamically injected here -->
+    </div>
+
+</header>
+
+<div class="category_section">
+
+  {% include 'home/categories_all.html' %}
+</div>
+
+
+  <!-- JQuery Files -->
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+
+<script>
+
+
+  $(document).ready(function(){
+
+
+        // Select all toggle icons
+
+
+    document.getElementById('categoryToggle').addEventListener('click', function() {
+      const categoryList = document.getElementById('categoryList');
+      const toggleIcon = document.getElementById('toggleIcon');
+
+      // Toggle the hidden class for categories
+      categoryList.classList.toggle('hidden');
+
+      // Change the icon based on the state
+      if (categoryList.classList.contains('hidden')) {
+        // If hidden, show the down icon
+        toggleIcon.innerHTML = `
+               <img src="{%static 'icons/up-arrow.svg'%}" alt="up-circle" class="icon--sm">
+        `;
+      } else {
+        // If shown, show the up icon
+        toggleIcon.innerHTML = `
+      <img src="{%static 'icons/down-round.svg'%}" alt="down-circle" class="icon--sm">
+        `;
+      }
+    });
+      // Also allow toggling when clicking the ionicon itself
+  document.getElementById('toggleIcon').addEventListener('click', function() {
+    const categoryList = document.getElementById('categoryList');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    // Toggle the hidden class for categories
+    categoryList.classList.toggle('hidden');
+
+      // Change the icon based on the state
+      if (categoryList.classList.contains('hidden')) {
+        // If hidden, show the down icon
+        toggleIcon.innerHTML = `
+        <img src="{%static 'icons/up-arrow.svg'%}" alt="up-circle" class="icon--sm">
+        `;
+      } else {
+        // If shown, show the up icon
+        toggleIcon.innerHTML = `
+         <img src="{%static 'icons/down-round.svg'%}" alt="down-circle" class="icon--sm">
+        `;
+      }
+    });
+
+      // Search bar functionality
+
+      $('#search-navbar').keyup(function(){
+          let query = $(this).val();
+          console.log(query);
+          if(query.length > 1) {
+              $.ajax({
+                  url: '{% url "products:product_search_" %}',
+                  data: {'query': query},
+                  success: function(data) {
+                    $('#suggestions').empty().show();
+                      if(data.length > 0) {
+                      $.each(data, function(index, product){
+                        let imageUrl = product.image_url ? product.image_url : '/static/marketing/square_dafault.webp';
+                        let productDetailUrl = `/products/${product.id}/`;
+                         let suggestion = `
+                               <div class="suggestion-card">
+                                  <a href="${productDetailUrl}">
+                                    <img src="${imageUrl}" alt="${product.title}" class="product-image">
+                                  </a>
+                                  <div class="product-info justify-between">
+                                      <a href="${productDetailUrl}" class="product-title">${product.title}</a>
+                                      <div class="product-price-info gap-2">
+                                         <p class="product-price">${product.sale_price}</p>
+                                         <span class="product-normal-price">${product.normal_price}</span>
+                                      </div>
+                                  </div>
+                                  <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '{% url "cart:add_to_cart" %}')" id=addtocart-${product.id}>Add to Cart</button>
+
+                                </div>
+                                `;
+                          $('#suggestions').append(suggestion);
+                      });
+                    }
+                    else{
+                      $('#suggestions').append('<div>No products found</div>');  // No products found
+                    }
+                  }
+              });
+          } else {
+            $('#suggestions').empty();  // Clear suggestions when input is empty
+            $('#suggestions').hide();
+          }
+      });
+
+      window.addToCart = function(productId, addToCartUrl) {
+       //alert('Added product with ID ' + productId + ' to cart!');
+       addProductToCart(productId, addToCartUrl)
+    };
+  });
+
+
+  // Toggle for Main menu and Submenu
+/*
+  document.addEventListener("DOMContentLoaded", function() {
+    // Select all category tree items
+    const categoryItems = document.querySelectorAll('.categorytreeitem');
+
+    // Iterate over each item and add a click event listener for mobile
+    categoryItems.forEach(item => {
+      item.addEventListener('click', function (e) {
+        // Only for mobile view
+        if (window.innerWidth <= 640) {
+          // Prevent default anchor click behavior
+          e.preventDefault();
+
+          // Toggle the 'show' class to show/hide the submenu
+          this.classList.toggle('show');
+        }
+      });
+    });
+  });
+*/
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // Select all toggle buttons
+    const toggleIcons = document.querySelectorAll(".toggleIconTree");
+
+    toggleIcons.forEach(function(toggleIcon) {
+      toggleIcon.addEventListener("click", function() {
+        // Toggle the corresponding submenu
+        const submenu = toggleIcon.closest(".categorytreeitree").querySelector(".submenuMobile");
+        submenu.classList.toggle("hidden");
+
+        // Change the toggle icon between "+" and "-"
+        if (submenu.classList.contains("hidden")) {
+          toggleIcon.innerHTML = `<img src="{%static 'icons/plus-circle.svg'%}" alt="plus" class="icon--sm">`
+        } else {
+          toggleIcon.innerHTML = `<img src="{%static 'icons/minus-circle.svg'%}" alt="plus" class="icon--sm">`;
+        }
+      });
+    });
+  });
+
+
+  // for hide aside bar
+
+
+
+</script>
+
+<style>
+  #suggestions {
+      display: none;
+      position: absolute;
+      width: 100%;
+      max-height: 300px;
+      overflow-y: auto;
+      background: white;
+      max-width: 520px;
+      right: 510px;
+  }
+  .suggestion-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Product image styling */
+.product-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-right: 15px;
+}
+
+/* Product info styling */
+.product-info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex: 1;  /* Fills the available space between the image and the button */
+}
+.product-price-info{
+  display: flex;
+  flex-wrap: wrap;
+  padding-right: 32px;
+
+}
+
+/* Product title styling */
+.product-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+    color: #333;
+}
+
+/* Sale price styling */
+.product-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #28a745;
+    margin-right: 10px;
+}
+
+/* Normal price with line-through */
+.product-normal-price {
+    font-size: 12px;
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* Add to Cart button styling */
+.add-to-cart-btn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #218838;
+}
+
+/* Responsive Design: On smaller screens, align product title and prices vertically */
+@media screen and (max-width: 768px) {
+    #suggestions{
+      right: 0px;
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+    .product-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .product-title, .product-price{
+        margin-right: 0;
+        margin-bottom: 2px;
+        padding: 1px;
+    }
+    .product-normal-price{
+      margin-right: 0;
+      margin-bottom: 2px;
+      margin-left: 2px;
+    }
+}
+
+.contact-bar {
+  background-color: #f8f9fa; /* Light background */
+  padding: 10px 20px; /* Padding for spacing */
+  text-align: center; /* Center text */
+  font-size: 14px; /* Font size */
+  border-bottom: 1px solid #ddd; /* Bottom border */
+  display: flex; /* Flexbox for layout */
+  justify-content: center; /* Center items */
+  align-items: center; /* Vertically center items */
+}
+
+.contact-bar .contact-link:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+.contact-item {
+  margin: 0 15px; /* Margin between items */
+  color: #333; /* Dark text color */
+}
+.contact-link, .contact-email {
+  color: #007bff; /* Primary link color */
+  text-decoration: none; /* Remove underline */
+  font-weight: 500; /* Slightly bold */
+  transition: color 0.3s; /* Smooth color transition */
+}
+.contact-link:hover, .contact-email:hover {
+  text-decoration: underline; /* Underline on hover */
+  color: #0056b3; /* Darker color on hover */
+}
+strong {
+  color: #333; /* Darker color for strong text */
+}
+
+
+
+
+ /* For Main Menu and Sub Menu */
+ @media (min-width: 640px) {
+  .categorytreeitem:hover .submenuMobile {
+    display: block;
+  }
+}
+  /* Responsive design for mobile */
+  @media (max-width: 640px) {
+    .categoryMainLst{
+      padding-left: 1.5rem;
+      padding-bottom: 1rem;
+
+
+    }
+
+    .categoryMainData{
+      font-weight: 700;
+      text-decoration-line: underline;
+
+    }
+
+
+    .categorytreeitem.show .submenuMobile {
+      display: block;
+    }
+    .categorytreeleaf:hover{
+      cursor: pointer;
+    }
+  }
+
+  .submenuMobile {
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+    border-left: 2px solid #d1d5db; /* Light gray border */
+  }
+
+  .submenuMobile-item-mobile a {
+    padding: 0.5rem;
+  }
+
+  .submenu-item-mobile{
+    cursor: pointer;
+  }
+
+
+/*  Design for Cancel ICon */
+
+ #cancelBtn{
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(212 212 212 / var(--tw-bg-opacity));
+  padding-left: 0.25rem;
+  padding-right:0.25rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(38 38 38 / var(--tw-text-opacity));
+
+ }
+
+
+</style>
+
+
+

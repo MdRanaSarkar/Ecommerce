@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.contact-bar {
+  @apply bg-gray-100 py-4 border-b border-gray-300 flex flex-wrap justify-center items-center;
+}
+
+.contact-item {
+  @apply mx-3 flex items-center;
+}
+
+.contact-link, .contact-facebook {
+  @apply ml-1 text-blue-600 font-semibold hover:underline transition-colors;
+}
+
+.facebook {
+  @apply text-gray-700 font-bold;
+}
+
+@media (max-width: 768px) {
+  .contact-item {
+    @apply w-full justify-center my-2;
+  }
+}

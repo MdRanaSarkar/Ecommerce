@@ -1,0 +1,365 @@
+{% extends 'layouts/base_main.html' %}
+{% load static %}
+{% block title %}Checkout Products{% endblock title %}
+{% block content %}
+
+<!-- Routes -->
+{% include "payment/payment_routes.html" %}
+
+<!-- pages-title-start -->
+
+<header>
+  <script src="https://cdn.tailwindcss.com"></script>
+</header>
+
+{% include "includes/alerts.html" %}
+
+<section class="antialiased dark:bg-gray-900 ">
+  <form  class="mx-auto max-w-screen-xl px-4 2xl:px-0" action="{%url 'payment:proceed_checkout_all'%}" method="POST">
+    {% csrf_token %}
+    <div class="mt-0 sm:mt-0 lg:flex lg:items-start lg:gap-12 xl:gap-16">
+      <div class=" min-w-0 flex-1 space-y-8">
+        <div class="space-y-4">
+          <h2 class="text-xl font-bold dark:text-white text-center">Delivery Details</h2>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label for="your_name" class="mb-2 block text-sm font-semibold dark:text-white"> Your name* </label>
+
+              {% if user.first_name %}
+              <input type="text" id="your_name"  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+              name="user_name" value="{{user.first_name}} {{user.last_name}}" placeholder="Bonnie Green" required />
+              {% else %}
+              <input type="text" id="your_name"  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+              name="user_name" value="{{user.username}}" placeholder="Bonnie Green" required />
+              {% endif %}
+            </div>
+
+            <div>
+              <label for="your_email" class="mb-2 block text-sm font-medium  dark:text-white"> Your email* </label>
+              <input name="user_gmail" type="email" id="your_email" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="name@flowbite.com" value="{{user.email}}" required />
+            </div>
+
+            <div>
+              <label for="phone-input-3" class="mb-2 block text-sm font-medium dark:text-white"> Phone Number* </label>
+              <div class="flex items-center">
+                <div class="relative w-full">
+                  <input type="text" name="phone_number" id="phone-input" class="z-20 block w-full rounded-e-lg border border-s-0 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-300 focus:ring-green-300 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-green-300" pattern="(\+88)?[0-9]{10,11}" placeholder="01*********" value="{{user.phone_number}}" required />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label for="phone-input-3" class="mb-2 block text-sm font-medium dark:text-white">
+                Alternative Phone Number </label>
+              <div class="flex items-center">
+                <div class="relative w-full">
+                  <input name="al_phone_number" type="number" id="phone-input" class="z-20 block w-full rounded-e-lg border border-s-0 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-300 focus:ring-green-300 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-green-300" pattern="[0-10]{3}-[0-9]{3}-[0-9]{4}" placeholder="01*********"  />
+                </div>
+              </div>
+            </div>
+
+
+            <div>
+              <div class="mb-2 flex items-center gap-2">
+                <label for="select-country-input-3" class="block text-sm font-medium dark:text-white"> Country* </label>
+              </div>
+              <select name="country"  id="select-country-input-3" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" onchange="sectionChosen()">
+                <option selected value="bangladesh">Bangladesh</option>
+                <option value="outsideBangladesh">Outside Bangladesh</option>
+              </select>
+            </div>
+
+            <div id="divisionSection">
+              <div class="mb-2 flex items-center gap-2">
+                <label for="select-city-input-3" class="block text-sm font-medium dark:text-white"> Division  </label>
+              </div>
+              <select name="division"  id="select-division-input-3" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+              onchange="divisionsList()">
+               <option disabled selected>Select Division</option>
+                <option value="Barishal">Barishal</option>
+                <option value="Chattogram">Chattogram</option>
+                <option value="Dhaka">Dhaka</option>
+                <option value="Khulna">Khulna</option>
+                <option value="Mymensingh">Mymensingh</option>
+                <option value="Rajshahi">Rajshahi</option>
+                <option value="Rangpur">Rangpur</option>
+                <option value="Sylhet">Sylhet</option>
+              </select>
+            </div>
+
+            <div id="citySection">
+              <div class="mb-2 flex items-center gap-2">
+                <label for="select-city-input-3" class="block text-sm font-medium dark:text-white"> City </label>
+              </div>
+              <select name="city" id="distr" class="block w-full  rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" onchange="thanaList(); "></select>
+            </div>
+
+            <div  id="areaSection">
+              <div class="mb-2 flex items-center gap-2">
+                <label for="select-city-input-3" class="block text-sm font-medium dark:text-white"> Area </label>
+              </div>
+              <select name="areaThana" id="polic_sta" class="block w-full  rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"></select><!--/ Police Station Section-->
+            </div>
+            <div class="col-span-full">
+              <label for="company_name" class="mb-2 block text-sm font-medium dark:text-white"> address </label>
+              <textarea id="about" name="addressFullData" rows="3" class="block w-full rounded-md border-0 py-2 p-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{user.address}}"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="text-center items-center text-2xl font-mono">
+            Payment Method
+            <span class="text-sm"> (Please select a payment method)</span>
+          </div>
+
+        <div class="space-y-4">
+          <div class="flex flex-col gap-4">
+            <div class="OutsideBangladesh space-y-4" id="OutsideBangladeshPayment" hidden>
+              <h3 class="text-xl font-semibold  dark:text-white">Pay with from outside <span class="text-xs"> Pay with Paypal</span></h3>
+              <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div class="flex flex-start">
+                  <div class="flex h-5 items-center">
+                    <input id="dhl" aria-describedby="dhl-text" type="radio" name="delivery-method" value="" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
+                  </div>
+                  <div class="ms-4 text-sm flex">
+                    <img src="{%static 'payment/buttom_paypal.svg'%}" class="h-[34px] w-auto max-w-full"  alt="paypal">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="CashOnDelivery space-y-4" id="CashOnDeliveryPayment">
+              <h3 class="text-xl font-semibold  dark:text-white">Cash-On Delivery <span class="text-xs"> পণ্য হাতে পেয়ে টাকা পরিশোধ করুন</span></h3>
+              <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div class="flex flex-start">
+                  <div class="flex h-5 items-center">
+                    <input id="dhl" aria-describedby="dhl-text" type="radio" name="delivery-method" value="cash_on_delivery" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
+                  </div>
+                  <div class="ms-4 text-sm flex">
+                    <img src="{%static 'payment/cod.webp'%}" class="h-[34px] w-auto max-w-full"  alt="">
+                    <label for="dhl" class="font-medium leading-none text-gray-900 dark:text-white"> Cash on Delivery</label>
+                    <p id="dhl-text" class="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Get it by Soon</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="CashWithMobileWallet space-y-4" id="CashWithMobileWalletPayment">
+
+              <h3 class="text-xl font-semibold  dark:text-white space-y-4">Delivery Methods (Mobile Wallet)</h3>
+
+              <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div class="flex items-start">
+                  <div class="flex h-5 items-center">
+                    <input id="dhl" aria-describedby="dhl-text" type="radio" name="delivery-method" value="bkashMethod" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
+                  </div>
+
+                  <div class="ms-4 text-sm">
+                    <img src="{%static 'payment/bkash.webp'%}" class="h-[34px] w-auto max-w-full"  alt="">
+                  </div>
+                </div>
+              </div>
+              <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div class="flex items-start">
+                  <div class="flex h-5 items-center">
+                    <input id="dhl" aria-describedby="dhl-text" type="radio" name="delivery-method" value="rocketMethod" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
+                  </div>
+
+                  <div class="ms-4 text-sm">
+                    <img src="{%static 'payment/rocket.webp'%}" class="h-[34px] w-auto max-w-full"  alt="">
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div class="flex items-start">
+                  <div class="flex h-5 items-center">
+                    <input id="fedex" aria-describedby="fedex-text" type="radio" name="delivery-method" value="nagadMethod" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                  </div>
+
+                  <div class="ms-4 text-sm">
+                    <img src="{%static 'payment/Nagad-Logo.webp'%}" class="h-[34px] w-auto max-w-full"  alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+
+            <div class="CashWithCard space-y-4" id="CashWithCardPayment">
+              <h3 class="text-xl font-semibold  dark:text-white">Pay with Card</h3>
+
+              <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div class="flex items-start">
+                  <div class="flex h-5 items-center">
+                    <input id="express" aria-describedby="express-text" type="radio" name="delivery-method" value="cardMethod" class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                  </div>
+
+                  <div class="ms-4 text-sm">
+                    <img src="{%static 'payment/card.png'%}" class="h-[34px] w-auto max-w-full" alt="Card Logo">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gift_Cupon">
+          <label for="voucher" class="mb-2 block text-sm font-medium dark:text-white"> Enter a gift card, voucher or promotional code </label>
+          <div class="flex max-w-md items-center gap-4">
+            <input type="text" id="voucher" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
+            <button type="button" class="flex items-center justify-center rounded-lg bg-green-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Apply</button>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="mt-6 py-16 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
+        <div class="flow-root">
+          <div class="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
+            <dl class="flex items-center justify-between gap-4 py-3">
+              <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
+              <dd class="text-base font-medium text-green-400 dark:text-white" id="checkoutSubtotalPrice">{{total_price}} TK.</dd>
+            </dl>
+
+            <dl class="flex items-center justify-between gap-4 py-3">
+              <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
+              <dd class="text-base font-medium text-green-500" id="checkoutSavings">0 TK.</dd>
+            </dl>
+
+            <dl class="flex items-center justify-between gap-4 py-3">
+              <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Shipping<span class="type-small--url">(Changeable)</span></dt>
+              <dd class="text-base font-medium text-green-400 dark:text-white" id="shippingCostPrice" name="shippingCost">{{ handing }} TK.</dd>
+              <input type="hidden" id="shippingCostInput" name="final_shipping_cost" value={{ handing }}>
+
+            </dl>
+
+            <dl class="flex items-center justify-between gap-4 py-3">
+              <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
+              <dd class="text-base font-medium text-green-400 dark:text-white" id="checkoutVat">{{ vat }} TK.</dd>
+              <input type="hidden" id="totalVatPrice" name="productTotalVat" value={{ vat }}>
+            </dl>
+
+            <dl class="flex items-center justify-between gap-4 py-3">
+              <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+              <dd class="text-base font-bold text-green-600 dark:text-white" id="totalCheckoutPrice" name="finalTotalPrice"> {{ order_total }} TK.</dd>
+              <input type="text" value={{ order_total }} name="todalCheckoutPrice" hidden>
+            </dl>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-purple-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Payment</button>
+
+          <p class="text-sm font-normal text-gray-500 dark:text-gray-400">One or more items in your cart require an account. <a href="#" title="" class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Sign in or create an account now.</a>.</p>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+
+
+
+
+
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/divisionZillThana.js'%}"></script>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+    var areaShippingCostUrl = "{% url 'payment:area_shipping_cost' %}";
+    const shippingData = $("#shippingCostPrice").text().trim()
+    const fixedShipping = parseFloat(shippingData.replace(/[^\d.]/g, ''))
+
+    const subtotalData = $("#checkoutSubtotalPrice").text().trim()
+    const subtotalCheckout = parseFloat(subtotalData.replace(/[^\d.]/g, ''))
+
+    const taxData =  $("#checkoutVat").text().trim()
+    const taxCheckoutTotal = parseFloat(taxData.replace(/[^\d.]/g, ''))
+
+    const totalData =  $("#totalCheckoutPrice").text().trim()
+    const totalCheckoutPrice = parseFloat(totalData.replace(/[^\d.]/g, ''))
+
+    let newTotalAmount = 0;
+
+    function fetchShippingCost(callback) {
+        $.ajax({
+          url: areaShippingCostUrl,
+          type: "GET",
+          dataType: "json",
+          success: function(data) {
+            callback(data);  // Pass the data to the callback
+          },
+          error: function() {
+            console.log("something went wrong");
+          }
+        });
+      }
+
+
+
+// Use the fetchShippingCost function
+    fetchShippingCost(function(shipping_cost) {
+      shipping_cost = shipping_cost;
+      console.log("Shipping cost:", shipping_cost);
+
+      $("#select-country-input-3").change(function() {
+
+        const selectCountry =  $("#select-country-input-3").val();
+        const d = shipping_cost;
+        const result = shipping_cost.find(item => item.area_name === selectCountry);
+
+        if(result) {
+          $("#shippingCostPrice").html(result.shipping_cost + " TK.");
+          $("#shippingCostInput").val(result.shipping_cost);
+          newTotalAmount = subtotalCheckout + parseFloat(result.shipping_cost) + taxCheckoutTotal
+          console.log(newTotalAmount);
+          $("#totalCheckoutPrice").html(newTotalAmount + " TK.");
+        }
+        else{
+          $("#shippingCostPrice").html(fixedShipping + " TK.");
+          $("#shippingCostInput").val(fixedShipping);
+
+          $("#totalCheckoutPrice").html(totalCheckoutPrice + " TK.");
+        }
+
+      });
+
+
+      $("#distr").change(function() {
+
+          const selectCity =  $("#distr").val();
+          console.log(selectCity);
+          const resultCity = shipping_cost.find(item => item.area_name === selectCity);
+
+          if(resultCity) {
+            $("#shippingCostPrice").html(resultCity.shipping_cost + " TK.");
+            $("#shippingCostInput").val(resultCity.shipping_cost);
+
+            newTotalAmount = subtotalCheckout + parseFloat(resultCity.shipping_cost) + taxCheckoutTotal
+            $("#totalCheckoutPrice").html(newTotalAmount + " TK.");
+          }
+          else{
+            $("#shippingCostPrice").html(fixedShipping + " TK.");
+            $("#shippingCostInput").val(fixedShipping);
+
+            $("#totalCheckoutPrice").html(totalCheckoutPrice + " TK.");
+          }
+
+      });
+
+
+      // Use the shipping_cost variable here, outside the AJAX function
+    });
+
+  });
+
+</script>
+
+
+{% endblock content %}

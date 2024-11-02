@@ -1,0 +1,19 @@
+<nav class="mt-12">
+  <ul class="grid gap-4 grid-cols-2 md:grid-cols-4">
+    {% for brand in brands_all %}
+
+      {% if brand.img_url %}
+          <img src="{{brand.img_url}}" alt="" class="w-full h-full rounded-xl">
+       {% else %}
+       <!-- It is mainly if there is no brand images then  -->
+       <div class="relative w-full h-full">
+        <img src="{% static 'img/brands/default-brands-bg.png' %}" alt="Brands" class="w-full h-full rounded-xl object-cover">
+        <!-- Text Overlay -->
+        <span class="absolute inset-0 flex items-center justify-center text-4xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg tracking-wide uppercase bg-black/30">
+          {{brand.name}}
+        </span>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</nav>

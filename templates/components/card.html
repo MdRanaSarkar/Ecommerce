@@ -1,0 +1,164 @@
+{% load static %}
+<article class="product-card__wrapper group relative">
+  {% if product.is_new %}<span class="tag tag__absolute" >New</span>{% endif %}
+
+  <!-- Savings amount Showing  -->
+
+{% if product.total_discount > 0 %}
+  {% if product.total_discount < 26 %}
+  <div class="discount-badge" style="background: url('{% static 'img/badges/discount-yellow-badge.svg' %}') no-repeat center center / cover;">
+    <p class="discount-text" style="color:#000">{{ product.total_discount }}</p>
+  </div>
+  {% else %}
+    <div class="discount-badge" style="background: url('{% static 'img/badges/discount-red-badge.svg' %}') no-repeat center center / cover;">
+      <p class="discount-text">{{ product.total_discount }}</p>
+    </div>
+  {% endif %}
+{% endif %}
+
+
+  <!-- End Savings amount Showing  -->
+
+
+
+  <a href="{% url 'products:detail' product.pk %}" title="{{ product.title }}">
+    {% if product.image %}
+    <img class="product-card__img" src="{{ product.image.url }}" title="{{ product.title }}" alt="{{ product.title|lower }}" />
+    {% else %}
+    <img class="product-card__img" src="{% static 'img/default-image-front.webp' %}" title="{{ product.title }}" alt="{{ product.title|lower }}" />
+    {% endif %}
+  </a>
+  <div class="product-card__content">
+    <div class="flex flex-1">
+      {% if product.sale_price %}
+      <img src="/static/payment/taka.svg" alt="" class="icon--sm" style="margin-top: 4px;"/><span class="type-base--bold flex">{{ product.sale_price }}</span>
+      <span class="type-small line-through" style="margin-left:8px;" >{{ product.normal_price }}</span>
+      {% else %}
+      <span class="type-base--bold">{{ product.normal_price }}</span>
+      {% endif %}
+    </div>
+    <a href="{% url 'cart:add_prod_wishlist' product.id %}" title="Add to wishlist" aria-label="Add to wishlist" class="invisible group-hover:visible">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--sm">
+        <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+      </svg>
+    </a>
+  </div>
+  <div class="product-card__title">
+    <a href="{% url 'products:detail' product.pk %}" title="{{ product.title }}">
+      <span class="group-hover:underline line-clamp-2">{{ product.title|truncatechars:50 }}</span>
+    </a>
+  </div>
+
+  <!-- <a href="{% url 'cart:add_prod_cart' product.id %}" title="Add to cart" class="btn btn--secondary group-hover:btn group-hover:btn--primary">
+    Add to cart
+  </a> -->
+
+  <button title="Add to cart" id="addtocart-{{product.id}}" onclick="addProductToCart('{{ product.id }}', '{% url "cart:add_to_cart" %}')" class=" btn btn--secondary group-hover:btn group-hover:btn--primary addeToCartClass">
+    Add to cart
+  </button>
+
+</article>
+
+<style>
+  .addeToCartClass{
+    width: 100%;
+  }
+      /* Initial button styling */
+  #addtocart {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 2px solid #ccc;
+    transition: all 0.3s ease;
+  }
+
+  #addtocart:hover {
+    background-color: #ddd;
+  }
+
+  /* Success button styling after adding to cart */
+  .btn--success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    cursor: not-allowed; /* Disable the button after adding */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .addedToCartSuccess {
+
+    font-size: small;
+    font-weight: bold;
+    background-color: #218838;
+  }
+
+
+  /* Add a checkmark before the button text for success */
+  .addedToCartSuccess::before {
+    content: "✔ ";
+    padding-right: 4px;
+
+  }
+
+  /* Hover effect for success button */
+  .btn--success:hover {
+    background-color: #218838;
+    border-color: #218838;
+  }
+
+
+  @media (max-width: 480px) {
+    .addedToCartSuccess::after{
+      background-color: #218838;
+
+    }
+    .addedToCartSuccess::before {
+      content: "✔ ";
+      padding-right: 2px;
+
+    }
+  }
+
+  /* Product discount savings add   */
+
+
+
+  .discount-badge {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 46px;
+    height: 46px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-size: 1rem;
+  }
+
+  .discount-text {
+    font-weight: bold;
+    color: #fff;
+    font-size: 1.25rem;
+    padding-bottom: 15px;
+    padding-right: 12px;
+  }
+
+  @media (max-width: 480px) {
+    .discount-badge {
+      width: 40px;
+      height: 34px;
+      font-size: 0.85rem;
+    }
+
+    .discount-text {
+      padding-right: 14px;
+    }
+  }
+
+</style>
+
+

@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mydiv{
+  @apply flex h-screen bg-gray-100
+}
+
+.userdropdown{
+  @apply flex items-center gap-4
+}
+
+.userinfo {
+  @apply hidden text-right lg:block
+}
+
+.username {
+  @apply block text-sm font-medium text-black dark:text-white
+}
+
+
+.userdesign {
+  @apply block text-xs font-medium
+}
+
+
+.usericon {
+  @apply h-12 w-12 rounded-full
+}
+
+
+.userdropdownmore {
+  @apply absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark
+}
+
+
+.userdropdownmore_ul {
+  @apply flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark
+}
+.userdropdownmore_a{
+  @apply flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base
+}
+
+.userdropdownmore_btn{
+  @apply flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base
+}

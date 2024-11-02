@@ -1,0 +1,55 @@
+{% extends 'layouts/base_main.html' %}
+{% block title %}{{ deal.name }}{% endblock title %}
+{% block content %}
+
+<!-- Image -->
+<figure class="relative text-center">
+  <div class="absolute inset-x-0 top-1/2 transform -translate-y-1/2">
+    <span class="font-bold  text-white deal-img-text" style="text-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);">{{ deal.name }}</span>
+  </div>
+  <img src="{{ deal.image.url }}" alt="{{ deal.name }}" class="deal__img h-48">
+</figure>
+
+<!-- Headline -->
+<header class="deal__header">
+  <h2 class="headline">{{ deal.name }}</h2>
+  <span class="type-base--bold text-neutral-500">{{ deal.description|safe }}</span>
+</header>
+
+<!-- Product List -->
+{% if products %}
+<section class="product-card">
+  {% for product in products %}
+    {% include "components/card.html" %}
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if products|length == 0 %}
+  {% include "components/empty.html" with arg="product" %}
+{% endif %}
+
+<!-- Pagination -->
+{% include "components/pagination.html" %}
+
+<style>
+  .deal-img-text{
+    font-size: 3.75rem;
+    line-height: 1;
+  }
+  @media (max-width: 640px) { /* Small devices */
+    .deal-img-text{
+      font-size: 2.0rem;
+      line-height: 1;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 768px) { /* Medium devices */
+    .deal-img-text{
+      font-size: 3.0rem;
+      line-height: 1;
+    }
+  }
+</style>
+
+{% endblock %}

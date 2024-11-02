@@ -1,0 +1,30 @@
+.alert {
+  background-color: #f8d7da; /* Light red background */
+  border-left: 5px solid #dc3545; /* Dark red left border */
+  color: #721c24; /* Dark red text color */
+  padding: 15px; /* Padding around the content */
+  margin-bottom: 20px; /* Space below the alert */
+  border-radius: 4px; /* Rounded corners */
+  position: relative; /* For positioning the close button */
+}
+
+.alert .close-btn {
+  position: absolute; /* Positioning the close button */
+  top: 10px; /* Distance from the top */
+  right: 15px; /* Distance from the right */
+  background: none; /* Remove default button styling */
+  border: none; /* Remove border */
+  font-size: 16px; /* Font size for the close button */
+  color: #721c24; /* Color of the close button */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.alert .close-btn:hover {
+  color: #a71c24; /* Darker red on hover */
+}
+
+@media (max-width: 768px) {
+.alert {
+    font-size: 14px; /* Adjust font size on small screens */
+}
+}

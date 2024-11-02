@@ -1,0 +1,34 @@
+{% extends 'layouts/base_main.html' %}
+{% block title %}Checkout Paypal{% endblock title %}
+{% block content %}
+
+<section class="checkout">
+  <figure class="checkout__img zoomable-container">
+    <div class="zoomable-wrapper flex items-center justify-center bg-white h-full">
+      <img src="{{ product.image.url }}" title="{{ product.title }}" alt="{{ product.title }}" class="w-96 zoomable">
+    </div>
+  </figure>
+  <article class="checkout__content">
+    <h2 class="headline">Review your order (0 items)</h2>
+    <div class="mb-4">
+      <span class="sub-headline">Description</span>
+      <p><span class="type-base--bold">Product:</span> {{ product.title }}</p>
+      {% if product.sale_price %}
+      <p><span class="type-base--bold">Price:</span> TK. {{ product.sale_price }}</p>
+      {% else %}
+      <p><span class="type-base--bold">Price:</span> ${{ product.normal_price }}</p>
+      {% endif %}
+      <h3 class="sub-headline">Shipment dispatch</h3>
+      <p><span class="type-base--bold">Address:</span> {{ user.address }}</p>
+      <p><span class="type-base--bold">Phone:</span> {{ user.phone }} </p>
+    </div>
+    <div class="mt-auto">
+      <div class="flex justify-center bg-yellow-400 w-full rounded-3xl mb-2">
+        {{paypal.render}}
+      </div>
+      <a href="{% url 'cart:cart' %}" class="btn btn--secondary">Cancel</a>
+    </div>
+  </article>
+</section>
+
+{% endblock %}

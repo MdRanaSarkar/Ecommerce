@@ -1,0 +1,83 @@
+.addeToCartClass{
+  width: 100%;
+}
+    /* Initial button styling */
+#addtocart {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 2px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+#addtocart:hover {
+  background-color: #ddd;
+}
+
+/* Success button styling after adding to cart */
+.btn--success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+  cursor: not-allowed; /* Disable the button after adding */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.addedToCartSuccess {
+  font-weight: bold;
+  padding: 12px 22px;
+}
+
+/* Add a checkmark before the button text for success */
+.addedToCartSuccess::before {
+  content: "✔ ";
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+/* Hover effect for success button */
+.btn--success:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+#moreReadBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: transparent; /* No background initially */
+  color: #000; /* Text color */
+  border: 2px solid #29ffa9 !important; /* No border initially */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+
+}
+
+/* Hover Effect */
+#moreReadBtn:hover {
+  background-color:  #33c24d !important; /* Background color on hover */
+  border: 2px solid #29ffa9 !important; /* Border color on hover */
+  color: #fff!important; /* Text color remains the same */
+  box-shadow: none !important
+}
+
+
+/* start design for modal */
+
+.modalhidden { display: none; }
+.modal {
+  display: flex;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center; align-items: center;
+}
+.modal-content {
+  background-color: #fff; padding: 20px; border-radius: 8px;
+  width: 80%; max-width: 700px; box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+}
+.close {
+  position: absolute; top: 10px; right: 15px; cursor: pointer;
+}
+/* End design for modal */

@@ -1,0 +1,183 @@
+{% extends 'layouts/base_main.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% load socialaccount %}
+{% block content %}
+
+
+
+
+<section class="form__wrapper ">
+  <header class="form__header">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--lg text-primary">
+      <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+    </svg>
+    <h2 class="headline">Sign in to your account</h2>
+  </header>
+
+  <div class="flex justify-between mt-4 gap-4 signin-container">
+    <form action="{% provider_login_url 'google' %}?next=/" method="POST" class="signin-btn google">
+      {% csrf_token %}
+      <button type="submit" class="custom-google-login-btn flex">
+          <img src="{% static 'socials/icons8-google.svg' %}" alt="Google Icon" class="signin-icon" />
+          <span class="signin-text">Continue with Google</span>
+      </button>
+  </form>
+    <a href="" class="signin-btn facebook">
+      <img src="{% static 'socials/icons8-facebook.svg' %}" alt="Facebook Icon" class="signin-icon">
+      <span class="signin-text">Sign in with Facebook</span>
+    </a>
+  </div>
+  <!-- OR Divider -->
+  <div class="or-divider">
+    <span>OR</span>
+  </div>
+
+
+  <form method="POST" class="space-y-4">{% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div class="alert" role="alert">
+      <p class="font-bold">Oops! Something went wrong:</p>
+      {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+    <label for="username" class="block space-y-1">
+      <span class="type-base--bold">Your username</span>
+      {{ form.username }}
+      {% if form.username.errors %}
+        <div class="error">
+          {% for error in form.username.errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </label>
+    <label for="password" class="block space-y-1">
+      <span class="type-base--bold">Your password</span>
+      {{ form.password }}
+      {% if form.password.errors %}
+      <div class="error">
+        {% for error in form.password.errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </label>
+    <div class="flex justify-between">
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+          <input id="remember" type="checkbox" value="#" class="form__input-checkbox">
+        </div>
+        <label for="remember" class="ml-2">Remember me</label>
+      </div>
+      <a href="#" title="Lost password?" class="type-base--url">Lost password?</a>
+    </div>
+    <button type="submit" class="btn btn--primary w-full">Login</button>
+    <div class="strong text-center">
+      Not registered? <a href="{% url 'users:registration' %}" title="Registration" class="type-base--url">Create account</a>
+    </div>
+  </form>
+</section>
+
+<link rel="stylesheet" href="{%static 'css/warning_design.css'%}">
+
+<style>
+
+/* Signin container */
+.signin-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+/* Signin button styling */
+.signin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  transition: 0.3s ease;
+}
+
+.signin-btn .signin-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+/* Google button */
+.signin-btn.google {
+  background-color: #4285f4;
+  color: white;
+  border: 1px solid #4285f4;
+}
+
+.signin-btn.google:hover {
+  background-color: #357ae8;
+  border-color: #357ae8;
+}
+
+/* Facebook button */
+.signin-btn.facebook {
+  background-color: #3b5998;
+  color: white;
+  border: 1px solid #3b5998;
+}
+
+.signin-btn.facebook:hover {
+  background-color: #2d4373;
+  border-color: #2d4373;
+}
+
+/* Text hidden for mobile devices */
+@media (max-width: 480px) {
+  .signin-text {
+    display: none;
+  }
+
+  .signin-btn {
+    padding: 10px;
+  }
+
+  .signin-btn .signin-icon {
+    margin-right: 0;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* OR Divider */
+.or-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  position: relative;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+}
+
+.or-divider:before, .or-divider:after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #ccc;
+  margin: 0 10px;
+}
+
+
+</style>
+
+
+{% endblock %}

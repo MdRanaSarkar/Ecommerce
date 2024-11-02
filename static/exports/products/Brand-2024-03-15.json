@@ -1,0 +1,206 @@
+[
+    {
+        "id": 1,
+        "name": "Samsung",
+        "slug": "samsung",
+        "show_hide": "1"
+    },
+    {
+        "id": 2,
+        "name": "Apple",
+        "slug": "apple",
+        "show_hide": "1"
+    },
+    {
+        "id": 3,
+        "name": "Beats",
+        "slug": "beats",
+        "show_hide": "1"
+    },
+    {
+        "id": 4,
+        "name": "JBL",
+        "slug": "jbl",
+        "show_hide": "1"
+    },
+    {
+        "id": 5,
+        "name": "Sony",
+        "slug": "sony",
+        "show_hide": "1"
+    },
+    {
+        "id": 6,
+        "name": "HP",
+        "slug": "hp",
+        "show_hide": "1"
+    },
+    {
+        "id": 7,
+        "name": "Acer",
+        "slug": "acer",
+        "show_hide": "1"
+    },
+    {
+        "id": 8,
+        "name": "Dell",
+        "slug": "dell",
+        "show_hide": "1"
+    },
+    {
+        "id": 9,
+        "name": "Google",
+        "slug": "google",
+        "show_hide": "1"
+    },
+    {
+        "id": 10,
+        "name": "LG",
+        "slug": "lg",
+        "show_hide": "1"
+    },
+    {
+        "id": 11,
+        "name": "TCL",
+        "slug": "tcl",
+        "show_hide": "1"
+    },
+    {
+        "id": 12,
+        "name": "Vizio",
+        "slug": "vizio",
+        "show_hide": "1"
+    },
+    {
+        "id": 13,
+        "name": "Hisense",
+        "slug": "hisense",
+        "show_hide": "1"
+    },
+    {
+        "id": 14,
+        "name": "AMD",
+        "slug": "amd",
+        "show_hide": "1"
+    },
+    {
+        "id": 15,
+        "name": "Intel",
+        "slug": "intel",
+        "show_hide": "1"
+    },
+    {
+        "id": 16,
+        "name": "Amazon",
+        "slug": "amazon",
+        "show_hide": "1"
+    },
+    {
+        "id": 17,
+        "name": "Canon",
+        "slug": "canon",
+        "show_hide": "1"
+    },
+    {
+        "id": 18,
+        "name": "Lenovo",
+        "slug": "lenovo",
+        "show_hide": "1"
+    },
+    {
+        "id": 19,
+        "name": "Roku",
+        "slug": "roku",
+        "show_hide": "1"
+    },
+    {
+        "id": 20,
+        "name": "ASUS",
+        "slug": "asus",
+        "show_hide": "1"
+    },
+    {
+        "id": 21,
+        "name": "SVS",
+        "slug": "svs",
+        "show_hide": "1"
+    },
+    {
+        "id": 22,
+        "name": "Panasonic",
+        "slug": "panasonic",
+        "show_hide": "1"
+    },
+    {
+        "id": 23,
+        "name": "Polk",
+        "slug": "polk",
+        "show_hide": "1"
+    },
+    {
+        "id": 24,
+        "name": "Nokia",
+        "slug": "nokia",
+        "show_hide": "1"
+    },
+    {
+        "id": 25,
+        "name": "Nikon",
+        "slug": "nikon",
+        "show_hide": "1"
+    },
+    {
+        "id": 26,
+        "name": "Sennheiser",
+        "slug": "sennheiser",
+        "show_hide": "1"
+    },
+    {
+        "id": 27,
+        "name": "Morpheus",
+        "slug": "morpheus",
+        "show_hide": "1"
+    },
+    {
+        "id": 28,
+        "name": "AKG",
+        "slug": "akg",
+        "show_hide": "1"
+    },
+    {
+        "id": 29,
+        "name": "Razer",
+        "slug": "razer",
+        "show_hide": "1"
+    },
+    {
+        "id": 30,
+        "name": "Western Digital",
+        "slug": "western-digital",
+        "show_hide": "1"
+    },
+    {
+        "id": 31,
+        "name": "SanDisk",
+        "slug": "sandisk",
+        "show_hide": "1"
+    },
+    {
+        "id": 32,
+        "name": "Logitech",
+        "slug": "logitech",
+        "show_hide": "1"
+    },
+    {
+        "id": 33,
+        "name": "Seagate",
+        "slug": "seagate",
+        "show_hide": "1"
+    },
+    {
+        "id": 34,
+        "name": "JLab",
+        "slug": "jlab",
+        "show_hide": "1"
+    }
+]

@@ -1,0 +1,11 @@
+
+<li class="submenu-item has-submenu" data-category="{{ node.title }}">
+  <a href="{% url 'products:category_filter' node.slug %}">{{ node.title }}</a>
+  {% if not node.is_leaf_node %}
+      <ul class="sub-submenu">
+          {% for sub_child in node.get_children %}
+              {% include "home/category_recursive.html" with node=sub_child %}
+          {% endfor %}
+      </ul>
+  {% endif %}
+</li>

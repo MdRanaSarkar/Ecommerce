@@ -1,0 +1,758 @@
+{% extends 'layouts/base_main.html' %}
+{% load static %}
+
+
+  <!-- Add Custom CSS Design -->
+  <!-- <link rel="stylesheet" href="{% static 'custom/css/product_details.css' %}"> -->
+  <!-- End Custom CSS Design -->
+
+{% block title %}{{ product.title|truncatechars:25 }}{% endblock title %}
+{% block content %}
+
+
+
+
+<!-- Routes -->
+{% include "components/routes.html" %}
+
+
+
+<!-- Product Detail -->
+<section class="product-detail">
+
+  <figure class="zoomable-container overflow-hidden rounded-xl border border-neutral-100 dark:border-neutral-800">
+    <div class="zoomable-wrapper flex items-center justify-center bg-white h-full">
+      {% if product.image %}
+      <img src="{{ product.image.url }}" title="{{ product.title }}" alt="{{ product.title }}" class="w-96 zoomable">
+      {% else %}
+      <img src="{% static 'img/default-image-front.webp' %}" alt="default-image" class="w-96 zoomable" />
+      {% endif %}
+    </div>
+  </figure>
+  <article class="product-detail__content">
+    {% if product.brand.slug %}
+    <a href="{% url 'products:brand_filter' brand_slug=product.brand.slug %}" title="{{ product.brand.name }} products" class="type-base--url">
+      Shop all {{ product.brand.name }}
+    </a>
+    {% else %}
+    <a href="{% url 'products:brand_filter' brand_slug=product.category.slug %}" title="{{ product.brand.name }} products" class="type-base--url">
+      Shop all {{ product.category.title }}
+    </a>
+    {% endif %}
+    <div class="product-info-details">
+      <h2 class="sub-headline">{{ product.title }}{% if product.is_new %}<span class="tag tag__header">New</span>{% endif %}</h2>
+      {% if product.author.all %}
+      <div class="product-author">
+        by
+        {% for author in product.author.all %}
+            <span class="author type-base--url" style="color:#0397d3">{{ author.name }}</span>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      <div class="product-category pt-4">
+        Category: <span class="category type-base--url" style="color:#0397d3;"> {{product.category.title}}</span>
+      </div>
+      <div class="star-rating-display pt-4">
+        {% with product.average_review as rating %}
+          {% for star in "12345" %}
+          {% with star|add:-0.5 as rating_minus_half %}
+            <span class="star">
+              {% if rating >= forloop.counter %}
+                <span class="filled">&#9733;</span> <!-- Filled star -->
+                {% elif forloop.counter < rating_minus_half < forloop.counter %}
+                <span class="half-filled">&#9733;</span> <!-- Half star -->
+              {% else %}
+                <span class="empty">&#9733;</span> <!-- Empty star -->
+              {% endif %}
+            </span>
+            {% endwith %}
+          {% endfor %}
+        {% endwith %}
+        <span class="rating-count">({{ product.average_review|floatformat:1 }})</span>
+        <span class="divider">|</span>
+        <span class="total-reviewers">Total Reviewers: {{ product.total_review }}</span>
+      </div>
+
+      <!-- START PRODUCT INFO RELATED DATA  -->
+        <div class="product-price-showing pt-4 flex flex-col md:flex-row items-start space-y-2 md:space-y-0 md:space-x-4">
+          {% if product.sale_price %}
+              <!-- Sale Price and Original Price -->
+              <div class="flex items-center">
+                  <span class="text-gray-500 line-through product-normal-price">
+                    TK.{{ product.normal_price }}
+                </span>
+                  <span class="product-sale-price">
+                      TK.{{ product.sale_price }}
+                  </span>
+
+                <!-- Savings Information -->
+                  <div class="savings-info flex items-center pt-4 space-x-2 ">
+                    <span class="you-save">You Save</span>
+                    <span class="savings-amount flex">
+                        TK.{{ price_savings }}
+                    </span>
+                    <span class="savings-percentage">({{ product_saving_percentages|floatformat:0 }}%)</span>
+                </div>
+              </div>
+
+
+            {% else %}
+                <div class="flex items-center bg-green-50 rounded-md p-2 shadow-sm space-x-2 hover:bg-green-100 transition duration-200">
+                  <!-- Normal Price Only -->
+                  <span class="headline flex text-2xl font-bold text-gray-800">
+                      <img src="/static/payment/taka.svg" alt="Currency Icon" width="18px" class="mr-1"/>
+                      {{ product.normal_price }}
+                  </span>
+                </div>
+            {% endif %}
+          </div>
+        <!-- END PRODUCT INFO RELATED DATA  -->
+          <div class="product-stock-info pt-4">
+            <p>In-stock (<span class="type-base--bold">{{ product.stock }}</span>
+            {% if  is_book_category%}
+              copies
+              {% else %}
+              products
+            {% endif %}
+               available)</p>
+
+            <span class="type-small">* স্টক আউট হওয়ার আগেই অর্ডার করুন</span>
+
+            {% if  is_book_category%}
+              <!-- For Book Specifications  -->
+              <div class="book-specification p-4 bg-white rounded-lg shadow-md">
+
+                {% if product.book_page %}
+                <div class="item">
+                  <p class="spec-title">Book Length</p>
+                  <div class="circle">
+                      <img src="{% static 'icons/book-length.svg' %}" alt="book-length-icon">
+                  </div>
+                  <p class="spec-value">112 Pages</p>
+                </div>
+                {% endif %}
+
+
+                {% if product.edition %}
+                  <div class="item">
+                    <p class="spec-title">Edition</p>
+                    <div class="circle">
+                        <img src="{% static 'icons/con-edition.svg' %}" alt="edition-icon">
+                    </div>
+                    <p class="spec-value">{{ product.edition }}</p>
+                  </div>
+                {% endif %}
+
+                {% if product.publication %}
+                  <div class="item">
+                    <p class="spec-title">Publication</p>
+                    <div class="circle">
+                        <img src="{% static 'icons/icon-publication.svg' %}" alt="publication-icon">
+                    </div>
+                    <a href="/book/publisher/651" class="spec-link">{{product.publication.name}}</a>
+                  </div>
+                {% endif %}
+
+                {% if product.isbn_code %}
+                  <div class="item">
+                    <p class="spec-title">ISBN</p>
+                    <div class="circle">
+                        <img src="{% static 'icons/qrcode.svg' %}" alt="isbn-icon">
+                    </div>
+                    <a href="/book/publisher/651" class="spec-link">{{product.isbn_code}}</a>
+                  </div>
+                {% endif %}
+
+
+
+
+              </div>
+            <!-- End Book Specifications section -->
+
+            <div class="features-container flex mt-4 type-small gap-4">
+              <!-- Book Payment Option -->
+              <div class="feature-item flex items-center">
+                      <img src="{% static 'icons/money-hand.svg' %}" alt="book-icon" width="20px" style="margin-right: 4px;">
+                      <p class="feature-text">বই হাতে পেয়ে মূল্য পরিশোধের সুযোগ</p>
+              </div>
+              <!-- 7-Day Exchange Option -->
+              <div class="feature-item flex items-center">
+                      <img src="{% static 'icons/notifications.svg' %}" alt="money-icon" width="20px" style="margin-right: 4px";>
+                  <p class="feature-text">৭ দিনের মধ্যে পরিবর্তনের সুযোগ</p>
+              </div>
+          </div>
+
+
+            {% elif is_electronics_cat %}
+                <p><span class="type-base--bold">Warranty:</span> {{ product.get_warranty_display }}</p>
+            {% endif %}
+
+          </div>
+
+
+    </div>
+
+
+      <div class="product_info-different-btn">
+
+        <div class="moreReadDiv">
+          <button id="moreReadBtn" class="btn btn--secondary" data-book-id="{{ product.id }}">
+            একটু পড়ে দেখুন
+          </button>
+        </div>
+
+        <div class="add-to-card-div">
+          <button title="Add to cart" id="addtocart-{{product.id}}" onclick="addProductToCart('{{ product.id }}', '{% url "cart:add_to_cart" %}')" class=" btn btn--secondary group-hover:btn group-hover:btn--primary addeToCartClass">
+            Add to cart
+          </button>
+        </div>
+
+        <div class="buy-now-div">
+          <a href="{% url 'payment:checkout' product.id %}" class="btn btn--primary col-span-4 flex items-center px-auto">
+            <span class="flex-item">Buy Now</span>
+          </a>
+        </div>
+
+        <div class="add-wishlist-div">
+          <a href="{% url 'cart:add_prod_wishlist' product.id %}" class="btn btn--secondary">
+            Add to wishlist
+          </a>
+        </div>
+
+      </div>
+      <!-- Here was Free Home delivery noticeboard -->
+    <div class="text-center space-x-2">
+      <a href="{% url 'home:page_detail' key='terms' %}" class="type-small--url">Terms and Conditions</a>
+      <a href="{% url 'home:page_detail' key='privacy' %}" class="type-small--url">Policy Privacy</a>
+      <a href="#" class="type-small--url">Available payment methods</a>
+    </div>
+  </article>
+
+
+</section>
+
+<!-- Description and Specifications -->
+<aside>
+  <nav class="flex space-x-4" id="product-tabs">
+    <a href="#description-tab" class="product-detail__tab">Description</a>
+    <a href="#specifications-tab" class="product-detail__tab">Specifications</a>
+  </nav>
+  <section class="box p-4 mt-4">
+    <article id="description-tab" class="tab-content">
+      <h3 class="sub-headline">Description</h3>
+      <p>{{ product.description|safe }}</p>
+    </article>
+    <article id="specifications-tab" class="tab-content hidden">
+      <h3 class="sub-headline">Specifications</h3>
+      <p class="leading-loose">{{ product.specifications|safe }}</p>
+    </article>
+  </section>
+</aside>
+
+<!-- Featured Products -->
+<section>
+  <header class="my-4">
+    <h2 class="headline">Featured products</h2>
+  </header>
+
+  {% if products_featured %}
+  <section class="product-card">
+    {% for product in products_featured %}
+      {% include "components/card.html" %}
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if products_featured|length == 0 %}
+    {% include "components/empty.html" with arg="product" %}
+  {% endif %}
+</section>
+
+
+
+    <!-- Start Modal -->
+
+    <div id="pdfModal" class="modal-overlay">
+      <div class="modal-content">
+        <!-- Close button -->
+        <button class="close-btn">✕</button>
+
+        <!-- PDF Viewer -->
+        <div class="pdf-viewer-container">
+          <iframe id="pdfViewer" class="pdf-viewer" src="{{product.book_summery_pdf}}" frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+
+
+      <!-- End Modal -->
+
+<style>
+  .addeToCartClass{
+    width: 100%;
+  }
+      /* Initial button styling */
+  #addtocart {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 2px solid #ccc;
+    transition: all 0.3s ease;
+  }
+
+  #addtocart:hover {
+    background-color: #ddd;
+  }
+
+  /* Success button styling after adding to cart */
+  .btn--success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    cursor: not-allowed; /* Disable the button after adding */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .addedToCartSuccess {
+    font-weight: bold;
+    padding: 12px 22px;
+  }
+
+  /* Add a checkmark before the button text for success */
+  .addedToCartSuccess::before {
+    content: "✔ ";
+    margin-right: 5px;
+    font-size: 16px;
+  }
+
+  /* Hover effect for success button */
+  .btn--success:hover {
+    background-color: #218838;
+    border-color: #218838;
+  }
+
+  #moreReadBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: transparent; /* No background initially */
+    color: #000; /* Text color */
+    border: 2px solid #29ffa9 ; /* No border initially */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+
+  }
+
+  /* Hover Effect */
+  #moreReadBtn:hover {
+    background-color:  #33c24d ; /* Background color on hover */
+    border: 2px solid #29ffa9 ; /* Border color on hover */
+    color: #fff; /* Text color remains the same */
+    box-shadow: none
+  }
+
+    /* start design for modal */
+
+
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none; /* Initially hidden */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: slide-in 0.5s ease;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  color: #ff4d4d;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #ff0000;
+  transform: scale(1.1);
+}
+
+/* PDF Viewer Container */
+.pdf-viewer-container {
+  width: 100%;
+  height: 70vh; /* Adjusted for larger screens */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* PDF Viewer (iframe) */
+.pdf-viewer {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #f5f5f5;
+}
+
+/* Keyframe Animation */
+@keyframes slide-in {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .pdf-viewer-container {
+    height: 60vh; /* Adjusted for smaller screens */
+  }
+
+  .close-btn {
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .pdf-viewer-container {
+    height: 50vh; /* Adjusted for very small screens */
+  }
+
+  .close-btn {
+    top: 5px;
+    right: 8px;
+    font-size: 18px;
+  }
+}
+
+/* Review Star Design */
+.star-rating-display {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem; /* Adjusts the star size */
+}
+
+.star {
+  color: #ddd; /* Default color for unfilled stars */
+  transition: color 0.3s ease; /* Smooth transition for hover effect */
+  display: inline-block;
+
+}
+
+.filled {
+  color: #FFB400; /* Gold color for filled stars */
+}
+
+/* Optional hover effect */
+.star:hover,
+.star.filled:hover {
+  color: #FF7A00; /* Darker shade for a hover effect */
+}
+
+.half-filled {
+  position: relative;
+  display: inline-block;
+  width: 10px; /* Adjust width as needed */
+  overflow: hidden;
+  color: gold;
+}
+
+.half-filled:before {
+  content: '\2605'; /* Unicode for the filled star */
+  color: gold;
+  position: absolute;
+  left: 0;
+  width: 50%; /* Half width */
+  overflow: hidden;
+}
+
+
+.rating-count {
+  padding-left:10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.divider {
+  color: #ccc;
+  margin: 0 5px;
+}
+
+.total-reviewers {
+  font-size: 0.875rem;
+  color: #777;
+  font-weight: 500;
+}
+
+
+/* for product price info */
+
+/* Savings Styles */
+
+/* Normal Price (Strikethrough) */
+.product-normal-price {
+  font-size: 1rem; /* 16px */
+  color: #9ca3af; /* Light gray */
+}
+
+/* Sale Price (Emphasized) */
+.product-sale-price {
+  font-size: 1.25rem; /* 20px */
+  font-weight: bold;
+  color: #e11d48; /* Bright red for emphasis */
+  background-color: #fff4f4; /* Light red background */
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover Effects */
+.product-sale-price:hover {
+  background-color: #e11d48; /* Darker red on hover */
+  color: #ffffff; /* White text on hover */
+}
+
+.you-save {
+  font-weight: 600;
+  color: #16a34a; /* Green text for 'You Save' */
+}
+
+.savings-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #16a34a;  /* Dark gray for savings amount */
+  display: flex;
+  align-items: center;
+}
+
+.savings-percentage {
+  font-size: 16px;
+  color: #16a34a; /* Green for percentage */
+}
+
+.savings-info:hover {
+  background-color: #d1fae5; /* Darker green on hover */
+}
+
+/* Icon Styles */
+.currency-icon {
+  width: 12px;
+   fill: #16a34a; /* Use the specified color */
+}
+
+@media (max-width: 480px) {
+  .savings-info {
+    width: 100%;
+    font:.75rem;
+  }
+  .savings-amount {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .savings-percentage {
+    font-size: 12px;
+  }
+  .product-price {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.product-sale-price {
+    font-size: 1.1rem; /* Slightly smaller on mobile */
+    padding: 3px 6px;
+}
+
+
+
+}
+
+
+/*for book specifications */
+
+.book-specification {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 4px;
+  padding: 4px;
+  margin-top: 4px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.1);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 4px;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+}
+
+.item:hover {
+  transform: translateY(-5px);
+}
+
+.spec-title {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #333333;
+  margin-bottom: 4px;
+}
+
+.circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e3e3e3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.circle img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.spec-value, .spec-link {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #444444;
+  margin-top: 5px;
+}
+
+.spec-link {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.spec-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .book-specification {
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      margin-top: 4px;
+  }
+
+  .item {
+      padding: 4px;
+  }
+
+  .spec-title, .spec-value, .spec-link {
+      font-size: 0.65rem;
+  }
+
+  .circle {
+      width: 25px;
+      height: 25px;
+  }
+
+  .circle img {
+      width: 25px;
+      height: 25px;
+  }
+}
+
+
+</style>
+
+<script>
+
+
+  $(document).ready(function() {
+    // When the button is clicked
+    $('#moreReadBtn').click(function() {
+        var bookId = $(this).data('book-id');
+        console.log(bookId);
+        var baseUrl = "{% url 'products:get_book_summary' 0 %}".replace('0/', '');  // Remove '0/' from URL
+        var ajaxUrl = baseUrl + bookId + '/';
+
+        // AJAX request to get the PDF URL
+        $.ajax({
+            url: ajaxUrl,
+            type: 'GET',
+            success: function(response) {
+
+            //    $('#pdfViewer').attr('src', '');
+                const fullPdfUrl = window.location.origin + response.pdf_url;
+              //$('#pdfViewer').attr('src', "{% static 'pdfs/plane_crash.pdf' %}");
+                $('#pdfViewer').attr('src', response.pdf_url);
+                $(".modal-overlay ").css('display', 'flex'); //
+                // Set the PDF URL in the iframe
+
+                // Show the modal by adding 'active' class
+              //  $('#pdfModal').addClass('active');
+            },
+            error: function(xhr, status, error) {
+                alert("Error loading book summary. Please try again.");
+            }
+        });
+    });
+
+    // Close the modal when the 'X' button is clicked
+    $('.close-btn').click(function() {
+      $(".modal-overlay ").css('display', 'none'); //
+        $('#pdfViewer').attr('src', '');  // Reset the iframe
+    });
+
+    // Close the modal when clicking outside the modal content
+    $(window).click(function(e) {
+        if ($(e.target).is('#pdfModal')) {
+            $('#pdfModal').removeClass('active');
+            $(".modal-overlay ").css('display', 'none'); //
+            $('#pdfViewer').attr('src', '');  // Reset the iframe
+        }
+    });
+  });
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,619 @@
+{% extends 'layouts/base_main.html' %}{% load static %}
+{% block title %}Discover More. Spend Less.{% endblock title %}
+{% block content %}
+
+<!-- Max Deals -->
+<section class="grid gap-4 grid-cols-3 md:grid-cols-3 md:grid-rows-2">
+  <!-- Start Carousel -->
+  <div class="w-full h-full rounded-xl col-span-2 row-span-2">
+    <div class="swiper-container rounded-xl overflow-hidden">
+      <div class="swiper-wrapper">
+
+        {% for deal in deals_products %}
+        <div class="swiper-slide">
+          {% if deal.image %}
+          <a href="{% url 'products:deal_detail' slug=deal.slug %}" class="relative block">
+            <div class="herobanner-container relative">
+              <img src="{{ deal.image.url }}" title="{{ deal.name }}" alt="{{ deal.name }}" class="w-full h-full object-cover rounded-xl transition-transform duration-300 ease-in-out hover:scale-105">
+
+              <div class="hero-deal-data absolute inset-0 flex items-center justify-center">
+                <span class="deal-data">
+                  {{ deal.name }}
+                </span>
+              </div>
+            </div>
+          </a>
+
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      <!-- Pagination -->
+
+    </div>
+  </div>
+  <!-- End Carousel -->
+
+   {% for ad in advertise_data %}
+   {% if ad.img_url %}
+       <img src="{{ad.img_url}}" alt="" class="w-full rounded-xl">
+   {% else %}
+        <img src="{% static 'img/marketing/banner_default.webp' %}" alt="" class="w-full rounded-xl">
+   {% endif %}
+   {% endfor %}
+</section>
+
+
+
+<!-- Max Deasls -->
+{% comment %} <section class="mt-12 grid gap-4 grid-cols-3 md:grid-cols-3 md:grid-rows-2">
+  <!--Start Carousel-->
+
+  <!--End Carousel-->
+  <img src="{% static 'img/marketing/banner_default.webp' %}" alt="" class="w-full h-full rounded-xl col-span-2 row-span-2">
+  <img src="{% static 'img/marketing/banner_default.webp' %}" alt="" class="w-full rounded-xl">
+  <img src="{% static 'img/marketing/banner_default.webp' %}" alt="" class="w-full rounded-xl">
+
+</section> {% endcomment %}
+<!-- Categories -->
+<section>
+  <header class="flex justify-between items-center pt-4">
+    <h2 class="headline">Featured Categories</h2>
+  </header>
+  <section class="mt-4 grid gap-4 grid-cols-3 sm:grid-cols-3 lg:grid-cols-6">
+    {% for category in products_categories|slice:":12" %}
+
+    <a href="{% url 'products:category_filter' category.slug %}" class="box flex flex-col items-center justify-center space-y-4 h-32 p-4">
+
+      {% if category.image  %}
+      <object data="{{ category.image.url }}" type="image/svg+xml" width="50" height="50"
+      aria-label="{{ category.name }} illustration" title="{{ category.name }}">
+         <span class="type-base--url text-center line-clamp-1 flex-nowrap">{{ category.title }}</span>
+      </object>
+      <span class="type-base--url text-center line-clamp-1 flex-nowrap">{{ category.title }}</span>
+        {% else %}
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md">
+        <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
+      </svg>
+      <span class="type-base--url text-center line-clamp-1 flex-nowrap">{{ category.title }}</span>
+      {% endif %}
+
+    </a>
+    {% endfor %}
+  </section>
+</section>
+
+<!-- Recent Products -->
+<section>
+  <header class="flex justify-between items-center py-4">
+    <h2 class="headline">Recent Products</h2>
+    <a href="{% url 'products:recent' %}" class="btn btn--secondary">View all</a>
+  </header>
+  <section class="product-card">
+    {% for product in recent_products %}
+      {% include "components/card.html" %}
+    {% empty %}
+      {% include "components/empty.html" with arg="product" %}
+    {% endfor %}
+  </section>
+</section>
+
+
+<!-- Min Deals -->
+<section class="grid gap-4 grid-cols-1 md:grid-cols-2">
+  {% for deal in deal_last_two_products %}
+  <div class="relative rounded-xl overflow-hidden">
+    {% if deal.image %}
+    <a href="{% url 'products:deal_detail' slug=deal.slug %}" class="block">
+      <div class="deal-image-container">
+        <img src="{{ deal.image.url }}" title="{{ deal.name }}" alt="{{ deal.name }}" class="rounded-xl">
+        <!-- Gradient overlay with text -->
+        <div class="deal-overlay">
+            <h5>{{ deal.name }}</h5>
+            <p>Limited Offer!</p>
+        </div>
+      </div>
+    </a>
+    {% else %}
+    <img src="{% static 'img/marketing/banner_default.webp' %}" alt="default banner" class="w-full h-auto rounded-xl">
+    {% endif %}
+  </div>
+  {% endfor %}
+</section>
+
+
+<!-- All Products -->
+<section>
+  <header class="flex justify-between items-center py-4">
+    <h2 class="headline">All Products</h2>
+    <a href="{% url 'products:prod_list' %}" class="btn btn--secondary">View all</a>
+  </header>
+  <section class="product-card">
+    {% for product in all_products %}
+      {% include "components/card.html" %}
+    {% empty %}
+      {% include "components/empty.html" with arg="product" %}
+    {% endfor %}
+  </section>
+</section>
+
+<!-- Default Deals -->
+<section class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
+  <!-- First Column with 3 images in a single row -->
+  <div class="grid grid-cols-3 gap-4">
+    {% for ad_sub_m in adv_sub_middle %}
+      {% if ad_sub_m.img_url %}
+        <img src="{{ad_sub_m.img_url}}" alt="{{ad_sub_m.name}}" class="w-full h-full rounded-xl object-cover">
+      {% else %}
+        <img src="{% static 'img/marketing/square_dafault.webp' %}" alt="Default Ad" class="w-full h-full rounded-xl object-cover">
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- Second Column with one large image -->
+  <div class="h-full">
+    {% for ad_m in advertise_middle1 %}
+      {% if ad_m.img_url %}
+        <img src="{{ad_m.img_url}}" alt="{{ad_m.name}}" class="w-full h-full rounded-xl object-cover">
+      {% else %}
+        <img src="{% static 'img/marketing/banner_default.webp' %}" alt="Default Banner" class="w-full h-full rounded-xl object-cover">
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</section>
+
+
+
+<!-- All Book -->
+<section>
+  <header class="flex justify-between items-center py-4">
+    <h2 class="headline">Books</h2>
+    <a href="{% url 'products:category_filter' category_slug='books' %}" class="btn btn--secondary">View all</a>
+  </header>
+  <section class="product-card">
+    {% for product in books %}
+      {% include "components/card_book.html" %}
+    {% empty %}
+      {% include "components/empty.html" with arg="product" %}
+    {% endfor %}
+  </section>
+</section>
+
+<!-- Apple -->
+<section>
+  <header class="flex justify-between items-center py-4">
+    <h2 class="headline">Apple</h2>
+    <a href="{% url 'products:brand_filter' brand_slug='apple' %}" class="btn btn--secondary">View all</a>
+  </header>
+  <section class="product-card">
+    {% for product in apple %}
+      {% include "components/card.html" %}
+    {% empty %}
+      {% include "components/empty.html" with arg="product" %}
+    {% endfor %}
+  </section>
+</section>
+
+<!-- Samsung -->
+<section>
+  <header class="flex justify-between items-center py-4">
+    <h2 class="headline">Samsung</h2>
+    <a href="{% url 'products:brand_filter' brand_slug='samsung' %}" class="btn btn--secondary">View all</a>
+  </header>
+  <section class="product-card">
+    {% for product in samsung %}
+      {% include "components/card.html" %}
+    {% empty %}
+      {% include "components/empty.html" with arg="product" %}
+    {% endfor %}
+  </section>
+</section>
+
+<!--  Advertisement & Brand Combine -->
+<section class="mt-12 grid gap-4 grid-cols-2 grid-rows-1 md:grid-cols-4 ">
+<!-- Second  Advertisement  -->
+  {% for ad_m in advertise_middle2 %}
+  {% if ad_m.img_url %}
+    <img src="{{ad_m.img_url}}" alt="{{ad_m.name}}" class="col-span-2 w-full rounded-xl h-40 sm:h-auto">
+  {% else %}
+    <img src="{% static 'img/marketing/banner_default.webp' %}" alt="" class="col-span-2 w-full rounded-xl">
+  {% endif %}
+{% endfor %}
+
+<!-- Brand Middle Section  -->
+{% for brand_mid in brands_middle  %}
+  {% if brand_mid.img_url %}
+  <a href="{% url 'products:brand_filter' brand_slug=brand_mid.slug %}" class="">
+    <img src="{{brand_mid.img_url}}" alt="" class="w-full h-40 sm:h-20 rounded-xl  object-cover ">
+  </a>
+  {% else %}
+  <img src="{% static 'img/marketing/square_dafault.webp' %}" alt="" class="w-full h-48 sm:h-auto rounded-xl">
+  {%endif%}
+{% endfor %}
+</section>
+
+<!-- Cloths All  -->
+<section>
+  <header class="flex justify-between items-center py-4">
+    <h2 class="headline">Cloths</h2>
+    <a href="{% url 'products:category_filter' category_slug='cloths' %}" class="btn btn--secondary">View all</a>
+  </header>
+  <section class="product-card">
+    {% for product in Cloths %}
+      {% include "components/card.html" %}
+    {% empty %}
+      {% include "components/empty.html" with arg="product" %}
+    {% endfor %}
+  </section>
+</section>
+
+<!-- All brands with carousel  -->
+<!-- Automatic Carousel for Brand Images -->
+<div class="carousel-container mt-12">
+  <!-- Carousel Inner (Track for the items) -->
+  <div id="carousel" class="carousel-inner">
+    {% for brand in brands_all %}
+      {% if forloop.first or forloop.counter0|divisibleby:4 %}
+        <div class="carousel-slide"> <!-- Start a new slide for every 4 items -->
+      {% endif %}
+
+        <a href="{% url 'products:brand_filter' brand_slug=brand.slug %}" class="carousel-item">
+        {% if brand.img_url %}
+          <img src="{{ brand.img_url }}" alt="{{ brand.name }}" class="brand-image">
+        {% else %}
+          <div class="brand-placeholder">
+            <img src="{% static 'img/brands/default-brands-bg.png' %}" alt="Brands" class="brand-image">
+            <span class="brand-name">{{ brand.name }}</span>
+          </div>
+        {% endif %}
+        </a>
+
+
+      {% if forloop.counter|divisibleby:4 or forloop.last %}
+        </div> <!-- Close the current slide -->
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- Carousel Controls -->
+  <button id="prev" class="carousel-button left">❮</button>
+  <button id="next" class="carousel-button right">❯</button>
+</div>
+
+
+
+
+
+
+
+<!-- Cart Modal -->
+<div id="cartModal" class="cart-modal-overlay hidden">
+  <div class="cart-modal-content">
+      <h2>Your Cart</h2>
+      <div id="cartContents"></div>
+      <button class="close-modal">Close</button>
+  </div>
+</div>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+/>
+
+  <style>
+
+
+    /* start for hero banner */
+/* Container for the hero banner */
+.herobanner-container {
+  position: relative;
+  overflow: hidden; /* Ensure no overflow */
+  border-radius: 0.75rem; /* Rounded corners for the image */
+}
+
+/* Styling for the image */
+.herobanner-container img {
+  transition: transform 0.3s ease-in-out; /* Smooth zoom effect */
+}
+
+/* Styling for the text overlay */
+.hero-deal-data {
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  padding: 1rem; /* Padding around the text */
+  border-radius: 0.5rem; /* Rounded corners for the background */
+  transition: background 0.3s ease-in-out; /* Smooth transition for background color */
+}
+
+/* Deal name styling */
+.deal-data {
+  font-size: 2.5rem; /* Default font size */
+  font-weight: bold; /* Bold text */
+  font-family: 'Roboto', sans-serif; /* Use the new font */
+  color: #FF6F61; /* Initial bright color (gold) */
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); /* Text shadow for better readability */
+  transition: color 0.3s ease-in-out; /* Smooth color transition */
+}
+
+/* Hover effect for text color change */
+.herobanner-container:hover .deal-data {
+  color: #FF4500; /* Change to a different color (orange-red) on hover */
+}
+
+/* Optional: Hover effect for background */
+.herobanner-container:hover .hero-deal-data {
+  background: rgba(0, 0, 0, 0.7); /* Darker background on hover */
+}
+
+
+    /* end for hero banner */
+
+/* Container for the image and overlay */
+.deal-image-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0.75rem; /* Rounded corners */
+}
+
+/* Image styles */
+.deal-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: inherit;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hover effect for image zoom */
+.deal-image-container:hover img {
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Overlay container */
+.deal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center the text */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)); /* Gradient from transparent to black */
+  color: white;
+  opacity: 1;
+  transition: background 0.3s ease-in-out;
+}
+
+/* Deal name styles */
+.deal-overlay h5 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff; /* Default color */
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); /* Text shadow for better readability */
+  margin: 0 0 0.5rem;
+  transition: color 0.3s ease-in-out; /* Smooth color transition on hover */
+}
+
+/* Limited Offer text */
+.deal-overlay p {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #FFD700; /* Golden color by default */
+  margin-top: 0.5rem;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Hover effect to change the text color */
+.deal-image-container:hover .deal-overlay h5 {
+  color: #FFD700; /* Change to golden on hover */
+}
+
+.deal-image-container:hover .deal-overlay p {
+  color: #ffffff; /* Change to white on hover */
+}
+
+
+
+/* Design for Carousel */
+
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  display: flex;
+  min-width: 100%; /* Show one slide at a time */
+}
+
+.carousel-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px; /* Adds spacing around items */
+}
+
+.brand-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px; /* Rounded corners for images */
+  object-fit: cover;
+  max-height: 200px; /* Set a maximum height for images */
+}
+
+.brand-placeholder {
+  position: relative;
+  background-color: #ccc; /* Placeholder background */
+  width: 100%;
+  height: 100%;
+  border-radius: 10px; /* Rounded corners for placeholders */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.brand-name {
+  position: absolute;
+  color: white;
+  font-size: 1.5rem; /* Adjusted for smaller screens */
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  white-space: nowrap; /* Prevent name from wrapping */
+  padding: 0 10px; /* Padding around text */
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.carousel-button.left {
+  left: 10px;
+}
+
+.carousel-button.right {
+  right: 10px;
+}
+
+/* Responsive styles */
+@media (max-width: 640px) { /* Small devices */
+  .brand-name {
+    font-size: 1rem; /* Smaller font size for mobile */
+  }
+  .brand-image {
+    max-height: 150px; /* Adjust image height for smaller screens */
+  }
+  .deal-data{
+    font-size: .75rem;
+
+    font-weight: bold; /* Bold text */
+    font-family: 'Roboto', sans-serif; /* Use the new font */
+    color: #fc3826; /* Initial bright color (gold) */
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); /* Text shadow for better readability */
+    transition: color 0.3s ease-in-out; /* Smooth color transition */
+
+  }
+  .deal-overlay h5 {
+    font-size: 1rem;
+  }
+  .deal-image-container:hover .deal-overlay h5 {
+    color: #FFD700; /* Change to golden on hover */
+  }
+
+  .deal-image-container:hover .deal-overlay p {
+    color: #ffffff; /* Change to white on hover */
+  }
+}
+
+@media (min-width: 640px) and (max-width: 768px) { /* Medium devices */
+  .brand-name {
+    font-size: 1.25rem; /* Slightly larger for medium screens */
+  }
+  .brand-image {
+    max-height: 180px; /* Adjust image height */
+  }
+}
+
+/* End Design for Carousel */
+
+
+  </style>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper('.swiper-container', {
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      autoplay: {
+        delay: 3000, // Auto-slide every 3 seconds
+        disableOnInteraction: false,
+      },
+    });
+      document.addEventListener('DOMContentLoaded', function() {
+          const categories = document.querySelectorAll('.category-item');
+
+          categories.forEach(category => {
+              category.addEventListener('click', function() {
+                  const subcategoryId = this.getAttribute('data-id');
+                  const subcategoryList = document.getElementById('subcategory-' + subcategoryId);
+
+                  // Toggle visibility of the subcategories
+                  if (subcategoryList) {
+                      const isVisible = subcategoryList.style.display === 'flex';
+                      subcategoryList.style.display = isVisible ? 'none' : 'flex';
+                  }
+
+                  // Toggle active class for the clicked category
+                  categories.forEach(c => c.classList.remove('active'));
+                  this.classList.add('active');
+              });
+          });
+      });
+
+
+      // JavaScript for Carousel
+
+      const carousel = document.getElementById('carousel');
+      const nextButton = document.getElementById('next');
+      const prevButton = document.getElementById('prev');
+
+      let currentIndex = 0;
+      const totalSlides = document.querySelectorAll('.carousel-slide').length;
+
+      function updateCarousel() {
+        carousel.style.transform = `translateX(-${currentIndex * 100}%)`; // Move the carousel
+      }
+
+      nextButton.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % totalSlides; // Loop to the start
+        updateCarousel();
+      });
+
+      prevButton.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; // Loop to the end
+        updateCarousel();
+      });
+
+      // Automatic scrolling every 3000 ms (3 seconds)
+      setInterval(() => {
+        nextButton.click();
+      }, 3000);
+
+  </script>
+
+{% endblock %}
+
+

@@ -1,0 +1,32 @@
+{% extends 'layouts/base_management.html' %}
+{% block title %}Page Form{% endblock title %}
+{% block content %}
+
+<!-- Headline -->
+<header>
+  <h2 class="headline">Update page</h2>
+</header>
+
+<!-- Page Form -->
+<form method="POST" enctype="multipart/form-data" class="space-y-4 pb-4">{% csrf_token %}
+  <label class="form__label">
+    <span class="type-base--bold">Key</span>
+    {{ form.key }}
+  </label>
+  <label class="form__label">
+    <span class="type-base--bold">Content</span>
+    {{ form.content }}
+  </label>
+  <label class="form__label">
+    <span class="type-base--bold block">Image</span>
+    <div class="space-y-4">
+      {{ form.image }}
+    </div>
+  </label>
+  <div class="form__action">
+    <button type="submit" class="btn btn--primary w-full">Save</button>
+    <a href="{% url 'management:product_list' %}" title="Cancel" class="btn btn--secondary w-full">Cancel</a>
+  </div>
+</form>
+
+{% endblock %}

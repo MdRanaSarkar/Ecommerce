@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% block extra_meta %}{% endblock %}
+
+  <title>RS Ecom-Dashboard </title>
+
+  {% include 'custom_dashbord/css_files.html' %}
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <!-- Site wrapper -->
+  <div class="wrapper">
+
+    {% include 'custom_dashbord/side_nav.html' %}
+
+    {% include 'custom_dashbord/top_nav.html' %}
+
+
+    {% block content %}{% endblock %}
+
+
+    {% include 'custom_dashbord/footer.html' %}
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  {% include 'custom_dashbord/js_files.html' %}
+  {% block extra_js %}{% endblock %}
+  {% if user.is_authenticated %}
+  <!-- Access Total Cart Count -->
+  <script>
+    $(document).ready(function () {
+      totalCart();
+    });
+    function totalCart() {
+      $.ajax({
+        type: "GET",
+        url: "",
+        success: function (data) {
+          if (data.item_count)
+            document.getElementById("totalCart").innerHTML = data.item_count;
+        }
+      });
+    }
+
+  </script>
+  <!-- Access Total Cart Count -->
+  {% endif %}
+</body>
+
+</html>

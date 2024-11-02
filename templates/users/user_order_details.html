@@ -1,0 +1,133 @@
+{% extends 'layouts/user_base_management.html' %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
+
+<!-- Headline -->
+<header class="flex justify-between">
+  <h2 class="headline">Dashboard</h2>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</header>
+
+<!-- Dashboard -->
+ <div class="container__main">
+      <div class="order-info product-card__wrapper py-4">
+      <h3 class="default-style headline"> Order # {{order_id}} </h3><hr>
+      <div class="product-card__content product-card__wrapper sub-headline">
+        {{request.user.first_name}}
+         {{request.user.last_name}}<br>
+         Mobile: {{request.user.phone}}<br>
+         Email: {{request.user.email}}<br>
+      </div>
+      <div class="address pb-4 flex-col product-card__wrapper">
+        {%for invoice in invoice_list%}
+
+        <div class="sub-headline">
+          Checkout Mobile : {{invoice.phone_number}}
+          {% if invoice.al_phone_number %}
+            |{{invoice.al_phone_number}}
+          {% endif %}
+
+        </div>
+
+        <div>
+
+        {% if invoice.country == "bangladesh" %}
+
+       <p class="sub-headline "> County : <span class="sub-headline">Bangladesh</span> </p>
+       {% else %}
+
+       <p class="sub-headline">  Country : Outside Bangladesh</p>
+
+
+       {% endif %}
+
+
+        </div>
+
+
+
+        <div class="flex gap-4 sub-headline">
+          {% if invoice.division %}
+
+         <p> Division :  {{invoice.division}} </p>
+
+          {% endif %}
+
+          {% if invoice.address %}
+
+        <p>  City : {{invoice.address}}</p>
+
+          {% endif %}
+
+          {% if invoice.area %}
+
+          <p>   Area : {{invoice.area}} </p>
+
+          {% endif %}
+
+
+        </div>
+
+       <p class="sub-headline"> Address :  <span class="type-base--bold">{{invoice.address}}</span>  </p>
+
+        {%endfor%}
+      </div>
+    </div>
+        <!-- Order Data !-->
+      <section class="data-table">
+        <table class="data-table__wrapper">
+          <thead class="data-table__head">
+            <tr>
+              <th scope="col" class="data-table__cell">Item</th>
+              <th scope="col" class="data-table__cell--sticky">Price Per item</th>
+              <th scope="col" class="data-table__cell">Quantity</th>
+            </tr>
+          </thead>
+
+          <tbody class="data-table__body">
+            {%for order in order_items_list%}
+            <tr>
+              <td class="data-table__cell text-primary type-base--bold">{{order.order_item}}</td>
+              <td class="data-table__cell">{{order.order_price}}</td>
+              <td class="data-table__cell">{{order.order_quantity}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+
+<!--Start table for invoice -->
+        </table>
+        <table class="data-table__wrapper">
+          <thead class="data-table__head">
+            <tr>
+              <th scope="col" class="data-table__cell text-secondary">invoice</th>
+              <th scope="col" class="data-table__cell--sticky">Total</th>
+              <th scope="col" class="data-table__cell">Payment Method</th>
+              <th scope="col" class="data-table__cell">Transaction No</th>
+              <th scope="col" class="data-table__cell">Transaction Img</th>
+              <th scope="col" class="data-table__cell">Status</th>
+            </tr>
+          </thead>
+          {%for invoice in invoice_list%}
+          <tbody class="data-table__body ">
+            <tr>
+              <td class="data-table__cell">{{invoice.invoice_id}}</td>
+              <td class="data-table__cell">{{invoice.total_price}}</td>
+              <td class="data-table__cell">{{invoice.payment_method}}</td>
+              <td class="data-table__cell">
+             {{transaction_details.transaction}}
+              </td>
+              <td class="data-table__cell">
+               <img src= {{transaction_details.img_url}} height="20px" width="120px" alt="">
+                 </td>
+
+              <td class="data-table__cell">{{invoice.invoice_status}}</td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </section>
+    </div>
+
+
+
+{% endblock %}

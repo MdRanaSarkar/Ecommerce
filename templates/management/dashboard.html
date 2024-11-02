@@ -1,0 +1,236 @@
+{% extends 'layouts/base_management.html' %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- Headline -->
+<header class="flex justify-between items-center mb-6">
+  <h2 class="headline text-2xl font-bold">Dashboard</h2>
+
+</header>
+
+<!-- Dashboard -->
+<section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 p-4">
+  <!-- Total Products Card -->
+  <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+      <a href="{% url 'users:user_order' %}" class="flex flex-col justify-center items-center text-center w-full p-4">
+        <i class="fas fa-box text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Total Products</h2>
+        <span class="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">{{ total_products|default:0 }}</span>
+      </a>
+  </div>
+
+  <!-- Total Categories Card -->
+  <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+      <a href="#" class="flex flex-col justify-center items-center text-center w-full p-4">
+        <i class="fas fa-tags text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+        <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Total Categories</h5>
+        <span class="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">{{ total_product_categories|default:0 }}</span>
+      </a>
+    </div>
+
+
+  <!-- Total Brands Card -->
+
+  <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+      <a href="/dashboard/orders" class="flex flex-col justify-center items-center text-center w-full p-4">
+        <i class="fas fa-trademark text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+        <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Total Brands</h5>
+        <span class="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">{{ total_bands|default:0 }}</span>
+      </a>
+    </div>
+
+
+  <!-- Total Users Card -->
+  <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+      <a href="#" class="flex flex-col justify-center items-center text-center w-full p-4">
+        <i class="fas fa-user text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+        <h5 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Total Users</h5>
+        <span class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{{ total_users|default:0 }}</span>
+      </a>
+    </div>
+
+
+  <!-- Order Processing Card -->
+
+    <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+      <a href="#" class="flex flex-col justify-center items-center text-center w-full p-4">
+        <i class="fas fa-spinner fa-spin text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+        <h5 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Order Processing</h5>
+        <span class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{{ total_processing|default:0 }}</span>
+      </a>
+    </div>
+
+
+  <!-- Total Shipped Card -->
+
+    <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-green-500 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+      <a href="#" class="flex flex-col justify-center items-center text-center w-full p-4">
+        <i class="fas fa-shipping-fast text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+        <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Total Shipped</h5>
+        <span class="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">{{ delivered_order|default:0 }}</span>
+      </a>
+    </div>
+
+
+  <!-- Total Cancelled Card -->
+
+    <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+      <a href="/dashboard/orders" class="flex flex-col justify-center items-center text-center w-full p-4">
+        <i class="fas fa-ban text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+        <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Total Cancelled</h5>
+        <span class="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">{{ cancelled_order|default:0 }}</span>
+      </a>
+    </div>
+
+
+  <!-- Paid Invoices Card -->
+
+    <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+      <a href="#" class="flex flex-col justify-center items-center text-center w-full p-4">
+        <i class="fas fa-file-invoice text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+        <h5 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Paid Invoices</h5>
+        <span class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{{ total_paid_invoices|default:0 }}</span>
+      </a>
+  </div>
+</section>
+
+
+
+
+
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-6 mt-6">
+<!-- Order Analytics (Pie Chart) -->
+<div class="box w-full p-4">
+        <h3 class="text-xl font-bold text-black dark:text-white">
+          Visitors Analytics</h3>
+        <div class="relative h-96">
+          <div id="visitors_Analytics" class="-ml-5"></div>
+        </div>
+</div>
+
+<!-- Month-wise Checkout Prices (Line Chart) -->
+<div class="box w-full p-4">
+  <h3 class="text-xl font-bold text-black dark:text-white">
+    Region Labels </h3>
+  <div class="relative h-96">
+    <div id="map" style="width: 600px; height: 350px"></div>
+  </div>
+</div>
+
+</div>
+
+
+<style>
+.takasign{
+  font-size: large;
+  font-weight: bold;
+  padding-right: 2px;
+}
+
+.box {
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.box:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  margin-bottom: 1.5rem;
+}
+
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include jsVectorMap CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.css" />
+
+<!-- Include jsVectorMap JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap/dist/css/jsvectormap.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap/dist/maps/world.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      url: "{%url 'management:get_visitors_analytics_data'%}",
+      method: "GET",
+      success: function (response) {
+        console.log("Series", response.series);
+        const options = {
+          series: response.series, // Dynamic data from the backend
+          labels: response.labels, // Dynamic labels from the backend
+          chart: {
+            type: "pie",
+            height: 350,
+            toolbar: {
+              show: false,
+            },
+          },
+          colors: response.colors,
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontSize: '14px',
+              fontFamily: 'Satoshi, sans-serif',
+            },
+            formatter: function (val, opts) {
+              return opts.w.globals.series[opts.seriesIndex] + '%';
+            }
+          },
+          legend: {
+            position: "bottom",
+            horizontalAlign: "center",
+            fontFamily: "Satoshi",
+            markers: {
+              radius: 12, // Make legend markers rounded
+            },
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }]
+        };
+
+        const chart = new ApexCharts(document.querySelector("#visitors_Analytics"), options);
+        chart.render();
+      },
+      error: function (xhr, status, error) {
+        console.error("Failed to load analytics data:", error);
+      }
+    });
+  });
+
+
+
+       // Get the district data from Django
+       const districts = [
+       {'code': 'US-AL', 'name': 'Alabama', 'checkoutCount': 150},
+       {'code': 'US-AK', 'name': 'Alaska', 'checkoutCount': 90},
+       {'code': 'US-AZ', 'name': 'Arizona', 'checkoutCount': 200},]// Pass the district data to JavaScript
+
+       // Initialize the map
+        // Initialize the map
+        var map = new jsVectorMap({
+          selector: "#map",
+          map: "world",
+        });
+</script>
+
+
+
+
+{% endblock %}

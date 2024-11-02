@@ -1,0 +1,125 @@
+{% extends 'layouts/base_management.html' %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
+
+<!-- Headline -->
+<header class="flex justify-between items-center mb-6">
+  <h2 class="headline text-2xl font-bold">Dashboard</h2>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</header>
+
+<!-- Dashboard -->
+<section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+  <!-- Total Orders Card -->
+  <div class="box w-full h-64 p-4">
+      <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+          <a href="{% url 'users:user_order' %}" class="flex flex-col justify-center items-center text-center h-full w-full p-4">
+              <i class="fa fa-shopping-cart text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Total Orders</h2>
+              <span class="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">{{ total_orders|default:0 }}</span>
+          </a>
+      </div>
+  </div>
+
+  <!-- Total Spend Card -->
+  <div class="box w-full h-64 p-4">
+      <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-green-500 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+          <a href="#" class="flex flex-col justify-center items-center text-center h-full w-full p-4">
+              <i class="fas fa-dollar-sign text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+              <h5 class="text-xl font-semibold text-gray-900 dark:text-white">Total Spend</h5>
+              <span class="text-3xl font-bold text-green-600 dark:text-green-400 mt-2"><span class="takasign font-bold">৳</span>{{ total_spend|default:0 }}</span>
+          </a>
+      </div>
+  </div>
+
+  <!-- Delivered Orders Card -->
+  <div class="box w-full h-64 p-4">
+      <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+          <a href="/dashboard/orders" class="flex flex-col justify-center items-center text-center h-full w-full p-4">
+              <i class="fas fa-truck text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+              <h5 class="text-xl font-semibold text-gray-900 dark:text-white">Delivered Orders</h5>
+              <span class="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">{{ delivered_orders|default:0 }}</span>
+          </a>
+      </div>
+  </div>
+
+  <!-- Registered On Card -->
+  <div class="box w-full h-64 p-4">
+      <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
+          <div class="flex flex-col justify-center items-center text-center w-full p-4">
+              <h5 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Registered On</h5>
+              <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{{ registered_on }}</div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- Recent Orders Table -->
+<div class="box col-span-1 lg:col-span-4 w-full p-4 mt-6">
+  <div class="bg-neutral-200 dark:bg-neutral-700 rounded-xl shadow-md">
+      <section class="data-table p-4">
+          <h3 class="text-xl font-semibold mb-4">Recent Orders</h3>
+          <table class="w-full border-collapse">
+              <thead class="bg-neutral-300 dark:bg-neutral-600">
+                  <tr>
+                      <th class="border px-4 py-2">Order ID</th>
+                      <th class="border px-4 py-2">Status</th>
+                      <th class="border px-4 py-2">Date Created</th>
+                      <th class="border px-4 py-2">Order Details</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for order in order_id_list %}
+                  <tr class="hover:bg-neutral-100 dark:hover:bg-neutral-800">
+                      <td class="border px-4 py-2">
+                          <a href="{% url 'users:view_order' order.order_id %}" class="text-blue-600 dark:text-blue-400 hover:underline">{{ order.order_id }}</a>
+                      </td>
+                      <td class="border px-4 py-2">{{ order.order_status }}</td>
+                      <td class="border px-4 py-2">{{ order.date_created }}</td>
+                      <td class="border px-4 py-2">
+                          <a href="{% url 'users:view_order' order.order_id %}" title="View order" class="text-blue-600 dark:text-blue-400 hover:underline">
+                              <i class="fas fa-eye"></i>
+                          </a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </section>
+  </div>
+</div>
+
+
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-6 mt-6">
+<!-- Order Analytics (Pie Chart) -->
+<div class="box w-full p-4">
+    <div class="bg-neutral-200 dark:bg-neutral-700 rounded-xl shadow-md p-4">
+        <h3 class="text-xl font-semibold mb-4">Order Analytics</h3>
+        <div class="relative h-96">
+            <canvas id="orderChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Month-wise Checkout Prices (Line Chart) -->
+<div class="box w-full p-4">
+    <div class="bg-neutral-200 dark:bg-neutral-700 rounded-xl shadow-md p-4">
+        <h3 class="text-xl font-semibold mb-4">Month-wise Checkout Prices</h3>
+        <div class="relative h-96">
+            <canvas id="checkoutChart"></canvas>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<style>
+.takasign{
+  font-size: large;
+  font-weight: bold;
+  padding-right: 2px;
+}
+</style>
+
+{% endblock %}

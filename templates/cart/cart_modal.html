@@ -1,0 +1,60 @@
+<div>
+  {% for item in cart_items %}
+  <div class="flex justify-between items-center mb-4">
+      <div>
+          <h3 class="font-bold">{{ item.product.name }}</h3>
+          <p>${{ item.product.price }}</p>
+      </div>
+      <div class="flex space-x-4">
+          <input type="number" class="quantity-input border p-2 w-16" value="{{ item.quantity }}"
+                 data-cart-id="{{ item.id }}">
+          <button class="update-cart bg-green-500 text-white px-2 py-1 rounded"
+                  data-cart-id="{{ item.id }}">
+              Update
+          </button>
+          <button class="delete-cart bg-red-500 text-white px-2 py-1 rounded"
+                  data-cart-id="{{ item.id }}">
+              Delete
+          </button>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  // Update Cart Item Quantity
+  $('.update-cart').on('click', function() {
+      const cartId = $(this).data('cart-id');
+      const quantity = $(this).siblings('.quantity-input').val();
+      $.ajax({
+          type: 'POST',
+          url: '{% url "update_cart" %}',
+          data: {
+              'cart_id': cartId,
+              'quantity': quantity,
+              'csrfmiddlewaretoken': '{{ csrf_token }}'
+          },
+          success: function(response) {
+              alert(response.message);
+              openCartModal();  // Reload cart content
+          }
+      });
+  });
+
+  // Delete Cart Item
+  $('.delete-cart').on('click', function() {
+      const cartId = $(this).data('cart-id');
+      $.ajax({
+          type: 'POST',
+          url: '{% url "delete_cart_item" %}',
+          data: {
+              'cart_id': cartId,
+              'csrfmiddlewaretoken': '{{ csrf_token }}'
+          },
+          success: function(response) {
+              alert(response.message);
+              openCartModal();  // Reload cart content
+          }
+      });
+  });
+</script>

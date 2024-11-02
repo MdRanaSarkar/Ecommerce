@@ -1,0 +1,52 @@
+{% extends 'layouts/base_management.html' %}
+{% block title %}Deal Form{% endblock title %}
+{% block content %}
+
+<!-- Headline -->
+<header>
+  <h2 class="headline">Update deal</h2>
+</header>
+
+<!-- Deal Form -->
+<form method="POST" enctype="multipart/form-data" class="space-y-4 pb-4">{% csrf_token %}
+  <label class="form__label">
+    <span class="type-base--bold">Name</span>
+    {{ form.name }}
+  </label>
+  <label class="form__label">
+    <span class="type-base--bold">Slug</span>
+    {{ form.slug }}
+  </label>
+  <label class="form__label">
+    <span class="type-base--bold">Discount</span>
+    {{ form.discount }}
+  </label>
+  <label class="form__label">
+    <span class="type-base--bold">Start Date</span>
+    {{ form.start_date }}
+  </label>
+  <label class="form__label">
+    <span class="type-base--bold">End Date</span>
+    {{ form.end_date }}
+  </label>
+  <label class="form__label">
+    <span class="type-base--bold">Description</span>
+    {{ form.description }}
+  </label>
+  <label class="form__label">
+    <span class="type-base--bold">Image</span>
+    <div class="space-y-4">
+      {{ form.image }}
+    </div>
+  </label>
+  <label class="flex items-center">
+    {{ form.status }}
+    <span class="ml-2">Status</span>
+  </label>
+  <div class="form__action">
+    <button type="submit" class="btn btn--primary w-full">Save</button>
+    <a href="{% url 'management:deal_list' %}" title="Cancel" class="btn btn--secondary w-full">Cancel</a>
+  </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'layouts/base_main.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block content %}
+
+<!-- Headline -->
+
+{% include 'includes/alerts.html' %}
+
+<header>
+  <div class="headline text-center">
+    <span class="text-primary font-extrabold text-4xl">
+
+    {% if payment_method == 'bkashMethod' %}
+       Bkash
+    {% elif payment_method == 'rocketMethod' %}
+      Rocket
+    {% elif payment_method == 'nagadMethod' %}
+      Nagad
+    {% elif payment_method == 'cardMethod' %}
+      Card
+    {% endif %}
+
+
+      </span> - Payment . <br>
+
+
+
+  </div>
+  <p class="text-center">[]</p>
+
+</header>
+<!-- Cart -->
+<section class="justify-between">
+    <div class="min-w-0 flex-1 space-y-8  box w-full h-164 flex items-center justify-center">
+      <div class="space-y-4">
+        <div class="payment mt-4">
+        <h2 class="headline">
+        Send Money to   <span class="text-primary font-extrabold text-4xl"> 01704246120 </span> </h2>
+        <h2 class="headline"> Amount :  <span class="headline headline--primary py-2 underline"> {{ payment_total_amount }} TK </span> </h2>
+        </div>
+        <div class="flex items-center justify-center space-x-4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md text-primary">
+            <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+          </svg>
+          <h2 class="headline">We Hope, You can . </h2>
+        </div>
+        <p class="text-center">Ready to buy, Just put transaction idx or Transaction Image or Screenshot .</p>
+
+        <form method="POST" class="space-y-4 pb-4" action="{%url 'payment:user_payment'%}" enctype="multipart/form-data">{% csrf_token %}
+          <div class="transaction_data">
+            <label class="form__label py-4">
+              <span class="type-base--bold">Transaction ID </span>
+            </label>
+            <input type="text" name="payment_transactions" id="success" class="border border-green-500 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full dark:bg-gray-700 dark:border-green-500 p-4 form__input-text" placeholder="Enter here  Transaction Idx">
+
+             <!-- Image Upload Section -->
+
+            <label class="form__label py-2 mt-4">
+              <span class="type-base--bold"> Transaction Image/Screenshot </span>
+            </label>
+            <label class="block mb-2 text-sm font-small dark:text-white" for="file_input">Upload file</label>
+            <input name="transaction_img" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
+          </div>
+            <div class="form__action  mb-6 pb-4">
+              <button type="submit" class="btn btn--primary w-full">Send Payment</button>
+            </div>
+          </form>
+      </div>
+    </div>
+
+
+    <section class="grid gap-4 grid-cols-1 md:grid-cols-2">
+      <div class="payment-guideline">
+        <h1 hidden>Showing Guideline</h1>
+
+      </div>
+    </section>
+</section>
+
+
+
+{% endblock %}

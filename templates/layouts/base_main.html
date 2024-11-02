@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="{{ theme_preference }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company.name|default:'Company' }} | {% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{{ company.logo.url }}">
+    <meta name="description" content="Explore New Store's catalog to discover innovative products at friendly prices. From technological gadgets to home essentials, we offer modern solutions that fit your budget." />
+    <link rel="canonical" href="https://www.newstore.com/" />
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body class="container__main styles">
+
+    <!-- Navbar -->
+    {% include "components/navbar.html" %}
+
+    <!-- Main Content -->
+    <main class="container__section space-y-4">
+      {% block content %}{% endblock content %}
+      {% if request.path != '/users/login/' and request.path != '/users/registration/' %}
+        {% include "components/signup.html" %}
+      {% endif %}
+    </main>
+
+    <!-- Image Modal -->
+    {% include "components/image_modal.html" %}
+
+    <!-- Footer -->
+    {% include "components/footer.html" %}
+
+    <!-- Btn-Scroll -->
+    {% include "components/btn_scroll.html" %}
+
+    <!-- JQuery Files -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+    <!-- JavaScript Files -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <script src="{% static 'js/cartOperation.js' %}"></script>
+
+
+    <script type="text/javascript">
+      (function(d, m){
+          var kommunicateSettings =
+              {"appId":"2ac71880fd3524463c5fde9c7de06eb3c","popupWidget":true,"automaticChatOpenOnNavigation":true};
+          var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+          s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+          var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+          window.kommunicate = m; m._globals = kommunicateSettings;
+      })(document, window.kommunicate || {});
+  /* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
+  </script>
+
+
+
+
+  </body>
+</html>

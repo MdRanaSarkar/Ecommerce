@@ -1,0 +1,51 @@
+{% extends 'layouts/user_base_management.html' %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
+
+<!-- Headline -->
+<header class="flex justify-between">
+  <h2 class="headline">Dashboard <span><strong>Order List</strong></span></h2>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</header>
+
+<!-- Dashboard -->
+<section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+  <div class="box col-span-4 w-full h-64 p-4">
+    <div class="bg-neutral-200 dark:bg-neutral-700 animate-pulse rounded-xl h-full">
+
+      <section class="data-table">
+        <table class="data-table__wrapper">
+          <thead class="data-table__head">
+            <tr>
+              <th scope="col" class="data-table__cell">OrderId</th>
+              <th scope="col" class="data-table__cell--sticky">Status</th>
+              <th scope="col" class="data-table__cell">Date Created</th>
+              <th scope="col" class="data-table__cell">Order Details</th>
+            </tr>
+          </thead>
+          {%for order in order_id_list%}
+          <tbody class="data-table__body">
+            <tr>
+              <td class="data-table__cell">{{order.order_id}}</td>
+              <td class="data-table__cell--sticky">{{order.order_status}}</td>
+              <td class="data-table__cell">{{order.date_created}}</td>
+              <td class="data-table__cell flex items-center space-x-2">
+                <a href="{%url 'users:view_order' order.order_id%}" title="View deal" class="btn__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" data-slot="icon" class="icon--sm">
+                    <path d="M12 4.5C7.305 4.5 3.214 7.235 1.5 12c1.714 4.765 5.805 7.5 10.5 7.5s8.786-2.735 10.5-7.5C20.786 7.235 16.695 4.5 12 4.5zm0 12.75c-3.14 0-6.045-1.89-7.586-5.25C5.955 8.64 8.86 6.75 12 6.75c3.14 0 6.045 1.89 7.586 5.25-1.541 3.36-4.446 5.25-7.586 5.25zm0-9.375a2.625 2.625 0 1 0 0 5.25 2.625 2.625 0 0 0 0-5.25z" />
+                  </svg>
+                </a>
+
+              </td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </section>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %}

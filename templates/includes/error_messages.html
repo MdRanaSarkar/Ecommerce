@@ -1,0 +1,13 @@
+{% if messages %}
+<div class="alert" role="alert">
+  <p class="font-bold">Oops! Something went wrong:</p>
+  <ul>
+      {% for field, errors in form.errors.items %}
+          {% for error in errors %}
+              <li>{{ error }}</li>
+          {% endfor %}
+      {% endfor %}
+  </ul>
+  <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+ </div>
+ {% endif %}

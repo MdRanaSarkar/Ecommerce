@@ -1,0 +1,51 @@
+{% extends 'layouts/base_main.html' %}
+{% block title %}Deals{% endblock title %}
+{% block content %}
+
+<!-- Headline -->
+<header>
+  <h2 class="headline">Deals</h2>
+</header>
+
+<!-- Deal List -->
+{% if deals %}
+<section class="deal">
+  {% for deal in deals %}
+    {% if deal.image %}
+    <a href="{% url 'products:deal_detail' slug=deal.slug %}" class="relative text-center">
+      <div class="absolute inset-x-0 top-1/2 transform -translate-y-1/2">
+        <span class="font-bold text-white deal-img-text" style="text-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);">{{ deal.name }}</span>
+      </div>
+      <img src="{{ deal.image.url }}" title="{{ deal.name }}" alt="{{ deal.name }}" class="w-full h-64 object-cover rounded-xl">
+    </a>
+    {% endif %}
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if deals|length == 0 %}
+  {% include "components/empty.html" with arg="deal" %}
+{% endif %}
+
+
+<style>
+  .deal-img-text{
+    font-size: 3.75rem;
+    line-height: 1;
+  }
+  @media (max-width: 640px) { /* Small devices */
+    .deal-img-text{
+      font-size: 2.0rem;
+      line-height: 1;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 768px) { /* Medium devices */
+    .deal-img-text{
+      font-size: 3.0rem;
+      line-height: 1;
+    }
+  }
+</style>
+
+{% endblock %}

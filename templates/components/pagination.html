@@ -1,0 +1,176 @@
+{% if page_obj and page_obj.paginator.num_pages >= 1 %}
+<div class="pagination-container">
+  <!-- Entries Information -->
+  <div class="type-base--bold py-2">
+    <span>
+      Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} entries
+    </span>
+  </div>
+
+  <!-- Pagination Navigation -->
+  <nav class="pagination-nav">
+    <!-- First Page -->
+    {% if page_obj.paginator.num_pages > 5 and page_obj.has_previous %}
+    <a href="?page=1" class="pagination__btn" title="First page">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-sm">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
+      </svg>
+    </a>
+    {% endif %}
+
+    <!-- Previous Page -->
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="pagination__btn" title="Previous page">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-sm">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+      </svg>
+    </a>
+    {% endif %}
+
+<!-- Page Numbers (limited for mobile) -->
+<!-- Page Numbers (limited for mobile) -->
+{% for page in page_obj.paginator.page_range %}
+  {% with first_page=2 %}
+    {% with last_page=page_obj.paginator.num_pages|add:"-1" %}
+      {% with prev_page=page_obj.number|add:"-1" %}
+        {% with next_page=page_obj.number|add:"1" %}
+
+          <!-- First and Last Pages, and Current Range -->
+          {% if page <= first_page or page >= last_page %}
+            <a href="?page={{ page }}"
+               class="{% if page_obj.number == page %}pagination__itm pagination__itm--active{% else %}pagination__btn{% endif %}"
+               title="Page {{ page }}">
+              {{ page }}
+            </a>
+
+          <!-- Middle Pages within Range of Current Page -->
+          {% elif prev_page <= page and page <= next_page %}
+            <a href="?page={{ page }}"
+               class="{% if page_obj.number == page %}pagination__itm pagination__itm--active{% else %}pagination__btn{% endif %}"
+               title="Page {{ page }}">
+              {{ page }}
+            </a>
+
+          <!-- Ellipsis for Skipped Pages -->
+          {% elif page == first_page|add:"1" or page == last_page|add:"-1" %}
+            <span class="pagination__ellipsis">...</span>
+
+          {% endif %}
+
+        {% endwith %}
+      {% endwith %}
+    {% endwith %}
+  {% endwith %}
+{% endfor %}
+
+
+    <!-- Next Page -->
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="pagination__btn" title="Next page">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-sm">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+      </svg>
+    </a>
+    {% endif %}
+
+    <!-- Last Page -->
+    {% if page_obj.paginator.num_pages > 5 and page_obj.has_next %}
+    <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination__btn" title="Last page">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-sm">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+      </svg>
+    </a>
+    {% endif %}
+  </nav>
+</div>
+
+<style>
+  /* Container styling */
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Entries info styling */
+.entries-info {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Pagination navigation styling */
+.pagination-nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Button styling */
+.pagination__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination__btn:hover {
+  background-color: #ddd;
+  color: #333;
+}
+
+.pagination__btn--active {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  cursor: default;
+}
+
+.pagination__btn--active:hover {
+  background-color: #0066cc;
+}
+
+/* SVG icon size */
+.icon-sm {
+  width: 16px;
+  height: 16px;
+}
+
+/* Ellipsis styling */
+.pagination__ellipsis {
+  padding: 4px;
+  color: #718096;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .pagination-container {
+    gap: 4px;
+  }
+
+  .pagination__btn {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  .entries-info {
+    font-size: 12px;
+  }
+}
+
+</style>
+
+{% endif %}
+
