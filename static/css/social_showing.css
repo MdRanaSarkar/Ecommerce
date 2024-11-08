@@ -1,0 +1,88 @@
+/* Signin container */
+.signin-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+/* Signin button styling */
+.signin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  transition: 0.3s ease;
+}
+
+.signin-btn .signin-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+/* Google button */
+.signin-btn.google {
+  background-color: #4285f4;
+  color: white;
+  border: 1px solid #4285f4;
+}
+
+.signin-btn.google:hover {
+  background-color: #357ae8;
+  border-color: #357ae8;
+}
+
+/* Facebook button */
+.signin-btn.facebook {
+  background-color: #3b5998;
+  color: white;
+  border: 1px solid #3b5998;
+}
+
+.signin-btn.facebook:hover {
+  background-color: #2d4373;
+  border-color: #2d4373;
+}
+
+/* Text hidden for mobile devices */
+@media (max-width: 480px) {
+  .signin-text {
+    display: none;
+  }
+
+  .signin-btn {
+    padding: 10px;
+  }
+
+  .signin-btn .signin-icon {
+    margin-right: 0;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* OR Divider */
+.or-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  position: relative;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+}
+
+.or-divider:before, .or-divider:after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #ccc;
+  margin: 0 10px;
+}

@@ -41,7 +41,7 @@ class CategoryTree(MPTTModel, ImageTagMixin):
 
     title = models.CharField(max_length=200)
     keywords = models.CharField(max_length=100)
-    image = models.ImageField(blank=True, upload_to='category/')
+    image = models.FileField(upload_to='category/', blank=True, null=True, validators=[validate_svg_file])
     details = CKEditor5Field('Text', config_name='extends')
     status = models.CharField(max_length=20, choices=status)
     slug = models.SlugField(null=True, unique=True)

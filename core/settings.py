@@ -399,3 +399,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"  # Disable email verification for demo
 
 # with social-auth-app-django facebook authentication
 
+
+
+# app id  1071359621208585
+# app secret aacbdd680303d17553f244ad693824b1

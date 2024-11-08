@@ -4,6 +4,10 @@
 {% block content %}
 {% load socialaccount %}
 
+
+<link rel="stylesheet" href="{%static 'css/warning_design.css'%}">
+<link rel="stylesheet" href="{%static 'css/social_showing.css'%}">
+
 <section class="form__wrapper">
   <header class="form__header">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--lg text-primary">
@@ -13,6 +17,29 @@
     <h2 class="headline">Create your New Store account</h2>
   </header>
   {% include 'includes/alerts.html' %}
+
+
+  <div class="flex justify-between mt-4 gap-4 signin-container">
+    <form action="{% provider_login_url 'google' %}?next=/" method="POST" class="signin-btn google">
+      {% csrf_token %}
+      <button type="submit" class="custom-google-login-btn flex">
+          <img src="{% static 'socials/icons8-google.svg' %}" alt="Google Icon" class="signin-icon" />
+          <span class="signin-text">Continue with Google</span>
+      </button>
+  </form>
+    <form action="{% provider_login_url 'facebook' %}?next=/" method="POST" class="signin-btn facebook">
+      {% csrf_token %}
+      <button type="submit" class="custom-facebook-login-btn flex">
+        <img src="{% static 'socials/icons8-facebook.svg' %}" alt="Facebook Icon" class="signin-icon">
+        <span class="signin-text">Sign in with Facebook</span>
+      </button>
+   </form>
+  </div>
+
+    <!-- OR Divider -->
+    <div class="or-divider">
+      <span>OR</span>
+    </div>
 
   <form method="POST" class="space-y-4">{% csrf_token %}
 
@@ -70,7 +97,7 @@
   </form>
 </section>
 
-<link rel="stylesheet" href="{%static 'css/warning_design.css'%}">
+
 
 <style>
 
