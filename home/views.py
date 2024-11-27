@@ -4,7 +4,7 @@ from django.views.generic import TemplateView, DetailView
 from django.shortcuts import render
 
 from home.models import Page
-from products.models import Product, Deal, CategoryTree, Advertisement, Brand
+from products.models import (Product, Deal, CategoryTree, Advertisement, Brand, BookAuthor)
 from users.forms import ThemePreferenceForm
 
 
@@ -17,6 +17,15 @@ class IndexTemplateView(TemplateView):
         # Sends multiple contexts to the templates
         context = super().get_context_data(**kwargs)
         print(context)
+
+        # Fetch all categories and their titles
+        # context["category_titles"] = CategoryTree.objects.values('title', 'slug')
+        # Fetch all categories and include their img_url directly
+        categories = CategoryTree.objects.all()
+        context["categories"] = [
+            {"title": category.title, "slug": category.slug, "img_url": category.img_url()}
+            for category in categories
+        ]
 
         # All the products (12 prods.)
         context["all_products"] = Product.objects.filter(
@@ -68,6 +77,8 @@ class IndexTemplateView(TemplateView):
         context["brands_middle"] = Brand.objects.filter(show_hide=True, showcase_section="Middle").order_by('-updated_at')[:2]
 
         context["brands_all"] = Brand.objects.filter(show_hide=True).order_by('-updated_at')
+
+        context["authors_all"] = BookAuthor.objects.all().order_by('-created_at')
 
         return context
 

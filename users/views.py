@@ -24,6 +24,8 @@ from django.shortcuts import get_object_or_404
 
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.views import OAuth2LoginView, OAuth2CallbackView
+from django.contrib.sessions.backends.db import SessionStore
+from cart.views import transfer_cart_to_user
 
 class UserLoginView(FormView):
     """View for user login."""
@@ -46,12 +48,38 @@ class UserLoginView(FormView):
             )
 
     def form_valid(self, form):
+        old_session_key = self.request.session.session_key
+        print("Old session key", old_session_key)
         login(self.request, form.get_user())
+        # Ensure the session key remains the same
+        self.request.session.save()
+        new_session_key = self.request.session.session_key
+        print("New session key", new_session_key)
+        # Optional: Transfer session-based data (e.g., cart)
+        if old_session_key and old_session_key != new_session_key:
+            transfer_cart_to_user(self.request, old_session_key, new_session_key)
         return super(UserLoginView, self).form_valid(form)
+
+    # def form_valid(self, form):
+    #     # Save the current session key
+    #     original_session_key = self.request.session.session_key
+    #     # Log the user in
+    #     login(self.request, form.get_user())
+
+    #     # Restore the original session key after login
+    #     self.request.session.save()  # Save to ensure session is created
+    #     if original_session_key:
+    #         self.request.session._session_key = original_session_key
+    #         self.request.session.modified = True
+
+    #     return super(UserLoginView, self).form_valid(form)
 
     def form_invalid(self, form):
         # Pass the form errors to the template so they can be displayed
         return super(UserLoginView, self).form_invalid(form)
+
+
+
 
 
 class UserRegistrationView(CreateView):

@@ -1,0 +1,64 @@
+{% load math_filters %}
+<div class="star-rating-display">
+  {% with product.average_review as rating %}
+  {% for star in "12345" %}
+    {% with star|subtract:0.5 as rating_minus_half %}
+      <span class="star">
+        {% if rating >= forloop.counter %}
+          <span class="filled">&#9733;</span> <!-- Filled star -->
+
+          {% elif rating >= rating_minus_half and rating < forloop.counter %}
+          <span class="half-filled">&#9733;</span> <!-- Half star -->
+        {% else %}
+          <span class="empty">&#9733;</span> <!-- Empty star -->
+        {% endif %}
+      </span>
+      {% endwith %}
+    {% endfor %}
+  {% endwith %}
+  <span class="rating-count">({{ product.total_review }})</span>
+</div>
+
+
+<style>
+  .star-rating-display {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem; /* Adjusts the star size */
+  }
+
+  .star {
+    color: #ddd; /* Default color for unfilled stars */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+    display: inline-block;
+
+  }
+
+  .filled {
+    color: #FF7A00; /* Gold color for filled stars */
+  }
+
+  /* Optional hover effect */
+
+  .half-filled {
+    position: relative;
+    display: inline-block;
+    width: 10px; /* Adjust width as needed */
+    overflow: hidden;
+    color: gold;
+  }
+  .rating-count {
+    padding-left:10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000000;
+  }
+
+  .divider {
+    color: #ccc;
+    margin: 0 5px;
+  }
+
+
+
+</style>

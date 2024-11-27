@@ -272,6 +272,7 @@ class BrandFilterListView(ListView):
 def product_search(request):
     """Search bar, filtering by product title and brand."""
     queryset = request.GET.get("search")
+    print("Searched QuerySet", queryset)
     products = Product.objects.filter(show_hide=True, stock__gte=1)
 
     # Search filter

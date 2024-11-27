@@ -8,18 +8,29 @@ from products.models import Product
 class Cart(models.Model):
     """Model definition for Cart."""
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,
+                                null=True,          # Allows the cart to exist without a user (session-based)
+                                blank=True,
+                                on_delete=models.CASCADE)
+    session_key = models.CharField(
+        max_length=40,
+        null=True,
+        blank=True,
+        unique=True         # Ensure each session has one cart
+    )
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["user"]
+        ordering = ["-date_updated"]
         verbose_name = "cart"
         verbose_name_plural = "cart"
         app_label = "cart"
 
     def __str__(self):
-        return str(f"Cart of {self.user.username}")
+        if self.user:
+            return f"{self.user.username}"
+        return f"{self.session_key}"
 
     def clear_cart(self):
         self.cart_items.all().delete()
@@ -45,7 +56,7 @@ class CartItem(models.Model):
         app_label = "cart"
 
     def __str__(self):
-        return f"{self.cart.user} - {self.quantity}"
+        return f"{self.quantity} x {self.product.title}"
 
     def add_to_cart(self, quantity=1):
         self.quantity += quantity

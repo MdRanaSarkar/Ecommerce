@@ -8,7 +8,7 @@ from cart.models import Cart, Wishlist, CartItem
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
     """Admin config for Cart model."""
-    list_display = ('user', 'date_created')  # Include customer name
+    list_display = ('customer_name', 'date_created')  # Include customer name
     search_fields = ("user",)
     list_filter = ('date_created',)
     list_per_page = 25
@@ -16,7 +16,10 @@ class CartAdmin(admin.ModelAdmin):
     ordering = ("pk",)
     def customer_name(self, obj):
         """Returns the full name of the user."""
-        return f"{obj.user.first_name} {obj.user.last_name}"  # Assuming the user model has first_name and last_name fields
+        if obj.user:
+            return f"{obj.user.username}"  # Assuming the user model has first_name and last_name fields
+        else:
+            return "Anonymous"
     customer_name.short_description = 'Customer Name'  # Custom header for the column
 
 

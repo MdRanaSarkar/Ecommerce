@@ -19,8 +19,6 @@
 
   <!-- End Savings amount Showing  -->
 
-
-
   <a href="{% url 'products:detail' product.pk %}" title="{{ product.title }}">
     {% if product.image %}
     <img class="product-card__img" src="{{ product.image.url }}" title="{{ product.title }}" alt="{{ product.title|lower }}" />
@@ -37,7 +35,7 @@
       <span class="type-base--bold">{{ product.normal_price }}</span>
       {% endif %}
     </div>
-    <a href="{% url 'cart:add_prod_wishlist' product.id %}" title="Add to wishlist" aria-label="Add to wishlist" class="invisible group-hover:visible">
+    <a href="{% url 'cart:add_prod_wishlist' product.id %}" title="Add to wishlist" aria-label="Add to wishlist" class="wishlist-link invisible">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--sm">
         <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
       </svg>
@@ -47,7 +45,21 @@
     <a href="{% url 'products:detail' product.pk %}" title="{{ product.title }}">
       <span class="group-hover:underline line-clamp-2">{{ product.title|truncatechars:50 }}</span>
     </a>
+
+
+  <!--Include Review Star -->
+
+  {% if product.total_review > 0 %}
+    <div class="review_star">
+         {% include "components/review-star.html" %}
+    </div>
+  {% endif %}
+
+  <!--End Review Star-->
+
   </div>
+
+
 
   <!-- <a href="{% url 'cart:add_prod_cart' product.id %}" title="Add to cart" class="btn btn--secondary group-hover:btn group-hover:btn--primary">
     Add to cart
@@ -159,6 +171,41 @@
     }
   }
 
+
+  /* Default state: Invisible */
+/* Default state: Wishlist hidden */
+.wishlist-link {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Hover state for desktop */
+.group:hover .wishlist-link {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Focus and Active states for mobile and accessibility */
+.group:focus-within .wishlist-link,
+.group:active .wishlist-link {
+  visibility: visible;
+  opacity: 1;
+}
+
 </style>
 
 
+<script>
+  document.querySelectorAll('.product-card__wrapper').forEach(card => {
+    card.addEventListener('click', () => {
+      const wishlist = card.querySelector('.wishlist-link');
+      if (wishlist) {
+        const isVisible = wishlist.style.visibility === 'visible';
+        wishlist.style.visibility = isVisible ? 'hidden' : 'visible';
+        wishlist.style.opacity = isVisible ? 0 : 1;
+      }
+    });
+  });
+
+</script>

@@ -1,0 +1,33 @@
+{% load static %}
+<!-- All brands with carousel  -->
+<!-- Automatic Carousel for Brand Images -->
+<div class="carousel-container mt-12">
+  <!-- Carousel Inner (Track for the items) -->
+  <div id="carousel" class="carousel-inner">
+    {% for brand in brands_all %}
+      {% if forloop.first or forloop.counter0|divisibleby:4 %}
+        <div class="carousel-slide"> <!-- Start a new slide for every 4 items -->
+      {% endif %}
+
+        <a href="{% url 'products:brand_filter' brand_slug=brand.slug %}" class="carousel-item">
+        {% if brand.img_url %}
+          <img src="{{ brand.img_url }}" alt="{{ brand.name }}" class="brand-image">
+        {% else %}
+          <div class="brand-placeholder">
+            <img src="{% static 'img/brands/default-brands-bg.png' %}" alt="Brands" class="brand-image">
+            <span class="brand-name">{{ brand.name }}</span>
+          </div>
+        {% endif %}
+        </a>
+
+
+      {% if forloop.counter|divisibleby:4 or forloop.last %}
+        </div> <!-- Close the current slide -->
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- Carousel Controls -->
+  <button id="prev" class="carousel-button left">❮</button>
+  <button id="next" class="carousel-button right">❯</button>
+</div>

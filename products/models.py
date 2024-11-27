@@ -54,6 +54,11 @@ class CategoryTree(MPTTModel, ImageTagMixin):
     def __str__(self):
         return self.title
 
+    def img_url(self):
+        if self.image:
+            return self.image.url
+
+
 
 
 class Category(models.Model):
@@ -190,8 +195,8 @@ class Deal(models.Model, ImageTagMixin):
 
 class Genre(models.Model):
     title = models.CharField(max_length=255)
-    def __str__(self):
-        return str(self.title)
+
+
 class BookAuthor(models.Model, ImageTagMixin):
     name = models.CharField(max_length=200)
     author_type = models.ForeignKey(Genre, on_delete=models.SET_NULL, blank=True, null=True)

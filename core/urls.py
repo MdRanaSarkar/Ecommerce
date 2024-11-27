@@ -39,6 +39,6 @@ if settings.DEBUG:
 
 
 # Custom attributes for admin
-admin.site.site_header = "RS_ECOM"
-admin.site.site_title = "New RS_ECOM"
+admin.site.site_header = "Alhudhudbd"
+admin.site.site_title = "New Alhudhudbd ECOM"
 admin.site.index_title = "Admin"

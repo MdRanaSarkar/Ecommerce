@@ -403,3 +403,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"  # Disable email verification for demo
 
 # app id  1071359621208585
 # app secret aacbdd680303d17553f244ad693824b1
+
+SESSION_ENGINE = "django.contrib.sessions.backends.db"  # Use database-backed sessions
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+SESSION_SAVE_EVERY_REQUEST = True  # Save session on every request

@@ -9,7 +9,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 from products.models import Product
 
 from cart.models import Cart, CartItem
-from cart.views import _cart_id
+from cart.views import _cart_session_id
 from django.core.exceptions import ObjectDoesNotExist
 
 from django.contrib.auth import authenticate
@@ -66,7 +66,7 @@ def payment_failed(request, product_id):
     )
 
 
-
+@login_required
 def checkout_combine(request,total=0, total_price=0, quantity=0, cart_items=None):
     tax = 0.00
     handing = 0.00
@@ -74,7 +74,7 @@ def checkout_combine(request,total=0, total_price=0, quantity=0, cart_items=None
         if request.user.is_authenticated:
             cart_items = CartItem.objects.filter(cart__user=request.user)
         else:
-            cart = Cart.objects.get(cart_id=_cart_id(request))
+            cart = Cart.objects.get(cart_id=_cart_session_id(request))
             cart_items = CartItem.objects.filter(cart=cart)
         print(cart_items)
         for cart_item in cart_items:

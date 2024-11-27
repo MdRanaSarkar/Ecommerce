@@ -1,4 +1,5 @@
 {% extends 'layouts/user_base_management.html' %}
+{% load static %}
 {% block title %}Dashboard{% endblock title %}
 {% block content %}
 
@@ -122,7 +123,9 @@
   }
 </style>
 <!-- Include Chart.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% comment %} <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {% endcomment %}
+<script src="{%static ''%}plugins/js/chart.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Pie Chart for Order Analytics

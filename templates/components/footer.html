@@ -49,7 +49,9 @@
     <hr class="my-4 border border-neutral-200 dark:border-neutral-700">
     <div class="footer__foot-copy">
       <span class="type-small flex justify-center order-2 lg:order-1">
-        {{ company.copy|default:'Copyright' }}
+          {% with company.name|default:"Company"|upper as company_name %}
+              <span style="color: #0CE816;">{{ company_name|slice:":2" }}</span><span style="color: #1111D5;">{{ company_name|slice:"2:" }}</span>
+          {% endwith %}
       </span>
       <div class="footer__social-icons order-1 mb-2 lg:mb-0 lg:order-2">
         <a href="{{ company.email|default:'Email' }}" title="Gmail" target="_blank" class="list-itm" rel="noopener noreferrer">

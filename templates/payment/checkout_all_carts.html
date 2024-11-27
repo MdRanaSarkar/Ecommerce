@@ -219,39 +219,47 @@
           <div class="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
             <dl class="flex items-center justify-between gap-4 py-3">
               <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
-              <dd class="text-base font-medium text-green-400 dark:text-white" id="checkoutSubtotalPrice">{{total_price}} TK.</dd>
+              <dd class="text-base font-medium  dark:text-white" id="checkoutSubtotalPrice">{{total_price}} TK.</dd>
             </dl>
 
             <dl class="flex items-center justify-between gap-4 py-3">
               <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
-              <dd class="text-base font-medium text-green-500" id="checkoutSavings">0 TK.</dd>
+              <dd class="text-base font-medium text-black" id="checkoutSavings">0 TK.</dd>
             </dl>
 
             <dl class="flex items-center justify-between gap-4 py-3">
               <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Shipping<span class="type-small--url">(Changeable)</span></dt>
-              <dd class="text-base font-medium text-green-400 dark:text-white" id="shippingCostPrice" name="shippingCost">{{ handing }} TK.</dd>
+              <dd class="text-base font-medium  dark:text-white" id="shippingCostPrice" name="shippingCost">{{ handing }} TK.</dd>
               <input type="hidden" id="shippingCostInput" name="final_shipping_cost" value={{ handing }}>
 
             </dl>
 
             <dl class="flex items-center justify-between gap-4 py-3">
               <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
-              <dd class="text-base font-medium text-green-400 dark:text-white" id="checkoutVat">{{ vat }} TK.</dd>
+              <dd class="text-base font-medium  dark:text-white" id="checkoutVat">{{ vat }} TK.</dd>
               <input type="hidden" id="totalVatPrice" name="productTotalVat" value={{ vat }}>
             </dl>
 
             <dl class="flex items-center justify-between gap-4 py-3">
               <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-              <dd class="text-base font-bold text-green-600 dark:text-white" id="totalCheckoutPrice" name="finalTotalPrice"> {{ order_total }} TK.</dd>
+              <dd class="text-base font-bold dark:text-white" id="totalCheckoutPrice" name="finalTotalPrice"> {{ order_total }} TK.</dd>
               <input type="text" value={{ order_total }} name="todalCheckoutPrice" hidden>
             </dl>
           </div>
         </div>
 
         <div class="space-y-3">
-          <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-purple-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Payment</button>
+          <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-green-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Payment</button>
 
-          <p class="text-sm font-normal text-gray-500 dark:text-gray-400">One or more items in your cart require an account. <a href="#" title="" class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Sign in or create an account now.</a>.</p>
+
+          {% if request.user.is_authenticated %}
+
+          <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Dear {{ user.username|title }} sir/madam, please click proceed to payment button to complete your order.</p>
+
+
+          {% else %}
+          <p class="text-sm font-normal text-gray-500 dark:text-gray-400">One or more items in your cart require an account. <a href="{% url 'users:login' %}" title="" class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Sign in or create an account now.</a>.</p>
+          {% endif %}
         </div>
       </div>
     </div>
