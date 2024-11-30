@@ -1,6 +1,6 @@
 """Context Processors for Utils App."""
 
-from home.models import Company
+from home.models import Company, SiteICON
 from products.models import Product, Category, CategoryTree
 from cart.models import Cart
 from users.forms import ThemePreferenceForm
@@ -9,7 +9,11 @@ from cart.views import _cart_session_id
 def company(_request):
     """Context processor for company data."""
     company_data = Company.objects.last()
-    return {"company": company_data}
+    company_icons =SiteICON.objects.last()
+    return {"company": company_data, "company_icons": company_icons}
+
+
+
 
 
 def user_preferences(request):

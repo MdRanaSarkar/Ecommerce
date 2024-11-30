@@ -13,7 +13,8 @@ from products.views import (
     CategoryFilterListView,
     product_search,
     product_search_,
-    get_book_summary
+    get_book_summary,
+    CategoryListView
 )
 
 app_name = "products"
@@ -71,5 +72,11 @@ urlpatterns = [
     path('get-book-summary/<int:book_id>/',
     get_book_summary,
     name='get_book_summary'
+    ),
+
+    path(
+        "categories_all/",
+        CategoryListView.as_view(),
+        name="categories_all",
     ),
 ]

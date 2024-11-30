@@ -34,6 +34,24 @@ def check_product_category(product):
     return result['is_book_category'], result['is_electronics_category'], result['is_cloths_category']
 
 
+
+class CategoryListView(ListView):
+    """Display the complete list of all products, active and in stock."""
+
+    model = Product
+    template_name = "products/category_list.html"
+    context_object_name = "categories"
+    paginate_by = 12
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        categories = CategoryTree.objects.all()
+        context["categories_all"] = [
+            {"title": category.title, "slug": category.slug, "img_url": category.img_url()}
+            for category in categories
+        ]
+        return context
+
 class ProductListView(ListView):
     """Display the complete list of all products, active and in stock."""
 
@@ -113,6 +131,7 @@ class FiltersListView(ListView):
             max_price = form.cleaned_data["max_price"]
 
             if category:
+                print("Category:", category)
                 queryset = queryset.filter(category=category)
             if brand:
                 queryset = queryset.filter(brand=brand)

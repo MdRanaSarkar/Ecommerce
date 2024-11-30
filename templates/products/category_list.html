@@ -1,0 +1,25 @@
+{% extends 'layouts/base_main.html' %}
+{% block title %}{{ title|title }}{% endblock title %}
+{% block content %}
+
+<!-- Headline -->
+<header>
+  <div class="flex items-center justify-between">
+    <div class="flex space-x-4 items-center">
+      <h2 class="headline">{{ title }}</h2>
+  </div>
+</header>
+
+<!-- Categories List-->
+
+
+<section class="product-card">
+  {% for category in categories_all %}
+  {{category.}}
+    {% include "components/card_category.html" %}
+  {% endfor %}
+</section>
+
+
+
+{% endblock %}

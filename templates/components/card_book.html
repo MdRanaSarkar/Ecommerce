@@ -24,10 +24,10 @@
   <div class="product-card__content">
     <div class="flex flex-1">
       {% if product.sale_price %}
-      <span class="type-base--bold flex"><img src="/static/payment/tk.svg" alt=""/>{{ product.sale_price }}</span>
-      <span class="type-small line-through" style="margin-left: 8px;" >{{ product.normal_price }}</span>
+      <span class="type-base--bold flex"><span style="font-family: 'Arial', sans-serif;">৳</span> {{ product.sale_price }}</span>
+      <span class="type-small line-through" style="margin-left:8px;" ><span style="font-family: 'Arial', sans-serif; font-weight: bold;">৳</span>{{ product.normal_price }}</span>
       {% else %}
-      <span class="type-base--bold">{{ product.normal_price }}</span>
+      <span class="type-base--bold"><span style="font-family: 'Arial', sans-serif;">৳</span>{{ product.normal_price }}</span>
       {% endif %}
     </div>
     <a href="{% url 'cart:add_prod_wishlist' product.id %}" title="Add to wishlist" aria-label="Add to wishlist" class="invisible group-hover:visible">
@@ -91,6 +91,17 @@
     background-color: #218838;
     border-color: #218838;
   }
+
+
+
+.product-card__im {
+  aspect-ratio: 1 / 1;
+  height: 250px;
+  width: 100%;
+  border-radius: 1rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
 
 </style>
 

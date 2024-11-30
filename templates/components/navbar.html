@@ -22,7 +22,15 @@
       <div class="w-1/2">
         <h1>
           <a href="{% url 'home:index' %}" class="flex items-center space-x-2 sm:pb-0 cursor-default md:cursor-pointer">
-            <img src="{{ company.logo.url }}" alt="{{ company.name }}" class="icon--md"/>
+
+            {% if company_icons.logo_icon %}
+            <img src="{{ company_icons.logo_icon.url }}" alt="{{ company.name }}" class="icon--md"/>
+            {% elif company.logo %}
+                <img src="{{ company.logo.url }}" alt="{{ company.name }}" class="icon--md"/>
+            {% else %}
+                <img src="{% static 'img/logo.svg' %}" alt="{{ company.name }}" class="icon--md"/>
+            {% endif %}
+
             {% comment %} <span class="sub-headline hidden xl:block" style="color: #257180">
               {{ company.name|default:'Company'|upper  }}
             </span> {% endcomment %}
@@ -104,13 +112,18 @@
       <!-- Cart -->
         <div class="lg:block relative">
           <a href="{% url 'cart:cart' %}" title="Cart">
-          {% comment %} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md">
-              <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
-            </svg> {% endcomment %}
 
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"   fill="none"    stroke="currentColor"    stroke-width="2" class="icon--md">
+
+            {% if  company_icons.cart_icon %}
+               <img src="{{ company_icons.cart_icon.url }}" alt="Cart Icon" class="icon--md"/>
+
+            {% else %}
+
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"   fill="none"    stroke="currentColor"    stroke-width="2" class="icon--md">
               <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
             </svg>
+
+            {% endif %}
 
 
             <span class="tag tag__cart">{{ cart_items_count }}</span>
@@ -125,9 +138,18 @@
         <button data-dropdown-toggle="userList" type="button" class="relative" title="User">
           {% comment %} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md">
             <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" /> {% endcomment %}
+
+
+          {% if company_icons.user_icon %}
+              <img src="{{ company_icons.user_icon.url }}" alt="Cart Icon" class="icon--md"/>
+          {% else %}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon--md">
             <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
           </svg>
+          {% endif %}
+
+
+
         </button>
         <div id="userList" class="list__wrapper lg:right-32 md:right-32 sm:right-2 text-center">
           <ul aria-labelledby="dropdownDefaultButton">
@@ -167,6 +189,8 @@
           {% comment %} <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24" height="24">
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
           </svg> {% endcomment %}
+          {% comment %} <img src="{{}}" alt=""> {% endcomment %}
+
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" >
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
           </svg>

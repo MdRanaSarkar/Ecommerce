@@ -6,10 +6,13 @@
       <a href="{% url 'products:category_filter' category.slug %}" class="box flex flex-col items-center justify-center space-y-4 h-32 p-4">
         {% if category.img_url %}
 
-        <object data="{{ category.img_url }}" type="image/svg+xml" width="50" height="50"
+        {% comment %} <object data="{{ category.img_url }}" type="image/svg+xml" width="50" height="50"
           aria-label="{{ category.name }} illustration" title="{{ category.name }}">
           <span class="type-base--url text-center line-clamp-1 flex-nowrap">{{ category.title }}</span>
-        </object>
+        </object> {% endcomment %}
+
+        <img src="{{ category.img_url }}" width="50" height="50" alt="">
+
         <span class="type-base--url text-center line-clamp-1 flex-nowrap">{{ category.title }}</span>
         {% else %}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md">
@@ -88,14 +91,13 @@
   }
 
   .swiper-slide svg {
-    color: #555;
     width: 50px;
     height: 50px;
   }
 
   .swiper-slide span {
     font-weight: 500;
-    color: #333;
+
   }
 
   .cat-swiper-button-next,

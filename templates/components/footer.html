@@ -50,7 +50,7 @@
     <div class="footer__foot-copy">
       <span class="type-small flex justify-center order-2 lg:order-1">
           {% with company.name|default:"Company"|upper as company_name %}
-              <span style="color: #0CE816;">{{ company_name|slice:":2" }}</span><span style="color: #1111D5;">{{ company_name|slice:"2:" }}</span>
+              <span style="color: #0CE816;">{{ company_name }}</span>
           {% endwith %}
       </span>
       <div class="footer__social-icons order-1 mb-2 lg:mb-0 lg:order-2">

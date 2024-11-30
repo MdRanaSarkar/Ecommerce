@@ -3,7 +3,8 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django_ckeditor_5.fields import CKEditor5Field
-
+from django.core.exceptions import ValidationError
+import os
 class Company(models.Model):
     """Model definition for Company."""
 
@@ -87,3 +88,79 @@ class FAQ(models.Model):
 
     def __str__(self):
         return self.question
+
+
+class ImageTagMixin:
+    IMAGE_TAG_TEMPLATE = '<img src="{}" height="50"/>'
+    def image_tag(self):
+        """Returns the HTML image tag for the model's image field."""
+        if self.image:
+            return mark_safe(self.IMAGE_TAG_TEMPLATE.format(self.image.url))
+        return ""
+
+def validate_svg_file(file):
+    ext = os.path.splitext(file.name)[1].lower()
+    if ext != '.svg':
+        raise ValidationError("Only SVG files are allowed.")
+
+class SiteICON(models.Model):
+    title = models.CharField(max_length=200)
+    # Common Icon
+    logo_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    cart_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    user_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    wishlist_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+
+    # product details
+    instock_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    book_hand_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    book_change_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    booklength_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    edition_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    publication_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    isbn_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+
+    # cart
+    delete_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    view_cart_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+
+    # Social Icons
+    facebook_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    whatsapp_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    gmail_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    linkedin_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    github_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    chatbot_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    heart_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    payment_done_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+
+
+
+    # Super Admin Panel
+    admin_user_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_total_product_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_total_cat_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_brands_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_processing_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_shipped_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_cancel_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_paid_invoice_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_update_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+
+    # Client Admin Panel left section
+
+    admin_dashboard_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_order_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_company_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_pages_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_products_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_category_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_brands_left_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    admin_deals_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.title

@@ -2,7 +2,7 @@
 
 from django import forms
 
-from products.models import Category, Brand, Deal, CategoryTree, Publication, Comment
+from products.models import Category, Brand, Deal, CategoryTree, Publication, Comment, BookAuthor
 from utils.tailwind_classes import form_select, form_number
 
 
@@ -41,6 +41,12 @@ class CategoriesForm(forms.Form):
         empty_label="All Deals",
         widget=forms.Select(attrs=form_select()),
     )
+    authors = forms.ModelChoiceField(
+        queryset=BookAuthor.objects.all(),
+        required=False,
+        empty_label="All Authors",
+        widget=forms.Select(attrs=form_select()),
+    )
     min_price = forms.DecimalField(
         required=False,
         min_value=1,
@@ -75,6 +81,12 @@ class FiltersForm(forms.Form):
         queryset=Deal.objects.all(),
         required=False,
         empty_label="All Deals",
+        widget=forms.Select(attrs=form_select()),
+    )
+    authors = forms.ModelChoiceField(
+        queryset=BookAuthor.objects.all(),
+        required=False,
+        empty_label="All Authors",
         widget=forms.Select(attrs=form_select()),
     )
     min_price = forms.DecimalField(

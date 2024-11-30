@@ -3,7 +3,7 @@
 {% block content %}
 
 <!-- Max Deals -->
-<section class="grid gap-4 grid-cols-3 md:grid-cols-3 md:grid-rows-2">
+<section class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 md:grid-rows-1">
   <!-- Start Carousel -->
   <div class="w-full h-full rounded-xl col-span-2 row-span-2">
     <div class="swiper-container rounded-xl overflow-hidden">
@@ -32,14 +32,17 @@
     </div>
   </div>
   <!-- End Carousel -->
+    <div class="hero_advertisement hidden md:block col-span-3 md:col-span-1">
+      {% for ad in advertise_data %}
+      {% if ad.img_url %}
+          <img src="{{ad.img_url}}" alt="" class="w-full rounded-xl">
+      {% else %}
+           <img src="{% static 'img/marketing/banner_default.webp' %}" alt="" class="w-full rounded-xl">
+      {% endif %}
+      {% endfor %}
 
-   {% for ad in advertise_data %}
-   {% if ad.img_url %}
-       <img src="{{ad.img_url}}" alt="" class="w-full rounded-xl">
-   {% else %}
-        <img src="{% static 'img/marketing/banner_default.webp' %}" alt="" class="w-full rounded-xl">
-   {% endif %}
-   {% endfor %}
+    </div>
+
 </section>
 
 
@@ -57,7 +60,10 @@
 <!-- Categories -->
 <section>
   <header class="flex justify-between items-center pt-4">
-    <h2 class="headline">Featured Categories</h2>
+    <h2 class="headline text-xl font-semibold">Featured Categories</h2>
+    <a href="{% url 'products:categories_all' %}" class="text-blue-600 font-medium hover:text-blue-800 transition-colors duration-200 underline-offset-4 hover:underline">
+      View all →
+    </a>
   </header>
   <!--Start Featured Categories HTML File -->
   {% include 'home/featured_category.html' %}
@@ -101,8 +107,6 @@
   </div>
   {% endfor %}
 </section>
-
-
 
 <!-- All Products -->
 <section>

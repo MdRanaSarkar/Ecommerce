@@ -29,8 +29,6 @@ def validate_svg_file(file):
     if ext != '.svg':
         raise ValidationError("Only SVG files are allowed.")
 
-
-
 class CategoryTree(MPTTModel, ImageTagMixin):
     status = (
         ('True', 'True'),
