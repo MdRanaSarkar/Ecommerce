@@ -12,6 +12,7 @@ from users.views import (
     orders,
     view_order,
     user_wishlist,
+    user_profile
 
 )
 
@@ -63,6 +64,11 @@ urlpatterns = [
         user_wishlist,
         name="user_wishlist",
     ),
+
+    path('profile/',
+         user_profile,
+         name='profile'
+         ),
 
 
 ]

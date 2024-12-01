@@ -12,13 +12,14 @@ class CategoriesForm(forms.Form):
     def __init__(self, *args , descendant_categories = None ,  **kwargs):
         super().__init__(*args, **kwargs)
 
+        print("form descendant categories", descendant_categories)
         if descendant_categories:
             self.fields['category'].queryset = descendant_categories
-        else:
-            self.fields['category'].queryset = descendant_categories
+        # else:
+        #     self.fields['category'].queryset = descendant_categories
 
     category = forms.ModelChoiceField(
-        queryset=CategoryTree.objects.none(),
+        queryset=CategoryTree.objects.all(),
         required=False,
         empty_label="All Categories",
         widget=forms.Select(attrs=form_select()),

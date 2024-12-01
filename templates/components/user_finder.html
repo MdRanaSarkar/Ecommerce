@@ -2,9 +2,15 @@
 
   <div class="logo flex-shrink-0 md:hidden lg:hidden">
     <a href="{% url 'home:index' %}" class="flex items-center space-x-4 sm:pb-0">
-      <img src="{{ company.logo.url }}" alt="{{ company.name }}" class="icon--md"/>
+      {% if company_icons.logo_icon %}
+      <img src="{{ company_icons.logo_icon.url }}" alt="{{ company.name }}" class="icon--md"/>
+      {% elif company.logo %}
+          <img src="{{ company.logo.url }}" alt="{{ company.name }}" class="icon--md"/>
+      {% else %}
+          <img src="{% static 'img/logo.svg' %}" alt="{{ company.name }}" class="icon--md"/>
+      {% endif %}
       <span class="sub-headline hidden xl:block">
-        {{ company.name|default:'Company' }}
+        {{ company.name|default:'Company'|upper }}
       </span>
     </a>
   </div>

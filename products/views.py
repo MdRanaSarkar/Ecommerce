@@ -121,7 +121,7 @@ class FiltersListView(ListView):
 
     def get_queryset(self):
         queryset = Product.objects.filter(show_hide=True, stock__gte=1)
-        form = CategoriesForm(self.request.GET)
+        form = FiltersForm(self.request.GET)
 
         if form.is_valid():
             category = form.cleaned_data["category"]
@@ -196,7 +196,6 @@ class RecentProductsListView(ListView):
 
 class CategoryFilterListView(ListView):
     """Display a list of all products from a category."""
-
     model = Product
     template_name = "products/product_list.html"
     context_object_name = "products"
@@ -218,8 +217,6 @@ class CategoryFilterListView(ListView):
                 show_hide=True,
                 stock__gte=1
             )
-
-
         # check the selected category is related to books category or not
 
         if category_data.slug == 'books':
@@ -231,24 +228,27 @@ class CategoryFilterListView(ListView):
             except CategoryTree.DoesNotExist:
                 self.is_book_category = False
 
-
-
-
         # call forms
         form = CategoriesForm(self.request.GET)
 
+        print("request data ", self.request.GET)
+
         if form.is_valid():
+            print("form...")
             category = form.cleaned_data["category"]
             brand = form.cleaned_data["brand"]
             deal = form.cleaned_data["deal"]
             min_price = form.cleaned_data["min_price"]
             max_price = form.cleaned_data["max_price"]
 
+            print("Category", category)
             if category:
+                print("Category", category)
                 queryset = queryset.filter(category=category)
             if brand:
                 queryset = queryset.filter(brand=brand)
             if deal:
+                print("Deal", deal)
                 queryset = queryset.filter(deal=deal)
             if min_price:
                 queryset = queryset.filter(normal_price__gte=min_price)
@@ -258,6 +258,7 @@ class CategoryFilterListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["book_category"] = self.is_book_category
+        print("Descendant Category",  self.descendant_categories)
         context["form"] = CategoriesForm(descendant_categories = self.descendant_categories)
         category = CategoryTree.objects.get(slug=self.kwargs["category_slug"])
         context["category"] = category

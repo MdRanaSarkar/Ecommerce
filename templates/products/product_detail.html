@@ -85,7 +85,7 @@
           {% if product.sale_price %}
               <!-- Sale Price and Original Price -->
               <div class="flex items-center">
-                  <span class="text-gray-500 line-through product-normal-price">
+                  <span class=" line-through product-normal-price">
                     TK.{{ product.normal_price }}
                 </span>
                   <span class="product-sale-price">
@@ -106,9 +106,8 @@
             {% else %}
                 <div class="flex items-center bg-green-50 rounded-md p-2 shadow-sm space-x-2 hover:bg-green-100 transition duration-200">
                   <!-- Normal Price Only -->
-                  <span class="headline flex text-2xl font-bold text-gray-800">
-                      <img src="/static/payment/taka.svg" alt="Currency Icon" width="18px" class="mr-1"/>
-                      {{ product.normal_price }}
+                  <span class="sub-headline flex text-2xl font-bold">
+                    <span style="font-family: 'Arial', sans-serif;">৳</span>{{ product.normal_price }}
                   </span>
                 </div>
             {% endif %}
@@ -566,7 +565,6 @@
   padding-left:10px;
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
 }
 
 .divider {
@@ -588,7 +586,7 @@
 /* Normal Price (Strikethrough) */
 .product-normal-price {
   font-size: 1rem; /* 16px */
-  color: #9ca3af; /* Light gray */
+
 }
 
 /* Sale Price (Emphasized) */
@@ -616,7 +614,7 @@
 .savings-amount {
   font-size: 18px;
   font-weight: bold;
-  color: #16a34a;  /* Dark gray for savings amount */
+ /* Dark gray for savings amount */
   display: flex;
   align-items: center;
 }

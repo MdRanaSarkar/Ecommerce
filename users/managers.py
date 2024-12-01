@@ -25,19 +25,12 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(
         self,
         username,
-        email ="r@example.com",
+        email ="rrrr@example.com",
         first_name ="",
         last_name="",
         password="root@1234",
     ):
         """Create a superuser or staff user."""
-        # custom_user = self.create_user(
-        #     username,
-        #     email,
-        #     first_name,
-        #     last_name,
-        #     password,
-        # )
         custom_user = self.create_user(
             username,
             email,
@@ -45,6 +38,13 @@ class CustomUserManager(BaseUserManager):
             last_name,
             password,
         )
+        # custom_user = self.create_user(
+        #     username,
+        #     email,
+        #     first_name,
+        #     last_name,
+        #     password,
+        # )
         custom_user.is_superuser = True
         custom_user.is_staff = True
         custom_user.save()

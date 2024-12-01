@@ -218,30 +218,30 @@
         <div class="flow-root">
           <div class="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
             <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
+              <dt class="text-base font-norma">Subtotal</dt>
               <dd class="text-base font-medium  dark:text-white" id="checkoutSubtotalPrice">{{total_price}} TK.</dd>
             </dl>
 
             <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
-              <dd class="text-base font-medium text-black" id="checkoutSavings">0 TK.</dd>
+              <dt class="text-base font-normal">Savings</dt>
+              <dd class="text-base font-medium " id="checkoutSavings">0 TK.</dd>
             </dl>
 
             <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Shipping<span class="type-small--url">(Changeable)</span></dt>
+              <dt class="text-base font-normal ">Shipping<span class="type-small--url">(Changeable)</span></dt>
               <dd class="text-base font-medium  dark:text-white" id="shippingCostPrice" name="shippingCost">{{ handing }} TK.</dd>
               <input type="hidden" id="shippingCostInput" name="final_shipping_cost" value={{ handing }}>
 
             </dl>
 
             <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
+              <dt class="text-base font-normal ">Tax</dt>
               <dd class="text-base font-medium  dark:text-white" id="checkoutVat">{{ vat }} TK.</dd>
               <input type="hidden" id="totalVatPrice" name="productTotalVat" value={{ vat }}>
             </dl>
 
             <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+              <dt class="text-base font-bold">Total</dt>
               <dd class="text-base font-bold dark:text-white" id="totalCheckoutPrice" name="finalTotalPrice"> {{ order_total }} TK.</dd>
               <input type="text" value={{ order_total }} name="todalCheckoutPrice" hidden>
             </dl>

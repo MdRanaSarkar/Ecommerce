@@ -15,7 +15,11 @@
     <div class="box w-full h-64 p-4">
         <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
             <a href="{% url 'users:user_order' %}" class="flex flex-col justify-center items-center text-center h-full w-full p-4">
+              {% if company_icons.admin_order_icon %}
+              <img src="{{ company_icons.admin_order_icon.url }}" alt="Order Icon" class="icon--md"/>
+              {% else %}
                 <i class="fa fa-shopping-cart text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+              {% endif %}
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Total Orders</h2>
                 <span class="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">{{ total_orders|default:0 }}</span>
             </a>
@@ -26,7 +30,11 @@
     <div class="box w-full h-64 p-4">
         <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-green-500 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
             <a href="#" class="flex flex-col justify-center items-center text-center h-full w-full p-4">
+              {% if company_icons.admin_shipped_icon %}
+              <img src="{{ company_icons.admin_shipped_icon.url }}" alt="Order Icon" class="icon--md"/>
+              {% else %}
                 <i class="fas fa-dollar-sign text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+              {% endif %}
                 <h5 class="text-xl font-semibold text-gray-900 dark:text-white">Total Spend</h5>
                 <span class="text-3xl font-bold text-green-600 dark:text-green-400 mt-2"><span class="takasign font-bold">৳</span>{{ total_spend|default:0 }}</span>
             </a>
@@ -37,7 +45,11 @@
     <div class="box w-full h-64 p-4">
         <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
             <a href="/dashboard/orders" class="flex flex-col justify-center items-center text-center h-full w-full p-4">
+              {% if company_icons.admin_total_cat_icon %}
+              <img src="{{ company_icons.admin_total_cat_icon.url }}" alt="Delivered Icon" class="icon--md"/>
+              {% else %}
                 <i class="fas fa-truck text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+                {% endif %}
                 <h5 class="text-xl font-semibold text-gray-900 dark:text-white">Delivered Orders</h5>
                 <span class="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">{{ delivered_orders|default:0 }}</span>
             </a>
@@ -48,6 +60,11 @@
     <div class="box w-full h-64 p-4">
         <div class="bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 transition duration-300 ease-in-out rounded-xl h-full flex flex-col justify-center items-center shadow-md hover:shadow-lg">
             <div class="flex flex-col justify-center items-center text-center w-full p-4">
+              {% if company_icons.admin_user_icon %}
+              <img src="{{ company_icons.admin_user_icon.url }}" alt="Admin User Icon" class="icon--md"/>
+              {% else %}
+              <i class="fas fa-user text-5xl text-gray-700 dark:text-gray-300 mb-2"></i>
+              {% endif %}
                 <h5 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Registered On</h5>
                 <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{{ registered_on }}</div>
             </div>

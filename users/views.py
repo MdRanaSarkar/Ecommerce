@@ -246,6 +246,15 @@ def user_wishlist(request):
     )
 
 
+@login_required
+def user_profile(request):
+    user = get_object_or_404(CustomUser, username=request.user.username)
+    context = {
+        'user': user,
+    }
+    return render(request, 'users/user_profile.html', context)
+
+
 
 
 

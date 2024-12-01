@@ -48,11 +48,14 @@
     </div>
     <hr class="my-4 border border-neutral-200 dark:border-neutral-700">
     <div class="footer__foot-copy">
-      <span class="type-small flex justify-center order-2 lg:order-1">
+
           {% with company.name|default:"Company"|upper as company_name %}
-              <span style="color: #0CE816;">{{ company_name }}</span>
+              <span style="color: #0CE816;" class="type-base--bold">{{ company_name }}</span>
           {% endwith %}
-      </span>
+         <span class="type-small"> Powered by <a style="color: #1111D5;" href="https://www.linkedin.com/company/anirbanit" class="type-small--url">AnirbanIT</a> </span>
+
+
+
       <div class="footer__social-icons order-1 mb-2 lg:mb-0 lg:order-2">
         <a href="{{ company.email|default:'Email' }}" title="Gmail" target="_blank" class="list-itm" rel="noopener noreferrer">
           <svg class="icon--sm" fill="currentColor" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
