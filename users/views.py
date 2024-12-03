@@ -1,7 +1,7 @@
 """Views for Users App."""
 
 from django.views.generic.edit import FormView
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, get_backends
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -95,10 +95,29 @@ class UserRegistrationView(CreateView):
             return HttpResponseRedirect(self.get_success_url())
         return super().dispatch(request, *args, **kwargs)
 
+    # def form_valid(self, form):
+    #     response = super().form_valid(form)
+    #     login(self.request, self.object)
+    #     return response
+
     def form_valid(self, form):
-        response = super().form_valid(form)
+        # Save the user first
+        self.object = form.save()
+
+        # Determine the backend dynamically
+        backends = get_backends()
+        backend = None
+        for b in backends:
+            if hasattr(b, 'get_user'):
+                backend = f"{b.__module__}.{b.__class__.__name__}"
+                break
+
+        # Set backend and login
+        if backend:
+            self.object.backend = backend
         login(self.request, self.object)
-        return response
+
+        return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form):
         # Handle specific validation errors
