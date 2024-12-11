@@ -75,16 +75,48 @@
     Add to cart
   </a> -->
 
-  <button title="Add to cart" id="addtocart-{{product.id}}" onclick="addProductToCart('{{ product.id }}', '{% url "cart:add_to_cart" %}')" class=" btn btn--secondary group-hover:btn group-hover:btn--primary addeToCartClass">
-    Add to cart
+  <button title="Add to cart" id="addtocart-{{product.id}}" onclick="addProductToCart('{{ product.id }}', '{% url "cart:add_to_cart" %}')" class="addeToCartClass addToCardNewDesignBtn">
+  {% comment %} <button title="Add to cart" id="addtocart-{{product.id}}" onclick="addProductToCart('{{ product.id }}', '{% url "cart:add_to_cart" %}')" class=" btn btn--secondary group-hover:btn group-hover:btn--primary addeToCartClass"> {% endcomment %}
+    Add to Cart
   </button>
 
 </article>
 
 <style>
-  .addeToCartClass{
+
+
+  /* Base styles for the "Add to Cart" button */
+  .addeToCartClass {
     width: 100%;
+    font-weight: 500;
+    display: flex;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    background-color: transparent; /* No background color */
+    border: 1px solid; /* Gray border */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
   }
+
+  /* Hover state: changes border color to blue */
+  .addeToCartClass:hover {
+    border-color: #007bff; /* Blue border on hover */
+    color: #ffffff; /* Optional: Blue text on hover */
+    background-color: #007bff
+  }
+
+  /* Focus state for accessibility */
+  .addeToCartClass:focus {
+    outline: none; /* Removes default outline */
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.3); /* Subtle blue glow */
+  }
+
+  /* Active state: click effect */
+  .addeToCartClass:active {
+    transform: scale(0.98); /* Slight shrink effect */
+  }
+
       /* Initial button styling */
   #addtocart {
     padding: 10px 20px;

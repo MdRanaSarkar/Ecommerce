@@ -228,7 +228,7 @@
                     onclick="addProductToCart('{{ product.id }}', '{% url 'cart:add_to_cart' %}')"
                     class="btn btn-secondary add-to-cart-btn"
                 >
-                    Add to cart
+                    Add to Cart
                 </button>
             </div>
         </div>
@@ -243,7 +243,7 @@
 
             <div class="add-wishlist-div">
                 <a href="{% url 'cart:add_prod_wishlist' product.id %}" class="btn btn-secondary">
-                    Add to wishlist
+                    Add to Wishlist
                 </a>
             </div>
         </div>
@@ -268,12 +268,12 @@
   </nav>
   <section class="box p-4 mt-4">
     <article id="description-tab" class="tab-content">
-      <h3 class="sub-headline">Description</h3>
-      <p>{{ product.description|safe }}</p>
+      {% comment %} <h3 class="sub-headline">Description</h3> {% endcomment %}
+      {{ product.description|safe }}
     </article>
     <article id="specifications-tab" class="tab-content hidden">
-      <h3 class="sub-headline">Specifications</h3>
-      <p class="leading-loose">{{ product.specifications|safe }}</p>
+      {% comment %} <h3 class="sub-headline">Specifications</h3> {% endcomment %}
+{{ product.specifications|safe }}
     </article>
   </section>
 </aside>

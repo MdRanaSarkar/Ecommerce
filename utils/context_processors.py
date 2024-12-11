@@ -58,7 +58,7 @@ def cart_items_count(request):
         # if not session_key:
         #     request.session.create()
         #     session_key = request.session.session_key
-        print("session_key", session_key)
+        # print("session_key", session_key)
         cart, _ = Cart.objects.get_or_create(session_key=session_key)
         cart_items_count_list = sum(item.quantity for item in cart.cart_items.all())
 

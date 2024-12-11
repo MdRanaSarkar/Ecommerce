@@ -4,17 +4,25 @@
 
  <!-- Contact Bar -->
 
-<div class="contact-bar">
-  <span class="contact-item">
-    📞 WhatsApp: <a href="{{ company.whatsapp_url}}" class="contact-link">{{company.whatsapp}}</a>
+ <div class="contact-bar">
+  <span class="contact-item flex">
+    {% if company_icons.whatsapp_icon %}
+      <img src="{{ company_icons.whatsapp_icon.url }}" alt="whatsapp" class="icon--sm" />
+    {% else %}
+      Whatsapp
+    {% endif %}
+    <a href="{{ company.whatsapp_url }}" class="contact-link">Call</a>
   </span>
-  <span>  |  </span>
-
-  <span class="contact-item">
-    📱Facebook: <a href="{{company.facebook_url}}" class="contact-link">{{company.facebook}}</a>
+  <span> | </span>
+  <span class="contact-item flex">
+    {% if company_icons.facebook_icon %}
+      <img src="{{ company_icons.facebook_icon.url }}" alt="facebook" class="icon--sm" />
+    {% else %}
+      Facebook
+    {% endif %}
+    <a href="{{ company.facebook_url }}" class="contact-link">Visit</a>
   </span>
 </div>
-
   <nav class="navbar__wrapper">
 
     <!-- Logo and Categories -->
@@ -27,8 +35,14 @@
             <img src="{{ company_icons.logo_icon.url }}" alt="{{ company.name }}" class="icon--md"/>
             {% elif company.logo %}
                 <img src="{{ company.logo.url }}" alt="{{ company.name }}" class="icon--md"/>
+                <span class="hidden xl:block" style="font-size: 1.25rem;  font-weight: 700;">
+                  {{ company.name|default:'Company'|upper  }}
+                </span>
             {% else %}
                 <img src="{% static 'img/logo.svg' %}" alt="{{ company.name }}" class="icon--md"/>
+                <span class="sub-headline hidden xl:block" style="color: #257180">
+              {{ company.name|default:'Company'|upper  }}
+            </span>
             {% endif %}
 
             {% comment %} <span class="sub-headline hidden xl:block" style="color: #257180">
@@ -36,18 +50,18 @@
             </span> {% endcomment %}
 
             {% comment %} <span class="sub-headline hidden xl:block"> {% endcomment %}
-            <span class="sub-headline  xl:block">
+            {% comment %}   <span class="sub-headline  xl:block">
               {% with company.name|default:"Company"|upper as company_name %}
                   <span style="color: #0CE816;">{{ company_name|slice:":2" }}</span><span style="color: #1111D5;">{{ company_name|slice:"2:" }}</span>
               {% endwith %}
-           </span>
+           </span>{% endcomment %}
 
           </a>
         </h1>
       </div>
       <div class="w-1/2 justify-center mt-4">
         <div class="hidden xl:block relative" id="dropdownContainer">
-          <button data-dropdown-toggle="dropdown" class="btn btn--secondary w-32" type="button">
+          <button data-dropdown-toggle="dropdown" class="home_button w-32" type="button">
             Categories
           </button>
           <div id="dropdown" class="list__wrapper left-0">
@@ -90,22 +104,21 @@
       </div>
     </div>
 
-    <!-- Search Bar -->
-    <div class="order-3 sm:order-2 w-full lg:max-w-lg sm:w-full sm:mx-0 mt-4">
-      <div class="relative">
-        <form method="GET" action="{% url 'products:search' %}">
-          <input type="text" id="search-navbar"
-            class="form__input-text text-center focus:text-left focus:pl-12"
-            placeholder="What are you looking for?" name="search" value="{{ request.GET.search }}">
-          <div class="absolute rounded-full inset-y-0 left-0 p-4 flex items-center pointer-events-none">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon--sm">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-            </svg>
-          </div>
-        </form>
-      </div>
+  <!-- Search Bar -->
+  <div class="order-3 sm:order-2 w-full lg:max-w-lg sm:w-full sm:mx-0 mt-4">
+    <div class="relative">
+      <form method="GET" action="{% url 'products:search' %}">
+        <input type="text" id="search-navbar"
+          class="form__input_search text-center focus:text-left focus:pl-12"
+          name="search" value="{{ request.GET.search }}">
+        <div class="absolute rounded-full inset-y-0 left-0 p-4 flex items-center pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon--sm">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+        </div>
+      </form>
     </div>
-
+  </div>
 
     <!-- Buttons (Cart, User, Sign Up Sign In) -->
     <div class="w-1/2 sm:w-1/3 order-2 sm:order-3 flex items-center justify-end space-x-4 sm:mb-0">
@@ -183,29 +196,35 @@
       </div>
       {% else %}
       <div class="sm:block">
-        <div class="flex space-x-4">
+        <div class="flex home_button_user">
 
-          <a href="{% url 'users:login' %}" class="btn btn--secondary"> <span>
-          {% comment %} <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24" height="24">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-          </svg> {% endcomment %}
-          {% comment %} <img src="{{}}" alt=""> {% endcomment %}
-
+          <a href="{% url 'users:login' %}" class="flex">
+            <span class="home_user_icon">
+        {% if company_icons.user_icon %}
+            <img src="{{ company_icons.user_icon.url }}" alt="User Icon"/>
+        {% else %}
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" >
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
           </svg>
-
-        </span>  Sign In</a>
+          {% endif %}
+        </span>
+        <span class="mr-2">Sign In</span></a>
           <!-- <a href="{% url 'users:registration' %}" class="btn btn--primary">Sign Up</a> -->
         </div>
       </div>
       {% endif %}
       <div class="block xl:hidden">
+
         <button data-collapse-toggle="navbar-search" type="button" aria-controls="navbar-search" aria-expanded="false" class="cursor-default md:cursor-pointer">
+          {% if company_icons.mobile_bar_icon %}
+          <img src="{{ company_icons.mobile_bar_icon.url }}" alt="Mobile bar Icon" class="icon--md"/>
+        {% else %}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md">
             <path fill-rule="evenodd" d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
           </svg>
+          {% endif %}
         </button>
+
       </div>
     </div>
     <!-- Main Menu (Mobile) -->
@@ -220,14 +239,14 @@
             <!-- Company name on the left -->
             <a href="{% url 'home:index' %}" class="px-4">
               <div>
-                {% comment %} <h5 class="sub-headline" style="color: #257180">
-                  {{ company.name|default:'Company' }}
-                </h5> {% endcomment %}
+          <h5 class="sub-headline" >
+                  {{ company.name|default:'Company'|upper }}
+                </h5>
 
-                <h5 class="sub-headline">
+                {% comment %} <h5 class="sub-headline">
                   {% with company.name|default:"Company"|upper as company_name %}
                       <span style="color: #0CE816;">{{ company_name|slice:":2" }}</span><span style="color: #1111D5;">{{ company_name|slice:"2:" }}</span>
-                  {% endwith %}
+                  {% endwith %} {% endcomment %}
                 </h5>
 
                 <span class="type-small text-sm px-2" style="color:#698474">Ecommerce Website </span>
@@ -343,7 +362,39 @@
 <script>
 
 
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('search-navbar'); // Input element
+    const searchTexts = ["What are you looking for?", "Search in Alhudhudh"]; // Text array
+    let currentIndex = 0; // Index of the current text
+    let currentCharIndex = 0; // Index of the character being typed
+
+    function typeText() {
+      // Get the current text and set its slice to the placeholder
+      const currentText = searchTexts[currentIndex];
+      searchInput.placeholder = currentText.slice(0, currentCharIndex++);
+
+      // When the current text is fully typed
+      if (currentCharIndex > currentText.length) {
+        // Reset character index and move to the next text after a delay
+        currentCharIndex = 0;
+        currentIndex = (currentIndex + 1) % searchTexts.length; // Loop back to the first text
+        setTimeout(typeText, 1500); // Delay before starting the next text
+      } else {
+        // Continue typing with a delay for the next character
+        setTimeout(typeText, 100); // Typing speed
+      }
+    }
+
+    typeText(); // Start typing animation
+  });
+
+
+
+
   $(document).ready(function(){
+
+
+    // search box dyanmically add text and show like as human typing
 
 
         // Select all toggle icons
@@ -601,25 +652,28 @@
 }
 
 .contact-bar {
-  background-color: #f8f9fa; /* Light background */
-  padding: 10px 20px; /* Padding for spacing */
+ /*  background-color: #f8f9fa; Light background */
+  padding: 10px 20px; /* Padding for spacing */s
   text-align: center; /* Center text */
   font-size: 14px; /* Font size */
   border-bottom: 1px solid #ddd; /* Bottom border */
   display: flex; /* Flexbox for layout */
   justify-content: center; /* Center items */
   align-items: center; /* Vertically center items */
+  gap:.7rem;
 }
 
 .contact-bar .contact-link:hover {
   text-decoration: underline; /* Underline on hover */
 }
 .contact-item {
-  margin: 0 15px; /* Margin between items */
-  color: #333; /* Dark text color */
+  display: flex;
+  align-items: center;
+  gap:5px;
+
 }
 .contact-link, .contact-email {
-  color: #007bff; /* Primary link color */
+  /*  color: #007bff; Primary link color */
   text-decoration: none; /* Remove underline */
   font-weight: 500; /* Slightly bold */
   transition: color 0.3s; /* Smooth color transition */
@@ -699,6 +753,97 @@ strong {
 
  }
 
+
+ .form__input_search{
+  display: block;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid #b0b0b0; /* Ash border color */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  background-color: transparent; /* No background color */
+ }
+
+
+
+ /* for btn classes */
+
+ .home_button {
+  font-weight: 500;
+  padding: 0.4rem 1rem; /* Adjust padding as needed */
+  border: 1px solid rgb(212, 212, 212); /* Ash-colored border */
+  border-radius: 0.475rem; /* Slightly rounded corners */
+  background-color: transparent; /* No background color */
+  color: rgb(38, 38, 38); /* Text color */
+  transition: all 0.3s ease-in-out; /* Smooth transition for hover and focus states */
+}
+
+.home_button:hover {
+  border-color: rgb(163, 163, 163); /* Darker ash color on hover */
+  color: white; /* Ensure text color remains consistent */
+  transform: scale(1.05); /* Slightly enlarge button for hover effect */
+  background-color: #007bff;
+}
+
+.home_button:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: rgb(255, 255, 255); /* White border on focus */
+  box-shadow: 0 0 0 3px rgba(212, 212, 212, 0.5); /* Subtle focus ring */
+  background-color: #007bff;
+}
+
+.home_button:is(.dark *) {
+  border-color: rgb(64, 64, 64); /* Dark mode border color */
+  color: rgb(229, 229, 229); /* Text color in dark mode */
+}
+
+.home_button:hover:is(.dark *) {
+  border-color: rgb(82, 82, 82); /* Darker ash border for hover in dark mode */
+}
+
+
+.home_button_user {
+  padding: 0.3rem 1rem; /* Adjust padding as needed */
+  border-radius: 0.475rem; /* Slightly rounded corners */
+  background-color: transparent; /* No background color */
+  color: rgb(38, 38, 38); /* Text color */
+  transition: all 0.3s ease-in-out; /* Smooth transition for hover and focus states */
+  border: 1px solid rgb(212, 212, 212); /* Ash-colored border */
+  gap:2px;
+}
+
+.home_button_user:hover {
+  border-color: rgb(163, 163, 163); /* Darker ash color on hover */
+  color: white; /* Ensure text color remains consistent */
+  background-color: #007bff;
+}
+
+.home_button_user:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: rgb(255, 255, 255); /* White border on focus */
+  box-shadow: 0 0 0 3px rgba(212, 212, 212, 0.5); /* Subtle focus ring */
+  background-color: #007bff;
+}
+
+.home_user_icon{
+  height: 1.8rem;
+  width: 1.4rem;
+
+}
+
+@media (max-width: 640px) {
+  .home_button_user {
+    padding: 0.5rem .5rem; /* Adjust padding as needed */
+  }
+  .home_user_icon{
+    height: 1.3rem;
+    width: 1rem;
+    margin-right:2px;
+  }
+}
 
 </style>
 

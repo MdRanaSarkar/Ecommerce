@@ -6,7 +6,60 @@ from django.shortcuts import render
 from home.models import Page
 from products.models import (Product, Deal, CategoryTree, Advertisement, Brand, BookAuthor)
 from users.forms import ThemePreferenceForm
+from django.shortcuts import get_object_or_404
 
+def get_recent_products():
+    # Fetch categories for 'book' and 'cloth'
+    book_category = get_object_or_404(CategoryTree, title='Books', status='True')
+    cloth_category = get_object_or_404(CategoryTree, title='Cloths', status='True')
+
+    # Include child categories of 'book'
+    book_categories = list(book_category.children.filter(status='True')) + [book_category]
+    book_products = Product.objects.filter(
+        category__in=book_categories,
+        show_hide=True,
+        stock__gte=1
+    ).order_by("-updated_at")[:8]
+
+    # Include child categories of 'cloth'
+    cloth_categories = list(cloth_category.children.filter(status='True')) + [cloth_category]
+    cloth_products = Product.objects.filter(
+        category__in=cloth_categories,
+        show_hide=True,
+        stock__gte=1
+    ).order_by("-updated_at")[:4]
+
+    # Combine the two querysets
+    recent_products = list(book_products) + list(cloth_products)
+
+    return recent_products
+
+
+def get_all_products():
+    # Fetch categories for 'book' and 'cloth'
+    book_category = get_object_or_404(CategoryTree, title='Books', status='True')
+    cloth_category = get_object_or_404(CategoryTree, title='Cloths', status='True')
+
+    # Include child categories of 'book'
+    book_categories = list(book_category.children.filter(status='True')) + [book_category]
+    book_products = Product.objects.filter(
+        category__in=book_categories,
+        show_hide=True,
+        stock__gte=1
+    ).order_by("title")[:8]
+
+    # Include child categories of 'cloth'
+    cloth_categories = list(cloth_category.children.filter(status='True')) + [cloth_category]
+    cloth_products = Product.objects.filter(
+        category__in=cloth_categories,
+        show_hide=True,
+        stock__gte=1
+    ).order_by("title")[:4]
+
+    # Combine the two querysets
+    all_products = list(book_products) + list(cloth_products)
+
+    return all_products
 
 class IndexTemplateView(TemplateView):
     """View for rendering the site index with multiple contexts."""
@@ -16,7 +69,7 @@ class IndexTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         # Sends multiple contexts to the templates
         context = super().get_context_data(**kwargs)
-        print(context)
+        # print(context)
 
         # Fetch all categories and their titles
         # context["category_titles"] = CategoryTree.objects.values('title', 'slug')
@@ -28,14 +81,17 @@ class IndexTemplateView(TemplateView):
         ]
 
         # All the products (12 prods.)
-        context["all_products"] = Product.objects.filter(
-            show_hide=True, stock__gte=1
-        ).order_by("title")[:12]
+        # context["all_products"] = Product.objects.filter(
+        #     show_hide=True, stock__gte=1
+        # ).order_by("title")[:12]
 
         # Recent products (12 prods.)
-        context["recent_products"] = Product.objects.filter(
-            show_hide=True, stock__gte=1
-        ).order_by("-updated_at")[:12]
+        # context["recent_products"] = Product.objects.filter(
+        #     show_hide=True, stock__gte=1
+        # ).order_by("-updated_at")[:12]
+
+        context["all_products"] = get_all_products()
+        context["recent_products"] = get_recent_products()
 
                 # Apple (brand) (6 prods.)
         context["books"] = Product.objects.filter(

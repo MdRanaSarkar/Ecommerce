@@ -51,7 +51,7 @@ class SiteICONAdmin(admin.ModelAdmin):
             'fields': ('title',)
         }),
         ('Common Icons', {
-            'fields': ('logo_icon', 'cart_icon', 'user_icon', 'wishlist_icon')
+            'fields': ('logo_icon', 'cart_icon', 'user_icon', 'wishlist_icon', 'mobile_bar_icon')
         }),
         ('Product Details Icons', {
             'fields': ('instock_icon', 'book_hand_icon', 'book_change_icon', 'booklength_icon',

@@ -3,7 +3,7 @@
   <div class="swiper-wrapper">
     {% for category in categories %}
     <div class="swiper-slide">
-      <a href="{% url 'products:category_filter' category.slug %}" class="box flex flex-col items-center justify-center space-y-4 h-32 p-4">
+      <a href="{% url 'products:category_filter' category.slug %}" class=" flex flex-col  items-center justify-center space-y-4 h-32 p-4">
         {% if category.img_url %}
 
         {% comment %} <object data="{{ category.img_url }}" type="image/svg+xml" width="50" height="50"
@@ -70,7 +70,7 @@
   .swiper-slide {
     text-align: center;
     font-size: 16px;
-    background: #f9f9f9;
+   /* background: #f9f9f9; */
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;

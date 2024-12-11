@@ -74,7 +74,7 @@
 <section>
   <header class="flex justify-between items-center py-4">
     <h2 class="headline">Recent Products</h2>
-    <a href="{% url 'products:recent' %}" class="btn btn--secondary">View all</a>
+    <a href="{% url 'products:recent' %}" class="">View all</a>
   </header>
   <section class="product-card">
     {% for product in recent_products %}
@@ -170,20 +170,22 @@
   </section>
 </section>
 
-<!-- Apple -->
+<!-- Cloths All  -->
 <section>
   <header class="flex justify-between items-center py-4">
-    <h2 class="headline">Apple</h2>
-    <a href="{% url 'products:brand_filter' brand_slug='apple' %}" class="btn btn--secondary">View all</a>
+    <h2 class="headline">Cloths</h2>
+    <a href="{% url 'products:category_filter' category_slug='cloths' %}" class="btn btn--secondary">View all</a>
   </header>
   <section class="product-card">
-    {% for product in apple %}
+    {% for product in Cloths %}
       {% include "components/card.html" %}
     {% empty %}
       {% include "components/empty.html" with arg="product" %}
     {% endfor %}
   </section>
 </section>
+
+
 
 <!-- Samsung -->
 <section>
@@ -223,21 +225,21 @@
 {% endfor %}
 </section>
 
-<!-- Cloths All  -->
+
+<!-- Apple -->
 <section>
   <header class="flex justify-between items-center py-4">
-    <h2 class="headline">Cloths</h2>
-    <a href="{% url 'products:category_filter' category_slug='cloths' %}" class="btn btn--secondary">View all</a>
+    <h2 class="headline">Apple</h2>
+    <a href="{% url 'products:brand_filter' brand_slug='apple' %}" class="btn btn--secondary">View all</a>
   </header>
   <section class="product-card">
-    {% for product in Cloths %}
+    {% for product in apple %}
       {% include "components/card.html" %}
     {% empty %}
       {% include "components/empty.html" with arg="product" %}
     {% endfor %}
   </section>
 </section>
-
 
 
   <!--Start Author Carousel -->

@@ -105,7 +105,7 @@ class ProductDetailView(DetailView):
             review.product = self.object
             review.user = request.user  # Associate the review with the logged-in user
             review.save()
-            print("Saved...")
+            # print("Saved...")
             return redirect('products:detail', pk=self.object.pk)
         # If the form is invalid, render the same page with error messages
         return self.get(request, *args, **kwargs)
@@ -131,7 +131,7 @@ class FiltersListView(ListView):
             max_price = form.cleaned_data["max_price"]
 
             if category:
-                print("Category:", category)
+                # print("Category:", category)
                 queryset = queryset.filter(category=category)
             if brand:
                 queryset = queryset.filter(brand=brand)
@@ -231,24 +231,24 @@ class CategoryFilterListView(ListView):
         # call forms
         form = CategoriesForm(self.request.GET)
 
-        print("request data ", self.request.GET)
+        # print("request data ", self.request.GET)
 
         if form.is_valid():
-            print("form...")
+            # print("form...")
             category = form.cleaned_data["category"]
             brand = form.cleaned_data["brand"]
             deal = form.cleaned_data["deal"]
             min_price = form.cleaned_data["min_price"]
             max_price = form.cleaned_data["max_price"]
 
-            print("Category", category)
+            # print("Category", category)
             if category:
-                print("Category", category)
+                # print("Category", category)
                 queryset = queryset.filter(category=category)
             if brand:
                 queryset = queryset.filter(brand=brand)
             if deal:
-                print("Deal", deal)
+                # print("Deal", deal)
                 queryset = queryset.filter(deal=deal)
             if min_price:
                 queryset = queryset.filter(normal_price__gte=min_price)
@@ -258,7 +258,7 @@ class CategoryFilterListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["book_category"] = self.is_book_category
-        print("Descendant Category",  self.descendant_categories)
+        # print("Descendant Category",  self.descendant_categories)
         context["form"] = CategoriesForm(descendant_categories = self.descendant_categories)
         category = CategoryTree.objects.get(slug=self.kwargs["category_slug"])
         context["category"] = category
@@ -292,7 +292,7 @@ class BrandFilterListView(ListView):
 def product_search(request):
     """Search bar, filtering by product title and brand."""
     queryset = request.GET.get("search")
-    print("Searched QuerySet", queryset)
+    # print("Searched QuerySet", queryset)
     products = Product.objects.filter(show_hide=True, stock__gte=1)
 
     # Search filter
@@ -321,11 +321,11 @@ def product_search(request):
 def product_search_(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         query = request.GET.get('query', '').strip()  # Get the search query
-        print(query)
+        # print(query)
         if query:
-            print("Query :", query )
+            # print("Query :", query )
             products = Product.objects.filter(Q(title__icontains=query) | Q(brand__name__icontains=query)).distinct()[:5]
-            print("product data ", products)
+            # print("product data ", products)
             #product_list = list(products.values('id', 'title', 'normal_price', 'image'))  # Convert queryset to a list of dictionaries
             product_list = [
                 {
@@ -345,6 +345,6 @@ def product_search_(request):
 # get book summaries pdf and show in modal
 def get_book_summary(request, book_id):
     book = get_object_or_404(Product, id=book_id)
-    print("book Id ", book.id)
+    # print("book Id ", book.id)
     pdf_url = book.summery_pdf.url  # Assuming the PDF file is saved in the model
     return JsonResponse({'pdf_url': pdf_url})

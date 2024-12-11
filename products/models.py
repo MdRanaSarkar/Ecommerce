@@ -360,7 +360,7 @@ class Product(models.Model, ImageTagMixin):
             if self.deal.start_date and self.deal.end_date:
                 # Apply the discount and save the "sale_price"
                 if self.deal.start_date <= current_date <= self.deal.end_date:
-                    print(self.normal_price)
+                    # print(self.normal_price)
                     self.sale_price = self.normal_price - self.normal_price*(self.deal.discount / 100)
 
         if self.discount:

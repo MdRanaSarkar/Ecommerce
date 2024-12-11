@@ -12,7 +12,7 @@ class CategoriesForm(forms.Form):
     def __init__(self, *args , descendant_categories = None ,  **kwargs):
         super().__init__(*args, **kwargs)
 
-        print("form descendant categories", descendant_categories)
+        # print("form descendant categories", descendant_categories)
         if descendant_categories:
             self.fields['category'].queryset = descendant_categories
         # else:

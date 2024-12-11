@@ -58,7 +58,7 @@
       {{ form.last_name }}
     </label>
     <label for="username" class="block space-y-1">
-      <span class="type-base--bold">Username*</span>
+      <span class="type-base--bold">Username<span class="compulsory_input">*</span></span>
       {{ form.username }}
     </label>
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -72,11 +72,11 @@
       </label>
     </div>
     <label for="password1" class="block space-y-1">
-      <span class="type-base--bold">Password*</span>
+      <span class="type-base--bold">Password<span class="compulsory_input">*</span></span>
       {{ form.password1 }}
     </label>
     <label for="password2" class="block space-y-1">
-      <span class="type-base--bold">Password Repeat*</span>
+      <span class="type-base--bold">Password Repeat<span class="compulsory_input">*</span></span>
       {{ form.password2 }}
     </label>
     <div class="flex items-start hideData">

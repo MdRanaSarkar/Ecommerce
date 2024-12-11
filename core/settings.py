@@ -260,7 +260,8 @@ customColorPalette = [
 # CKEDITOR_5_FILE_STORAGE = os.path.join(BASE_DIR, 'media', "ckeditor") # optional
 CKEDITOR_5_CONFIGS = {
 'default': {
-    'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+    'toolbar': ['heading', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
+                'table', 'blockquote', 'code', 'image',
                 'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
 
 },
@@ -289,6 +290,7 @@ CKEDITOR_5_CONFIGS = {
         ]
 
     },
+    'extraPlugins': ['Table'],
     'table': {
         'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
         'tableProperties', 'tableCellProperties' ],

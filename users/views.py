@@ -49,12 +49,12 @@ class UserLoginView(FormView):
 
     def form_valid(self, form):
         old_session_key = self.request.session.session_key
-        print("Old session key", old_session_key)
+        # print("Old session key", old_session_key)
         login(self.request, form.get_user())
         # Ensure the session key remains the same
         self.request.session.save()
         new_session_key = self.request.session.session_key
-        print("New session key", new_session_key)
+        # print("New session key", new_session_key)
         # Optional: Transfer session-based data (e.g., cart)
         if old_session_key and old_session_key != new_session_key:
             transfer_cart_to_user(self.request, old_session_key, new_session_key)
@@ -167,8 +167,8 @@ def user_dashboard(request):
     orders = order.objects.all().filter(client = user).order_by('date_created')[:4]
     total_oders = len(order.objects.all().filter(client=user).order_by('date_created'))
     dilevered_orders = len(order.objects.all().filter(client=user,order_status="COMPLETED"))
-    print(total_oders)
-    print(dilevered_orders)
+    # print(total_oders)
+    # print(dilevered_orders)
     registered_on = user.date_joined
     registered_on = datetime.fromisoformat(str(registered_on)).strftime("%d/%m/%Y")
     # last_login = user.last_active

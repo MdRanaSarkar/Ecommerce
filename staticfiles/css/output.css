@@ -796,7 +796,9 @@ video {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 @media (min-width: 640px) {

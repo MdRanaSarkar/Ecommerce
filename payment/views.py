@@ -142,13 +142,13 @@ def proceed_to_checkout(request):
             # order_save.save()
 
 
-            print("Order Save Done !")
-            print("user order id :", user_order_id)
+            # print("Order Save Done !")
+            # print("user order id :", user_order_id)
             # working on order_list
             # session = request.session.session_key
             cart = Cart.objects.get(user_id=req_user.id)
             cart_items_list = CartItem.objects.all().filter(cart=cart)
-            print(cart_items_list)
+            # print(cart_items_list)
             total = 0
 
             for item in cart_items_list:
@@ -156,7 +156,7 @@ def proceed_to_checkout(request):
                 order_item= Product.objects.get(title=item.product)
                 price = order_item.normal_price
                 quantity = item.quantity
-                print("Price", price, quantity)
+                # print("Price", price, quantity)
                 total += price*quantity
 
                 order_list_save = order_list.objects.create(
@@ -197,9 +197,9 @@ def proceed_to_checkout(request):
 
             total_checkout_amount = float(subtotal) + shipping_cost + total_vat
 
-            print("total_vat", total_vat)
-            print("shipping_cost", shipping_cost)
-            print(total_checkout_amount)
+            # print("total_vat", total_vat)
+            # print("shipping_cost", shipping_cost)
+            # print(total_checkout_amount)
 
 
 
@@ -232,9 +232,9 @@ def proceed_to_checkout(request):
 
             # Delete Card Item
             cart.delete()
-            print("cart")
+            # print("cart")
             new_order_id = user_order_id.order_id
-            print("Final order ID", user_order_id.order_id)
+            # print("Final order ID", user_order_id.order_id)
             # messages.success(request,"Your order has been successfully received.")
             total_amount_str = str(total_checkout_amount)
             if payment_method == "cash_on_delivery":
@@ -265,7 +265,7 @@ def user_payment(request):
         # Retrieve transaction details from the POST request
         transactions_idx = request.POST.get('payment_transactions', '').strip()
         transactions_img = request.FILES.get('transaction_img', None)
-        print("transactions-img", transactions_img)
+        # print("transactions-img", transactions_img)
 
         # Retrieve order ID and invoice ID from the session
         product_order_id = request.session.get('new_order_id')
@@ -276,7 +276,7 @@ def user_payment(request):
             messages.warning(request, "At least one of the fields must be provided.")
             return redirect("payment:user_payment")
 
-        print(f"Order id {product_order_id} Invoice ID {invoice_id}" )
+        # print(f"Order id {product_order_id} Invoice ID {invoice_id}" )
 
         order_instance = get_object_or_404(order, pk=product_order_id)
         payment_instance = get_object_or_404(invoice, pk=invoice_id)

@@ -41,13 +41,14 @@
       <span class="group-hover:underline line-clamp-2">{{ product.title|truncatechars:50 }}</span>
     </a>
   </div>
-  <button title="Add to cart" id="addtocart-{{product.id}}" onclick="addProductToCart('{{ product.id }}', '{% url "cart:add_to_cart" %}')" class=" btn btn--secondary group-hover:btn group-hover:btn--primary addeToCartClass">
+  <button title="Add to cart" id="addtocart-{{product.id}}" onclick="addProductToCart('{{ product.id }}', '{% url "cart:add_to_cart" %}')" class="product_card_btn group-hover:btn group-hover:btn--primary addeToCartClass">
     Add to cart
   </button>
 
 </article>
 
 <style>
+
   .addeToCartClass{
     width: 100%;
   }

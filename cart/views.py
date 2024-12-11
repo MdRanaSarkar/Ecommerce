@@ -60,7 +60,7 @@ def cart(request):
         for item in cart_items
     )
 
-    print(total_subtotal)
+    # print(total_subtotal)
 
     return render(
         request,
@@ -114,11 +114,11 @@ def clear_cart(request):
 
 def add_to_cart(request):
     session_key = _cart_session_id(request)  # Ensure the session is initialized
-    print("Session Key (add_to_cart):", session_key)  # Optional for debugging
+    # print("Session Key (add_to_cart):", session_key)  # Optional for debugging
     product_id = request.POST.get('product_id')
     if not product_id:
         return JsonResponse({'error': 'Invalid product ID.'}, status=400)
-    print("product_id", product_id)
+    # print("product_id", product_id)
     product = get_object_or_404(Product, id=product_id)
     cart = get_cart_with_user_or_session(request)
     # Check if the item already exists in the cart
@@ -140,18 +140,18 @@ def get_cart(request):
 
 @receiver(user_logged_in)
 def transfer_cart_to_user(sender, request, user, **kwargs):
-    print("Sending transfer", sender)
+    # print("Sending transfer", sender)
     session_key = request.session.session_key  # Get the session key
-    print("Transfer Sessions to user", session_key)
+    # print("Transfer Sessions to user", session_key)
     session_cart, _ = Cart.objects.get_or_create(session_key=session_key)
 
-    print("Session Cart", session_cart)
+    # print("Session Cart", session_cart)
     cart_items = session_cart.cart_items.all()
-    print("Session Cart Items", cart_items)
+    # print("Session Cart Items", cart_items)
 
     # Fetch the session-based cart
     session_cart_ = Cart.objects.filter(session_key=session_key).first()
-    print("Session Cart New ", session_cart_)
+    # print("Session Cart New ", session_cart_)
     if session_cart:
 
         # Retrieve or create the user-based cart
@@ -169,23 +169,23 @@ def transfer_cart_to_user(sender, request, user, **kwargs):
         # Clear the session-based cart
         session_cart.delete()
         request.session.modified = True  # Mark the session as modified to keep the current session key
-        print(f"Session Key After Login: {request.session.session_key}")
+        # print(f"Session Key After Login: {request.session.session_key}")
 
 
 # @receiver(user_logged_in)
 def transfer_cart_to_user(request, old_session, new_session):
     session_key = request.session.session_key  # Get the session key
-    print("Transfer Sessions to user", session_key)
+    # print("Transfer Sessions to user", session_key)
     session_cart, _ = Cart.objects.get_or_create(session_key=old_session)
 
-    print("Session Cart", session_cart)
+    # print("Session Cart", session_cart)
     cart_items = session_cart.cart_items.all()
-    print("Session Cart Items", cart_items)
+    # print("Session Cart Items", cart_items)
 
     # Fetch the session-based cart
     session_cart_ = Cart.objects.filter(session_key=old_session).first()
 
-    print("Session Cart New ", session_cart_)
+    # print("Session Cart New ", session_cart_)
     if session_cart:
 
         # Retrieve or create the user-based cart
@@ -202,7 +202,7 @@ def transfer_cart_to_user(request, old_session, new_session):
             user_cart_item.save()
         # Clear the session-based cart
         session_cart.delete()
-        print(f"Session Key After Login: {request.session.session_key}")
+        # print(f"Session Key After Login: {request.session.session_key}")
 
 
 # def transfer_session_data(old_session_key, new_session_key):

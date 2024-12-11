@@ -110,6 +110,7 @@ class SiteICON(models.Model):
     cart_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
     user_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
     wishlist_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
+    mobile_bar_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])
 
     # product details
     instock_icon = models.FileField(upload_to='icons/', blank=True, null=True, validators=[validate_svg_file])

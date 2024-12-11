@@ -10,9 +10,9 @@
 <!-- Cart -->
 {% if cart_items %}
 <section class="data-table__cart">
-  <table class="data-table__wrapper">
+  <table class="data-table__wrapper"  >
     <thead class="data-table__head">
-      <tr>
+      <tr style="border">
         <th scope="col" class="data-table__cell">Image</th>
         <th scope="col" class="data-table__cell">Product</th>
         <th scope="col" class="data-table__cell">Price</th>
@@ -22,9 +22,9 @@
       </tr>
     </thead>
     {% for cart_item in cart_items %}
-    <tbody class="data-table__body">
-      <tr>
-        <td class="data-table__cell--big">
+    <tbody class="data-table__body" style="border:none;">
+      <tr  style="border:none;">
+        <td class="data-table__cell--big" style="border:none;">
           {% if cart_item.product.image %}
           <a href="#" title="{{ cart_item.product.title }}" class="show-image-popup" data-src="{{ cart_item.product.image.url }}">
             <img src="{{ cart_item.product.image.url }}" alt="{{ cart_item.product.title }}" class="rounded-lg border" width="50" height="50">
@@ -36,9 +36,9 @@
         <th scope="row" class="data-table__cell--big overflow-hidden whitespace-no-wrap">
           <div class="w-40 lg:w-96 break-words line-clamp-2">{{ cart_item.product.title }}</div>
         </th>
-        <td class="data-table__cell--big"><span class="takasign">৳</span>{{ cart_item.product.normal_price|floatformat:2 }}</td>
-        <td class="data-table__cell--big"><span class="takasign">৳</span>{{ cart_item.total_price|floatformat:2 }}</td>
-        <td class="data-table__cell--big items-center">
+        <td class="data-table__cell--big" style="border:none;"><span class="takasign">৳</span>{{ cart_item.product.normal_price|floatformat:2 }}</td>
+        <td class="data-table__cell--big" style="border:none;"><span class="takasign">৳</span>{{ cart_item.total_price|floatformat:2 }}</td>
+        <td class="data-table__cell--big items-center" style="border:none;">
           <div class="flex">
             <a href="{% url 'cart:subtract_prod_cart' cart_item.product.id %}" title="Subtract" class="btn__icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--sm">
@@ -57,7 +57,7 @@
             </a>
           </div>
         </td>
-        <td class="data-table__cell--big flex items-center space-x-2">
+        <td class="data-table__cell--big flex items-center space-x-2" style="border:none;">
           <a href="{% url 'cart:remove_prod_cart' cart_item.product.id %}" title="Remove item" class="btn__icon">
             {% if company_icons.delete_icon %}
               <img src="{{company_icons.delete_icon.url}}" alt="Delete Icons" class="icon--sm">
@@ -74,7 +74,7 @@
     {% endfor %}
     <tfoot class="bg-gray-100">
       <tr>
-        <td colspan="3" class="px-4 py-4 text-lg font-bold text-gray-700">
+        <td colspan="3" class="px-4 py-4 text-lg font-bold text-gray-700" style="border:none;">
           <div class="flex justify-between items-center">
             <span class="mx-auto">Subtotal</span>
             <span class="text-black" style="margin-right: -113px;"><span style="font-family: 'Arial', sans-serif;">৳</span>{{ total_subtotal|floatformat:2 }}</span>
@@ -117,7 +117,7 @@
     {% for product in wishlist.products.all %}
     <tbody class="data-table__body">
       <tr>
-        <td class="data-table__cell--big">
+        <td class="data-table__cell--big" style="border:none;">
           {% if product.image %}
           <a href="#" title="{{ product.title }}" class="show-image-popup" data-src="{{ product.image.url }}">
             <img src="{{ product.image.url }}" alt="{{ product.title }}" class="rounded-lg border" width="50" height="50">
@@ -129,8 +129,8 @@
         <th scope="row" class="data-table__cell--big overflow-hidden whitespace-no-wrap">
           <div class="w-40 lg:w-96 break-words line-clamp-2">{{ product.title }}</div>
         </th>
-        <td class="data-table__cell--big"><span class="takasign">৳</span>{{ product.normal_price|floatformat:2 }}</td>
-        <td class="data-table__cell--big flex items-center space-x-2">
+        <td class="data-table__cell--big" style="border:none;"><span class="takasign">৳</span>{{ product.normal_price|floatformat:2 }}</td>
+        <td class="data-table__cell--big flex items-center space-x-2" style="border:none;">
           <a href="{% url 'cart:add_prod_cart' product.id %}" title="Add to cart" class="btn__icon">
             {% if company_icons.view_cart_icon %}
             <img src="{{company_icons.view_cart_icon.url}}" alt="View Icons" class="icon--sm">
