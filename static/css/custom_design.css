@@ -1,3 +1,80 @@
 .compulsory_input{
   color:red;
 }
+
+
+/* Base button styling */
+.outside_boundary_btn {
+  display: inline-block;
+  padding: 0.32rem .85rem; /* Responsive padding using rem */
+  font-size: 1rem; /* Base font size using rem */
+  font-weight: 400;
+  border: 1px solid #007BFF; /* Boundary color */
+  border-radius: 0.4rem; /* Rounded corners */
+  background-color: transparent; /* Transparent background */
+  text-align: center;
+  text-decoration: none; /* Remove underline */
+  transition: all 0.3s ease; /* Smooth hover effect */
+  box-sizing: border-box; /* Ensures padding doesn’t break the layout */
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Hover effect */
+.outside_boundary_btn:hover {
+  background-color: #007BFF; /* Background color on hover */
+  color: #ffffff; /* Text color on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .outside_boundary_btn {
+      font-size: 0.9rem; /* Adjust font size for smaller screens */
+      padding: 0.3rem .7rem; /* Reduce padding */
+  }
+}
+
+/* Very small devices (e.g., phones in portrait mode) */
+@media (max-width: 480px) {
+  .outside_boundary_btn {
+      font-size: 0.8rem; /* Further adjust font size */
+      padding: 0.3rem .5rem; /* Compact padding */
+      text-align: center;
+  }
+}
+
+
+
+/* For Add to Cart Button */
+
+.addeToCartClass {
+  width: 100%;
+  font-weight: 500;
+  display: flex;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  background-color: transparent; /* No background color */
+  border: 1px solid; /* Gray border */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Hover state: changes border color to blue */
+.addeToCartClass:hover {
+  border-color: #007bff; /* Blue border on hover */
+  color: #ffffff; /* Optional: Blue text on hover */
+  background-color: #007bff
+}
+
+/* Focus state for accessibility */
+.addeToCartClass:focus {
+  outline: none; /* Removes default outline */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.3); /* Subtle blue glow */
+}
+
+/* Active state: click effect */
+.addeToCartClass:active {
+  transform: scale(0.98); /* Slight shrink effect */
+}

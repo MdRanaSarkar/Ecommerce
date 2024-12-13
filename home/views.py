@@ -81,22 +81,22 @@ class IndexTemplateView(TemplateView):
         ]
 
         # All the products (12 prods.)
-        # context["all_products"] = Product.objects.filter(
-        #     show_hide=True, stock__gte=1
-        # ).order_by("title")[:12]
+        context["all_products"] = Product.objects.filter(
+            show_hide=True, stock__gte=1
+        ).order_by("title")[:12]
 
         # Recent products (12 prods.)
-        # context["recent_products"] = Product.objects.filter(
-        #     show_hide=True, stock__gte=1
-        # ).order_by("-updated_at")[:12]
+        context["recent_products"] = Product.objects.filter(
+            show_hide=True, stock__gte=1
+        ).order_by("-updated_at")[:12]
 
-        context["all_products"] = get_all_products()
-        context["recent_products"] = get_recent_products()
+        # context["all_products"] = get_all_products()
+        # context["recent_products"] = get_recent_products()
 
                 # Apple (brand) (6 prods.)
         context["books"] = Product.objects.filter(
             show_hide=True, stock__gte=1, category__title__iexact="books"
-        ).order_by("-updated_at")[:6]
+        ).order_by("-updated_at")[:12]
 
 
         # Apple (brand) (6 prods.)s
@@ -114,7 +114,7 @@ class IndexTemplateView(TemplateView):
             show_hide=True,
             stock__gte=1,
             category__title__iexact="cloths",
-        ).order_by("-updated_at")[:6]
+        ).order_by("-updated_at")[:12]
 
         # Deal showing section
         context["deals_products"] = Deal.objects.filter(status=True , section_setup='Hero').order_by('-updated_at')[:10]

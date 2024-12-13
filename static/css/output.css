@@ -691,12 +691,14 @@ video {
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 700;
+  font-family: 'Georgia', serif;
 }
 
 @media (min-width: 1024px) {
   .headline {
     font-size: 1.875rem;
     line-height: 2.25rem;
+    font-family: 'Georgia', serif;
   }
 }
 
@@ -704,12 +706,14 @@ video {
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-weight: 700;
+  font-family: 'Georgia', serif;
 }
 
 @media (min-width: 1024px) {
   .sub-headline {
     font-size: 1.5rem;
     line-height: 2rem;
+    font-family: 'Georgia', serif;
   }
 }
 

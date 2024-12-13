@@ -60,7 +60,7 @@
 <!-- Categories -->
 <section>
   <header class="flex justify-between items-center pt-4">
-    <h2 class="headline text-xl font-semibold">Featured Categories</h2>
+    <h2 class="headline text-xl font-semibold" style="font-family: 'Georgia', serif;">Featured Categories</h2>
     <a href="{% url 'products:categories_all' %}" class="text-blue-600 font-medium hover:text-blue-800 transition-colors duration-200 underline-offset-4 hover:underline">
       View all →
     </a>
@@ -70,11 +70,45 @@
   <!-- End Featured Categories HTML File -->
 </section>
 
+<!-- All Book -->
+<section>
+  <header class="flex justify-between items-center py-4">
+    <h2 class="headline" style="font-family: 'Georgia', serif;">Books</h2>
+    <a href="{% url 'products:category_filter' category_slug='books' %}" class="outside_boundary_btn"> View all → </a>
+  </header>
+  <section class="product-card">
+    {% for product in books %}
+      {% include "components/card_book.html" %}
+    {% empty %}
+      {% include "components/empty.html" with arg="product" %}
+    {% endfor %}
+  </section>
+</section>
+
+
+
+<!-- Cloths All  -->
+<section>
+  <header class="flex justify-between items-center py-4">
+    <h2 class="headline" style="font-family: 'Georgia', serif;">Cloths</h2>
+    <a href="{% url 'products:category_filter' category_slug='cloths' %}" class="outside_boundary_btn"> View all → </a>
+  </header>
+  <section class="product-card">
+    {% for product in Cloths %}
+      {% include "components/card.html" %}
+    {% empty %}
+      {% include "components/empty.html" with arg="product" %}
+    {% endfor %}
+  </section>
+</section>
+
+
+
 <!-- Recent Products -->
 <section>
   <header class="flex justify-between items-center py-4">
     <h2 class="headline">Recent Products</h2>
-    <a href="{% url 'products:recent' %}" class="">View all</a>
+    <a href="{% url 'products:recent' %}" class="outside_boundary_btn">View all</a>
   </header>
   <section class="product-card">
     {% for product in recent_products %}
@@ -112,7 +146,7 @@
 <section>
   <header class="flex justify-between items-center py-4">
     <h2 class="headline">All Products</h2>
-    <a href="{% url 'products:prod_list' %}" class="btn btn--secondary">View all</a>
+    <a href="{% url 'products:prod_list' %}" class="outside_boundary_btn">View all</a>
   </header>
   <section class="product-card">
     {% for product in all_products %}
@@ -155,43 +189,12 @@
 
 
 
-<!-- All Book -->
-<section>
-  <header class="flex justify-between items-center py-4">
-    <h2 class="headline">Books</h2>
-    <a href="{% url 'products:category_filter' category_slug='books' %}" class="btn btn--secondary">View all</a>
-  </header>
-  <section class="product-card">
-    {% for product in books %}
-      {% include "components/card_book.html" %}
-    {% empty %}
-      {% include "components/empty.html" with arg="product" %}
-    {% endfor %}
-  </section>
-</section>
-
-<!-- Cloths All  -->
-<section>
-  <header class="flex justify-between items-center py-4">
-    <h2 class="headline">Cloths</h2>
-    <a href="{% url 'products:category_filter' category_slug='cloths' %}" class="btn btn--secondary">View all</a>
-  </header>
-  <section class="product-card">
-    {% for product in Cloths %}
-      {% include "components/card.html" %}
-    {% empty %}
-      {% include "components/empty.html" with arg="product" %}
-    {% endfor %}
-  </section>
-</section>
-
-
 
 <!-- Samsung -->
 <section>
   <header class="flex justify-between items-center py-4">
     <h2 class="headline">Samsung</h2>
-    <a href="{% url 'products:brand_filter' brand_slug='samsung' %}" class="btn btn--secondary">View all</a>
+    <a href="{% url 'products:brand_filter' brand_slug='samsung' %}" class="outside_boundary_btn"> View all → </a>
   </header>
   <section class="product-card">
     {% for product in samsung %}
@@ -230,7 +233,7 @@
 <section>
   <header class="flex justify-between items-center py-4">
     <h2 class="headline">Apple</h2>
-    <a href="{% url 'products:brand_filter' brand_slug='apple' %}" class="btn btn--secondary">View all</a>
+    <a href="{% url 'products:brand_filter' brand_slug='apple' %}" class="outside_boundary_btn"> View all → </a>
   </header>
   <section class="product-card">
     {% for product in apple %}

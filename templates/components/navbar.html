@@ -152,7 +152,6 @@
           {% comment %} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon--md">
             <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" /> {% endcomment %}
 
-
           {% if company_icons.user_icon %}
               <img src="{{ company_icons.user_icon.url }}" alt="Cart Icon" class="icon--md"/>
           {% else %}
@@ -196,7 +195,7 @@
       </div>
       {% else %}
       <div class="sm:block">
-        <div class="flex home_button_user">
+        <div class="home_button_user flex">
 
           <a href="{% url 'users:login' %}" class="flex">
             <span class="home_user_icon">
@@ -208,7 +207,7 @@
           </svg>
           {% endif %}
         </span>
-        <span class="mr-2">Sign In</span></a>
+        <span class="mr-2 signin_text">Sign In</span></a>
           <!-- <a href="{% url 'users:registration' %}" class="btn btn--primary">Sign Up</a> -->
         </div>
       </div>
@@ -836,13 +835,20 @@ strong {
 
 @media (max-width: 640px) {
   .home_button_user {
-    padding: 0.5rem .5rem; /* Adjust padding as needed */
+    padding: 0.3rem .4rem; /* Adjust padding as needed */
+    border-radius: 0.475rem; /* Slightly rounded corners */
+
   }
   .home_user_icon{
-    height: 1.3rem;
+    height: 1rem;
     width: 1rem;
-    margin-right:2px;
+
   }
+  .signin_text{
+    white-space: nowrap; /* Prevent text from wrapping */
+  }
+
+
 }
 
 </style>

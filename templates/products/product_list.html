@@ -52,9 +52,15 @@
 <!-- Product List -->
 {% if products %}
 <section class="product-card">
+  {% if book_category %}
   {% for product in products %}
-    {% include "components/card.html" %}
-  {% endfor %}
+      {% include "components/card_book.html" %}
+    {% endfor %}
+  {% else %}
+    {% for product in products %}
+      {% include "components/card.html" %}
+    {% endfor %}
+  {% endif %}
 </section>
 {% endif %}
 
