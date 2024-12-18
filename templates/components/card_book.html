@@ -45,6 +45,30 @@
 
 <style>
 
+  .product-card__im {
+    aspect-ratio: 1 / 1;
+    height: 255px;
+    width: 100%;
+    border-radius: 1rem;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  }
+  
+  
+  @media (max-width: 768px) {
+    .product-card__im {
+      height: 230px;
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .product-card__im {
+      height: 220px;
+      width: 100%;
+    }
+
+
+
   .addeToCartClass{
     width: 100%;
   }
@@ -91,14 +115,11 @@
 
 
 
-.product-card__im {
-  aspect-ratio: 1 / 1;
-  height: 250px;
-  width: 100%;
-  border-radius: 1rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
+
+
+
+
+
 
 </style>
 

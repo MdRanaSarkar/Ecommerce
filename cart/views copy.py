@@ -123,7 +123,7 @@ def add_to_cart(request):
     cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     cart_item.add_to_cart()
     cart_items_count_list = sum(item.quantity for item in cart.cart_items.all())
-    print("cart_item :", cart_items_count_list)
+    # print("cart_item :", cart_items_count_list)
     return JsonResponse({'message': f'{product.title} added to cart!', "totalCartItems" : cart_items_count_list})
 
 
@@ -131,5 +131,5 @@ def get_cart(request):
     user = request.user
     # session_key = request.session.session_key
     cart_items = Cart.objects.filter(user=user)
-    print(cart_items)
+    # print(cart_items)
     return render(request, 'cart/cart_modal.html', {'cart_items': cart_items})

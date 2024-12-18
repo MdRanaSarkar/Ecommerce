@@ -6,7 +6,7 @@
     <h1>
       <a href="{% url 'home:index' %}" class="flex items-center space-x-4 sm:pb-0">
         {% if company_icons.logo_icon %}
-        <img src="{{ company_icons.logo_icon.url }}" alt="{{ company.name }}" class="icon--md"/>
+        <img src="{{ company_icons.logo_icon.url }}" alt="{{ company.name }}"/>
         {% elif company.logo %}
             <img src="{{ company.logo.url }}" alt="{{ company.name }}" class="icon--md"/>
         {% else %}

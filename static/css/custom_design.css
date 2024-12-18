@@ -9,7 +9,7 @@
   padding: 0.32rem .85rem; /* Responsive padding using rem */
   font-size: 1rem; /* Base font size using rem */
   font-weight: 400;
-  border: 1px solid #007BFF; /* Boundary color */
+  border: 1px solid ; /* Boundary color */
   border-radius: 0.4rem; /* Rounded corners */
   background-color: transparent; /* Transparent background */
   text-align: center;
@@ -57,6 +57,7 @@
   justify-content: center;
   border-radius: 0.75rem;
   background-color: transparent; /* No background color */
+  
   border: 1px solid; /* Gray border */
   transition: all 0.3s ease; /* Smooth transition for hover effects */
 }
